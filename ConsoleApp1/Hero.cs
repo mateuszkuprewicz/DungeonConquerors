@@ -112,20 +112,7 @@ namespace ConsoleApp1
             if(EquipmentList.Count >= MaxEquipment)
                 return -1;
             var item = gameMap.map[position.Y, position.X].Pop();
-            if(item.ItemType == ItemType.Coin)
-            {
-                Coins += 1;
-                return 1;
-            }
-            else if(item.ItemType == ItemType.Gold)
-            {
-                Gold += 1;
-                return 1;
-            }
-            else
-            {
-                EquipmentList.Add(item);
-            }
+            item.OnPickup(this);
             return 1;
         }
         public bool DropItem((int X, int Y) position, GameMap gameMap)
@@ -163,6 +150,7 @@ namespace ConsoleApp1
         public bool EquipWeapon(Hero hero)
         {
             HerosEquipment equipment = hero.Equipment;
+            if(equipment.EquipmentList.Count == 0) return false;
             var item = equipment.EquipmentList[equipment.EquipmentPointer];
             if(item.Wear(hero))
             {

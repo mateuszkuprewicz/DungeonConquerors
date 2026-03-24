@@ -1,13 +1,14 @@
 ﻿namespace ConsoleApp1;
 
-public class Builder
+public class MapBuilder
 {
     private GameMap Map { get; set;}
-    private int _emptyFields;
-    internal Builder(GameMap map)
+    private Random rnd;
+    internal MapBuilder(GameMap map)
     {
         Map = map;
-        _emptyFields = 0;
+        Map.ExistingFiels = 0;
+        rnd = new Random((int)DateTime.Now.Ticks);
     }
     
     public void GenerateEmptyDungeon()
@@ -17,7 +18,8 @@ public class Builder
             {
                 Map.map[i, j] = new Stack<Item>();
             }
-        _emptyFields = GameMap.MapHeight * GameMap.MapWidth;
+        Map.map[0, 0] = new Stack<Item>();
+        Map.ExistingFiels = GameMap.MapHeight * GameMap.MapWidth;
     }
 
     public void GenerateFullDungeon()
@@ -27,13 +29,12 @@ public class Builder
         {
             Map.map[i, j] = null;
         }
-
-        _emptyFields = 0;
+        Map.map[0, 0] = new Stack<Item>();
+        Map.ExistingFiels = 1;
     }
 
     public void AddCorridor()
     {
-        var rnd = new Random(DateTime.Now.Millisecond);
         bool vertical = rnd.Next(100) % 2 == 0;
         int position;
         if (vertical)
@@ -44,7 +45,7 @@ public class Builder
                 if (Map.map[i, position] == null)
                 {
                     Map.map[i, position] = new Stack<Item>();
-                    _emptyFields++;
+                    Map.ExistingFiels++;
                 }
             }
         }
@@ -56,7 +57,7 @@ public class Builder
                 if (Map.map[position, i] == null)
                 {
                     Map.map[position, i] = new Stack<Item>();
-                    _emptyFields++;
+                    Map.ExistingFiels++;
                 }
             }
         }
@@ -66,7 +67,6 @@ public class Builder
     private const int ChamberSize = 3;
     public void AddChamber()
     {
-        var rnd = new Random(DateTime.Now.Millisecond);
         int x, y;
         x = rnd.Next(GameMap.MapWidth - ChamberSize);
         y = rnd.Next(GameMap.MapHeight - ChamberSize);
@@ -77,7 +77,7 @@ public class Builder
             if (Map.map[y + i, x + j] == null)
             {
                 Map.map[y + i, x + j] =  new Stack<Item>();
-                _emptyFields++;
+                Map.ExistingFiels++;
             }
         }
     }
@@ -92,18 +92,17 @@ public class Builder
         for(int i = 0; i < CentralRoomSize; i++)
         for (int j = 0; j < CentralRoomSize; j++)
         {
-            if (Map.map[y + i, x + i] == null)
+            if (Map.map[y + i, x + j] == null)
             {
-                Map.map[y + i, x + i] = new Stack<Item>();
-                _emptyFields++;
+                Map.map[y + i, x + j] = new Stack<Item>();
+                Map.ExistingFiels++;
             }
         }
     }
 
     public void AddUsellesItems()
     {
-        var rnd = new Random(DateTime.Now.Millisecond);
-        int itemField = rnd.Next(_emptyFields);
+        int itemField = rnd.Next(Map.ExistingFiels);
         int existingFieldsCount = 0;
         for(int i =  0; i < GameMap.MapHeight; i++)
         for (int j = 0; j < GameMap.MapWidth; j++)
@@ -122,10 +121,9 @@ public class Builder
 
     public void AddWeapons()
     {
-        var rnd = new Random(DateTime.Now.Millisecond);
-        int nrToWeaponType =  rnd.Next(Weapon.WeaponTypeCount);
+        int nrToWeaponType = rnd.Next(Enum.GetValues(typeof(WeaponType)).Length);
         WeaponType weaponType = (WeaponType)nrToWeaponType;
-        int itemField = rnd.Next(_emptyFields);
+        int itemField = rnd.Next(Map.ExistingFiels);
         int existingFieldsCount = 0;
         for(int i =  0; i < GameMap.MapHeight; i++)
         for (int j = 0; j < GameMap.MapWidth; j++)
@@ -143,9 +141,11 @@ public class Builder
                             break;
                         case WeaponType.TwoHanded:
                             item = new Weapon("Big Sword", weaponType);
+                            Map.map[i, j].Push(item);
                             break;
                         case WeaponType.Shield:
-                            item = new Weapon("shield", weaponType);
+                            item = new Weapon("Wooden Shield", weaponType);
+                            Map.map[i, j].Push(item);
                             break;
                     }
                     return;

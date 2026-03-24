@@ -8,12 +8,19 @@ namespace ConsoleApp1
     {
         public const int MapHeight = 20;
         public const int MapWidth = 40;
-        public Stack<Item>[,] map;
+        public Stack<Item>?[,] map;
+        public int ExistingFiels;
+
+        public GameMap()
+        {
+            map = new Stack<Item>?[MapHeight, MapWidth];
+            ExistingFiels = 0;
+        }
         public GameMap(string mapFilePath)
         {
             using StreamReader reader = new StreamReader(mapFilePath);
             //if cell is wall, Stack is null
-            map = new Stack<Item>[MapHeight, MapWidth];
+            
             char c;
             for(int i = 0; i < MapHeight; i++)
             {

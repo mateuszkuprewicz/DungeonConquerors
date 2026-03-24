@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿
 namespace ConsoleApp1
 {
 
@@ -24,6 +21,8 @@ namespace ConsoleApp1
             return false;
         }
 
+        public abstract void OnPickup(HerosEquipment equipment);
+        
         public Item(string name, ItemType itemType, char? symbol = null)
         {
             Name = name;
@@ -31,7 +30,7 @@ namespace ConsoleApp1
             Symbol = symbol != null ? symbol.Value : Name[0];
         }
     }
-
+    
     enum WeaponType
     {
         OneHanded,
@@ -40,10 +39,16 @@ namespace ConsoleApp1
     }
     internal class Weapon : Item
     {
+        public const int WeaponTypeCount = 3; //number of WeaponTypes 
         public WeaponType WeaponType { get; set; }
         public Weapon(string name, WeaponType weaponType, char? symbol = null) : base(name, ItemType.Weapon, symbol)
         {
             WeaponType = weaponType;
+        }
+
+        public override void OnPickup(HerosEquipment equipment)
+        {
+            equipment.EquipmentList.Add(this);
         }
 
         public override bool Wear(Hero hero)
@@ -110,6 +115,11 @@ namespace ConsoleApp1
         public UselessItem(string name, char? symbol = null) : base(name, ItemType.Useless, symbol)
         {
         }
+
+        public override void OnPickup(HerosEquipment equipment)
+        {
+            equipment.EquipmentList.Add(this);
+        }
     }
 
     internal class Gold : Item
@@ -117,12 +127,21 @@ namespace ConsoleApp1
         public Gold() : base("Gold", ItemType.Gold, 'G')
         {
         }
+        public override void OnPickup(HerosEquipment equipment)
+        {
+            equipment.Gold++;
+        }
     }
 
     internal class Coin : Item
     {
         public Coin() : base("Coin", ItemType.Coin, 'C')
         {
+        }
+        
+        public override void OnPickup(HerosEquipment equipment)
+        {
+            equipment.Coins++;
         }
     }
 }

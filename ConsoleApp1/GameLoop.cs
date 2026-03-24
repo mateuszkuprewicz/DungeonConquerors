@@ -9,10 +9,13 @@ namespace ConsoleApp1
             //System.Threading.Thread.Sleep(5000);
 
             Hero myHero = new Hero();
-            GameMap map = new GameMap("mapa.txt");
-            MapCreator.FillMap(map);
-
-
+            GameMap map = new GameMap();
+            MapBuilder builder = new MapBuilder(map);
+            MapDirector mapDirector = new MapDirector(builder);
+            mapDirector.BasicDungeon();
+            InstructionBuilder instructionBuilder = new InstructionBuilder(map);
+            instructionBuilder.PrintInstruction();
+            
             Render.RenderMap(myHero, map);
             Render.RenderMenu(myHero, map);
 
