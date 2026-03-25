@@ -100,23 +100,30 @@ public class MapBuilder
         }
     }
 
-    public void AddUsellesItems()
+    public void AddUsellesItems(int n)
     {
-        int itemField = rnd.Next(Map.ExistingFiels);
-        int existingFieldsCount = 0;
-        for(int i =  0; i < GameMap.MapHeight; i++)
-        for (int j = 0; j < GameMap.MapWidth; j++)
+        bool leave; ;
+        for (int ii = 0; ii < n; ii++)
         {
-            if (Map.map[i, j] != null)
+            leave = false;
+            int itemField = rnd.Next(Map.ExistingFiels);
+            int existingFieldsCount = 0;
+            for(int i =  0; i < GameMap.MapHeight && !leave; i++)
+            for (int j = 0; j < GameMap.MapWidth; j++)
             {
-                if (existingFieldsCount == itemField)
+                if (Map.map[i, j] != null)
                 {
-                    Map.map[i,j].Push(new UselessItem("Useless Item"));
-                    return;
+                    if (existingFieldsCount == itemField)
+                    {
+                        Map.map[i,j].Push(new UselessItem("Useless Item"));
+                        leave = true;
+                        break;
+                    }
+                    existingFieldsCount++;
                 }
-                existingFieldsCount++;
             }
         }
+        
     }
 
     public void AddWeapons()

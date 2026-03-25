@@ -4,14 +4,14 @@ using System.Text;
 
 namespace ConsoleApp1
 {
-    enum Direction
+    public enum Direction
     {
         Up,
         Down,
         Left,
         Right
     }
-    internal class Hero
+    public class Hero
     {
         public  HeroStats Stats { get; private set; }
 
@@ -69,7 +69,7 @@ namespace ConsoleApp1
         }
     }
 
-    internal class HeroStats
+    public class HeroStats
     {
         public int Strength { get; private set; }
         public int Agility { get; private set; }
@@ -97,7 +97,7 @@ namespace ConsoleApp1
         }
     }
 
-    internal class HerosEquipment
+    public class HerosEquipment
     {
         public readonly int MaxEquipment = 10;
         public int Coins { get; set; }
@@ -143,7 +143,7 @@ namespace ConsoleApp1
         }
     }
 
-    internal class HeroHands
+    public class HeroHands
     {
         public Weapon? LeftHand { get; set; }
         public Weapon? RightHand { get; set; }

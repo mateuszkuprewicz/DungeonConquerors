@@ -19,8 +19,8 @@ public class MapDirector
         
         builder.AddCentralRoom();
         
-        for (int i = 0; i < 10; i++)
-            builder.AddUsellesItems();
+        builder.AddUsellesItems(10);
+
         for(int i = 0; i < 10; i++)
             builder.AddWeapons();
     }
@@ -48,8 +48,7 @@ public class MapDirector
         
         builder.AddCentralRoom();
         
-        for (int i = 0; i < 10; i++)
-            builder.AddUsellesItems();
+        builder.AddUsellesItems(10);
     }
 
     public void ChamberDungeon()
@@ -63,8 +62,8 @@ public class MapDirector
         
         builder.AddCentralRoom();
         
-        for (int i = 0; i < 10; i++)
-            builder.AddUsellesItems();
+        builder.AddUsellesItems(10);
+
         for(int i = 0; i < 10; i++)
             builder.AddWeapons();
     }
@@ -78,8 +77,8 @@ public class MapDirector
         for(int i = 0; i < 5; i++)
             builder.AddChamber();
         
-        for (int i = 0; i < 10; i++)
-            builder.AddUsellesItems();
+        builder.AddUsellesItems(10);
+
         for(int i = 0; i < 10; i++)
             builder.AddWeapons();
     }

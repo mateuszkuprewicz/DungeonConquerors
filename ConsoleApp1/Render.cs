@@ -216,12 +216,16 @@ namespace ConsoleApp1
         private static int lastAnnouncementCount = 0;
         public static async Task RenderAnnouncement(string announcement)
         {
-            Interlocked.Increment(ref lastAnnouncementCount);
-            int myAnnouncementCount = lastAnnouncementCount;
+            //Interlocked.Increment(ref lastAnnouncementCount);
+            int myAnnouncementCount;
             lock (ConsoleLock)
             {
+                lastAnnouncementCount++;
+                myAnnouncementCount = lastAnnouncementCount;
                 Console.SetCursorPosition(DefaultCursorPosition.Item1, DefaultCursorPosition.Item2);
-                Console.WriteLine(announcement);
+                Console.Write(new string(' ', Console.WindowWidth));
+                Console.SetCursorPosition(DefaultCursorPosition.Item1, DefaultCursorPosition.Item2);
+                Console.Write(announcement);
             }
 
             await Task.Delay(2000);

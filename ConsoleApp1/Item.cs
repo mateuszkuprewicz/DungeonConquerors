@@ -2,7 +2,7 @@
 namespace ConsoleApp1
 {
 
-    enum ItemType
+    public enum ItemType
     {
         Useless,
         Weapon,
@@ -10,7 +10,7 @@ namespace ConsoleApp1
         Coin
     }
 
-    internal abstract class Item
+    public abstract class Item
     {
         public string Name { get; set; }
         public char Symbol { get; set; }
@@ -31,13 +31,13 @@ namespace ConsoleApp1
         }
     }
     
-    enum WeaponType
+    public enum WeaponType
     {
         OneHanded,
         TwoHanded,
         Shield
     }
-    internal class Weapon : Item
+    public class Weapon : Item
     {
         public const int WeaponTypeCount = 3; //number of WeaponTypes 
         public WeaponType WeaponType { get; set; }

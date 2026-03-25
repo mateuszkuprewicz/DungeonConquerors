@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ConsoleApp1
 {
-    internal class GameMap
+    public class GameMap
     {
         public const int MapHeight = 20;
         public const int MapWidth = 40;

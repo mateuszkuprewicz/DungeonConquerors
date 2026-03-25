@@ -1,4 +1,5 @@
 ﻿using System.Windows.Markup;
+using ConsoleApp1.ChainOfKeyOperations;
 
 namespace ConsoleApp1
 {
@@ -20,88 +21,19 @@ namespace ConsoleApp1
             Render.RenderMenu(myHero, map);
 
             ConsoleKeyInfo key;
-            (int, int) myPosition = myHero.Position;
+            KeyNode move = new MoveNode(myHero, map);
+            KeyNode pick = new PickDropNode(myHero, map);
+            KeyNode weaponEquip = new WeaponEquipmentNode(myHero, map);
+            KeyNode  scroll = new EquipmentScrollNode(myHero);
+            KeyNode sentinel = new Sentinel();
+            move.SetNextHandler(pick);
+            pick.SetNextHandler(weaponEquip);
+            weaponEquip.SetNextHandler(scroll);
+            scroll.SetNextHandler(sentinel);
             while (true)
             {
                 key = Console.ReadKey(true);
-                switch (key.Key)
-                {
-                    case ConsoleKey.W:
-                        if (myHero.Move(Direction.Up, map))
-                        {
-                            Render.ActualiseAfterHeroMove(myHero, myPosition, map);
-                            Render.RenderInfo(map, myHero);
-                        }
-                        myPosition = myHero.Position;
-                        break;
-                    case ConsoleKey.A:
-                        if (myHero.Move(Direction.Left, map))
-                        {
-                            Render.ActualiseAfterHeroMove(myHero, myPosition, map);
-                            Render.RenderInfo(map, myHero);
-                        }
-                        myPosition = myHero.Position;
-                        break;
-                    case ConsoleKey.S:
-                        if (myHero.Move(Direction.Down, map))
-                        {
-                            Render.ActualiseAfterHeroMove(myHero, myPosition, map);
-                            Render.RenderInfo(map, myHero);
-                        }
-                        myPosition = myHero.Position;
-                        break;
-                    case ConsoleKey.D:
-                        if (myHero.Move(Direction.Right, map))
-                        {
-                            Render.ActualiseAfterHeroMove(myHero, myPosition, map);
-                            Render.RenderInfo(map, myHero);
-                        }
-                        myPosition = myHero.Position;
-                        break;
-                    case ConsoleKey.E:
-                        int result = myHero.Equipment.PickItem(myPosition, map);
-                        if(result == 1)
-                        {
-                            Render.RenderInfo(map, myHero);
-                            Render.RenderMenu(myHero, map);
-                        }
-                        if (result == 0) break;
-                        if(result == -1)
-                        {
-                            Render.RenderAnnouncement("Full inventory! Max number of items is 10.");
-                        }
-                        break;
-                    case ConsoleKey.Q:
-                        if(myHero.Equipment.DropItem(myPosition, map))
-                        {
-                            Render.RenderInfo(map, myHero);
-                            Render.RenderMenu(myHero, map);
-                        }
-                        break;
-                    case ConsoleKey.F:
-                        if (myHero.Hands.EquipWeapon(myHero))
-                        {
-                            Render.RenderHeroHands(myHero);
-                            Render.RenderEquipment(myHero);
-                        }
-                        break;
-                    case ConsoleKey.R:
-                        if (myHero.Hands.UnequipWeapon(myHero, map))
-                        {
-                            Render.RenderHeroHands(myHero);
-                            Render.RenderEquipment(myHero);
-                            Render.RenderInfo(map, myHero);
-                        }
-                        break;
-                    case ConsoleKey.DownArrow:
-                        Render.EquipmentScroll(myHero, ConsoleKey.DownArrow);
-                        break;
-                    case ConsoleKey.UpArrow:
-                        Render.EquipmentScroll(myHero, ConsoleKey.UpArrow);
-                        break;
-                    default:
-                        break;
-                }
+                move.HandleKey(key.Key);
             }
         }
     }
