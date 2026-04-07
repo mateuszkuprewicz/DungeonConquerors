@@ -71,12 +71,12 @@ namespace ConsoleApp1
 
     public class HeroStats
     {
-        public int Strength { get; private set; }
-        public int Agility { get; private set; }
-        public int Luck { get; private set; }
-        public int Agressiveness { get; private set; }
-        public int Wisdom { get; private set; }
-        public int Health { get; private set; }
+        public int Strength { get; set; }
+        public int Agility { get; set; }
+        public int Luck { get; set; }
+        public int Agressiveness { get; set; }
+        public int Wisdom { get; set; }
+        public int Health { get; set; }
         public HeroStats()
         {
             Strength = 0;
@@ -145,8 +145,8 @@ namespace ConsoleApp1
 
     public class HeroHands
     {
-        public Weapon? LeftHand { get; set; }
-        public Weapon? RightHand { get; set; }
+        public AbstractWeapon? LeftHand { get; set; }
+        public AbstractWeapon? RightHand { get; set; }
         public bool EquipWeapon(Hero hero)
         {
             HerosEquipment equipment = hero.Equipment;
@@ -163,7 +163,7 @@ namespace ConsoleApp1
         }
         public bool UnequipWeapon(Hero hero, GameMap map)
         {
-            Weapon? item = RightHand ?? LeftHand;
+            AbstractWeapon? item = RightHand ?? LeftHand;
             if(item == null)
                 return false;
             if(item.Unwear(hero))
@@ -185,7 +185,5 @@ namespace ConsoleApp1
             LeftHand = null;
             RightHand = null;
         }
-
     }
-
 }
