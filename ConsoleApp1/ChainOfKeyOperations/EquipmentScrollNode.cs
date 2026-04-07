@@ -9,6 +9,7 @@ public class EquipmentScrollNode : KeyNode
         if (keyInfo == ConsoleKey.UpArrow)
         {
             Render.EquipmentScroll(MyHero, ConsoleKey.UpArrow);
+            
         }
         else if (keyInfo == ConsoleKey.DownArrow)
         {

@@ -13,6 +13,7 @@ public class WeaponEquipmentNode : KeyNode
             {
                 Render.RenderHeroHands(MyHero);
                 Render.RenderEquipment(MyHero);
+                Render.RenderStats(MyHero);
             }
             else
             {
@@ -26,6 +27,7 @@ public class WeaponEquipmentNode : KeyNode
                 Render.RenderHeroHands(MyHero);
                 Render.RenderEquipment(MyHero);
                 Render.RenderInfo(Map, MyHero);
+                Render.RenderStats(MyHero);
             }
             else
             {
