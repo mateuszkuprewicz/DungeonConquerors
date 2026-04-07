@@ -14,8 +14,8 @@ namespace ConsoleApp1
             MapBuilder builder = new MapBuilder(map);
             MapDirector mapDirector = new MapDirector(builder);
             mapDirector.BasicDungeon();
-            InstructionBuilder instructionBuilder = new InstructionBuilder(map);
-            instructionBuilder.PrintInstruction();
+            //builder.AddUsellesItems();
+            InstructionBuilder instructionBuilder = new InstructionBuilder(map, myHero);
             
             Render.RenderMap(myHero, map);
             Render.RenderMenu(myHero, map);
@@ -32,6 +32,7 @@ namespace ConsoleApp1
             scroll.SetNextHandler(sentinel);
             while (true)
             {
+                instructionBuilder.PrintInstruction();
                 key = Console.ReadKey(true);
                 move.HandleKey(key.Key);
             }

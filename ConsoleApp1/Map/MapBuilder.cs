@@ -3,12 +3,12 @@
 public class MapBuilder
 {
     private GameMap Map { get; set;}
-    private Random rnd;
+    private readonly Random _rnd;
     internal MapBuilder(GameMap map)
     {
         Map = map;
         Map.ExistingFiels = 0;
-        rnd = new Random((int)DateTime.Now.Ticks);
+        _rnd = new Random((int)DateTime.Now.Ticks);
     }
     
     public void GenerateEmptyDungeon()
@@ -35,11 +35,11 @@ public class MapBuilder
 
     public void AddCorridor()
     {
-        bool vertical = rnd.Next(100) % 2 == 0;
+        bool vertical = _rnd.Next(100) % 2 == 0;
         int position;
         if (vertical)
         {
-            position = rnd.Next(GameMap.MapWidth);
+            position = _rnd.Next(GameMap.MapWidth);
             for (int i = 0; i < GameMap.MapHeight; i++)
             {
                 if (Map.map[i, position] == null)
@@ -51,7 +51,7 @@ public class MapBuilder
         }
         else
         {
-            position = rnd.Next(GameMap.MapHeight);
+            position = _rnd.Next(GameMap.MapHeight);
             for (int i = 0; i < GameMap.MapWidth; i++)
             {
                 if (Map.map[position, i] == null)
@@ -68,8 +68,8 @@ public class MapBuilder
     public void AddChamber()
     {
         int x, y;
-        x = rnd.Next(GameMap.MapWidth - ChamberSize);
-        y = rnd.Next(GameMap.MapHeight - ChamberSize);
+        x = _rnd.Next(GameMap.MapWidth - ChamberSize);
+        y = _rnd.Next(GameMap.MapHeight - ChamberSize);
         
         for(int i = 0; i < ChamberSize; i++)
         for (int j = 0; j < ChamberSize; j++)
@@ -106,7 +106,7 @@ public class MapBuilder
         for (int ii = 0; ii < n; ii++)
         {
             leave = false;
-            int itemField = rnd.Next(Map.ExistingFiels);
+            int itemField = _rnd.Next(Map.ExistingFiels);
             int existingFieldsCount = 0;
             for(int i =  0; i < GameMap.MapHeight && !leave; i++)
             for (int j = 0; j < GameMap.MapWidth; j++)
@@ -127,38 +127,75 @@ public class MapBuilder
     }
 
     public void AddWeapons()
+{
+    int nrToWeaponType = _rnd.Next(Enum.GetValues(typeof(WeaponType)).Length);
+    WeaponType weaponType = (WeaponType)nrToWeaponType;
+    int itemField = _rnd.Next(Map.ExistingFiels);
+    int existingFieldsCount = 0;
+
+    for (int i = 0; i < GameMap.MapHeight; i++)
+    for (int j = 0; j < GameMap.MapWidth; j++)
     {
-        int nrToWeaponType = rnd.Next(Enum.GetValues(typeof(WeaponType)).Length);
-        WeaponType weaponType = (WeaponType)nrToWeaponType;
-        int itemField = rnd.Next(Map.ExistingFiels);
-        int existingFieldsCount = 0;
-        for(int i =  0; i < GameMap.MapHeight; i++)
-        for (int j = 0; j < GameMap.MapWidth; j++)
+        if (Map.map[i, j] != null)
         {
-            if (Map.map[i, j] != null)
+            if (existingFieldsCount == itemField)
             {
-                if (existingFieldsCount == itemField)
+                AbstractWeapon item = weaponType switch
                 {
-                    Weapon item;
-                    switch (weaponType)
-                    {
-                        case WeaponType.OneHanded:
-                            item = new Weapon("Sword", weaponType);
-                            Map.map[i, j].Push(item);
-                            break;
-                        case WeaponType.TwoHanded:
-                            item = new Weapon("Big Sword", weaponType);
-                            Map.map[i, j].Push(item);
-                            break;
-                        case WeaponType.Shield:
-                            item = new Weapon("Wooden Shield", weaponType);
-                            Map.map[i, j].Push(item);
-                            break;
-                    }
-                    return;
-                }
-                existingFieldsCount++;
+                    WeaponType.OneHanded => new Weapon("Sword", weaponType),
+                    WeaponType.TwoHanded => new Weapon("Big Sword", weaponType),
+                    WeaponType.Shield    => new Weapon("Wooden Shield", weaponType),
+                    _                    => new Weapon("Sword", WeaponType.OneHanded)
+                };
+
+                item = ApplyRandomDecorators(item);
+                Map.map[i, j].Push(item);
+                return;
             }
+            existingFieldsCount++;
         }
+    }
+}
+    
+    private AbstractWeapon ApplyRandomDecorators(AbstractWeapon weapon)
+    {
+        int decoratorCount = _rnd.Next(4); // 0–3 dekoratorów
+
+        // Dla każdej statystyki śledzimy: 0=nieużyta, 1=boost, -1=weaken
+        int[] used = new int[6];
+
+        for (int d = 0; d < decoratorCount; d++)
+        {
+            int stat = _rnd.Next(6);       // losowa statystyka
+            int direction = _rnd.Next(2);  // 0=boost, 1=weaken
+            int dirValue = direction == 0 ? 1 : -1;
+            
+            if (used[stat] != 0 && used[stat] != dirValue)
+                continue;
+            
+            if (used[stat] == dirValue)
+                continue;
+
+            used[stat] = dirValue;
+
+            weapon = (stat, direction) switch
+            {
+                (0, 0) => new StrengthBoostDecorator(weapon),
+                (0, 1) => new StrengthWeakenDecorator(weapon),
+                (1, 0) => new AgilityBoostDecorator(weapon),
+                (1, 1) => new AgilityWeakenDecorator(weapon),
+                (2, 0) => new LuckBoostDecorator(weapon),
+                (2, 1) => new LuckWeakenDecorator(weapon),
+                (3, 0) => new AggressivenessBoostDecorator(weapon),
+                (3, 1) => new AggressivenessWeakenDecorator(weapon),
+                (4, 0) => new WisdomBoostDecorator(weapon),
+                (4, 1) => new WisdomWeakenDecorator(weapon),
+                (5, 0) => new HealthBoostDecorator(weapon),
+                (5, 1) => new HealthWeakenDecorator(weapon),
+                _      => weapon
+            };
+        }
+
+        return weapon;
     }
 }
