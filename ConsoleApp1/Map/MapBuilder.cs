@@ -102,7 +102,8 @@ public class MapBuilder
 
     public void AddUsellesItems(int n)
     {
-        bool leave; ;
+        if (Map.ExistingFiels == 0) return;
+        bool leave; 
         for (int ii = 0; ii < n; ii++)
         {
             leave = false;
@@ -127,35 +128,35 @@ public class MapBuilder
     }
 
     public void AddWeapons()
-{
-    int nrToWeaponType = _rnd.Next(Enum.GetValues(typeof(WeaponType)).Length);
-    WeaponType weaponType = (WeaponType)nrToWeaponType;
-    int itemField = _rnd.Next(Map.ExistingFiels);
-    int existingFieldsCount = 0;
-
-    for (int i = 0; i < GameMap.MapHeight; i++)
-    for (int j = 0; j < GameMap.MapWidth; j++)
     {
-        if (Map.map[i, j] != null)
-        {
-            if (existingFieldsCount == itemField)
-            {
-                AbstractWeapon item = weaponType switch
-                {
-                    WeaponType.OneHanded => new Weapon("Sword", weaponType),
-                    WeaponType.TwoHanded => new Weapon("Big Sword", weaponType),
-                    WeaponType.Shield    => new Weapon("Wooden Shield", weaponType),
-                    _                    => new Weapon("Sword", WeaponType.OneHanded)
-                };
+        if (Map.ExistingFiels == 0) return;
+        int nrToWeaponType = _rnd.Next(3);
+        int itemField = _rnd.Next(Map.ExistingFiels);
+        int existingFieldsCount = 0;
 
-                item = ApplyRandomDecorators(item);
-                Map.map[i, j].Push(item);
-                return;
+        for (int i = 0; i < GameMap.MapHeight; i++)
+        for (int j = 0; j < GameMap.MapWidth; j++)
+        {
+            if (Map.map[i, j] != null)
+            {
+                if (existingFieldsCount == itemField)
+                {
+                    AbstractWeapon item = nrToWeaponType switch
+                    {
+                        0 => new OneHandedWeapon("Sword"),
+                        1 => new HeavyWeapon("Big Sword"),
+                        2 => new MagicalWeapon("Staff"),
+                        _ => new OneHandedWeapon("Sword")
+                    };
+
+                    item = ApplyRandomDecorators(item);
+                    Map.map[i, j].Push(item);
+                    return;
+                }
+                existingFieldsCount++;
             }
-            existingFieldsCount++;
         }
     }
-}
     
     private AbstractWeapon ApplyRandomDecorators(AbstractWeapon weapon)
     {
@@ -197,5 +198,27 @@ public class MapBuilder
         }
 
         return weapon;
+    }
+
+    public void AddEnemies(int EnemiesNumber = 5)
+    {
+        if (Map.ExistingFiels == 0) return;
+        for (int i = 0; i < EnemiesNumber; i++)
+        {
+            int ExistingFieldsCount = 0;
+            int EnemyLocalisation =  _rnd.Next(Map.ExistingFiels);
+            for(int h = 0; h < GameMap.MapHeight; h++)
+            for (int w = 0; w < GameMap.MapWidth; w++)
+            {
+                if (ExistingFieldsCount == EnemyLocalisation)
+                {
+                    if(Map.enemies[h,w] != null) continue;
+                    var enemy = new Enemy(75, 5, 5, "Goblin", 'G');
+                    Map.enemies[h, w] = enemy;
+                    ExistingFieldsCount++;
+                }
+                if (Map.map[h, w] != null) ExistingFieldsCount++;
+            }
+        }
     }
 }

@@ -1,20 +1,36 @@
 ﻿namespace ConsoleApp1;
 
-    public class Weapon : AbstractWeapon
-    {
-        public override WeaponType Type { get; set; }
-        public Weapon(string name, WeaponType weaponType, char? symbol = null) : base(name, symbol)
-        {
-            Type = weaponType;
-        }
-        
-        public override void ApplyModifier(Hero hero)
-        {
-            return;
-        }
+public class OneHandedWeapon : AbstractWeapon
+{
+    public OneHandedWeapon(string name, char? symbol = null) : base(name, symbol) { }
 
-        public override void RemoveModifier(Hero hero)
+    public override void ApplyModifier(Hero hero) { }
+    public override void RemoveModifier(Hero hero) { }
+}
+
+public class HeavyWeapon : AbstractWeapon
+{
+    public HeavyWeapon(string name, char? symbol = null) : base(name, symbol) { }
+
+    public override bool Wear(Hero hero)
+    {
+        if (hero.Hands.RightHand == null && hero.Hands.LeftHand == null)
         {
-            return;
+            hero.Hands.RightHand = this;
+            hero.Hands.LeftHand = this;
+            return true;
         }
+        return false;
     }
+
+    public override void ApplyModifier(Hero hero) { }
+    public override void RemoveModifier(Hero hero) { }
+}
+
+public class MagicalWeapon : AbstractWeapon
+{
+    public MagicalWeapon(string name, char? symbol = null) : base(name, symbol) { }
+
+    public override void ApplyModifier(Hero hero) { }
+    public override void RemoveModifier(Hero hero) { }
+}

@@ -15,9 +15,10 @@ namespace ConsoleApp1
             MapDirector mapDirector = new MapDirector(builder);
             mapDirector.BasicDungeon();
             //builder.AddUsellesItems();
-            InstructionBuilder instructionBuilder = new InstructionBuilder(map, myHero);
+            InstructionBuilder instructionBuilder = new InstructionBuilder(myHero, map);
             
             Render.RenderMap(myHero, map);
+            Render.RenderEnemies(map);
             Render.RenderMenu(myHero, map);
 
             ConsoleKeyInfo key;
@@ -25,14 +26,16 @@ namespace ConsoleApp1
             KeyNode pick = new PickDropNode(myHero, map);
             KeyNode weaponEquip = new WeaponEquipmentNode(myHero, map);
             KeyNode  scroll = new EquipmentScrollNode(myHero);
+            KeyNode fight = new FightNode(myHero, map);
             KeyNode sentinel = new Sentinel();
             move.SetNextHandler(pick);
             pick.SetNextHandler(weaponEquip);
             weaponEquip.SetNextHandler(scroll);
-            scroll.SetNextHandler(sentinel);
+            scroll.SetNextHandler(fight);
+            fight.SetNextHandler(sentinel);
             while (true)
             {
-                instructionBuilder.PrintInstruction();
+                instructionBuilder.PrintInstructionInGameLoop();
                 key = Console.ReadKey(true);
                 move.HandleKey(key.Key);
             }

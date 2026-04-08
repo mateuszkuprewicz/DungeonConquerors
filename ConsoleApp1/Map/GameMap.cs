@@ -9,11 +9,13 @@ namespace ConsoleApp1
         public const int MapHeight = 20;
         public const int MapWidth = 40;
         public Stack<Item>?[,] map;
+        public Enemy?[,] enemies;
         public int ExistingFiels;
 
         public GameMap()
         {
             map = new Stack<Item>?[MapHeight, MapWidth];
+            enemies = new Enemy?[MapHeight, MapWidth];
             ExistingFiels = 0;
         }
         public GameMap(string mapFilePath)

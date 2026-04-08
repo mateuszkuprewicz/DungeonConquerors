@@ -13,30 +13,35 @@ public abstract class AbstractWeaponDecorator : AbstractWeapon
         ItemType = innerWeapon.ItemType;
     }
     
-    public override WeaponType Type
-    {
-        get
-        {
-            return InnerWeapon.Type;
-        }
-        set{}
-    }
-
+    
     public override bool Wear(Hero hero)
     {
-        WeaponType type = Type;
-        bool b = base.Wear(hero);
-        if(b)
+        bool b = InnerWeapon.Wear(hero);
+        if (b)
+        {
+            ReplaceInHands(hero);
             ApplyModifier(hero);
+        }
         return b;
     }
 
     public override bool Unwear(Hero hero)
     {
         bool b = base.Unwear(hero);
-        if(b)
+        if (b)
+        {
             RemoveModifier(hero);
+            InnerWeapon.RemoveModifier(hero);
+        }
         return b;
+    }
+    
+    private void ReplaceInHands(Hero hero)
+    {
+        if (hero.Hands.RightHand == InnerWeapon)
+            hero.Hands.RightHand = this;
+        if (hero.Hands.LeftHand == InnerWeapon)
+            hero.Hands.LeftHand = this;
     }
     
     public abstract override void ApplyModifier(Hero hero);

@@ -8,13 +8,11 @@ public class StrengthBoostDecorator : AbstractWeaponDecorator
     public override void ApplyModifier(Hero hero)
     {
         hero.Stats.Strength += ModifierValue;
-        InnerWeapon.ApplyModifier(hero);
     }
 
     public override void RemoveModifier(Hero hero)
     {
         hero.Stats.Strength -= ModifierValue;
-        InnerWeapon.RemoveModifier(hero);
     }
 }
 
@@ -26,13 +24,11 @@ public class StrengthWeakenDecorator : AbstractWeaponDecorator
     public override void ApplyModifier(Hero hero)
     {
         hero.Stats.Strength -= ModifierValue;
-        InnerWeapon.ApplyModifier(hero);
     }
 
     public override void RemoveModifier(Hero hero)
     {
         hero.Stats.Strength += ModifierValue;
-        InnerWeapon.RemoveModifier(hero);
     }
 }
 
@@ -44,13 +40,11 @@ public class AgilityBoostDecorator : AbstractWeaponDecorator
     public override void ApplyModifier(Hero hero)
     {
         hero.Stats.Agility += ModifierValue;
-        InnerWeapon.ApplyModifier(hero);
     }
 
     public override void RemoveModifier(Hero hero)
     {
         hero.Stats.Agility -= ModifierValue;
-        InnerWeapon.RemoveModifier(hero);
     }
 }
 
@@ -62,13 +56,11 @@ public class AgilityWeakenDecorator : AbstractWeaponDecorator
     public override void ApplyModifier(Hero hero)
     {
         hero.Stats.Agility -= ModifierValue;
-        InnerWeapon.ApplyModifier(hero);
     }
 
     public override void RemoveModifier(Hero hero)
     {
         hero.Stats.Agility += ModifierValue;
-        InnerWeapon.RemoveModifier(hero);
     }
 }
 
@@ -81,13 +73,11 @@ public class LuckBoostDecorator : AbstractWeaponDecorator
     public override void ApplyModifier(Hero hero)
     {
         hero.Stats.Luck += ModifierValue;
-        InnerWeapon.ApplyModifier(hero);
     }
 
     public override void RemoveModifier(Hero hero)
     {
         hero.Stats.Luck -= ModifierValue;
-        InnerWeapon.RemoveModifier(hero);
     }
 }
 
@@ -99,13 +89,11 @@ public class LuckWeakenDecorator : AbstractWeaponDecorator
     public override void ApplyModifier(Hero hero)
     {
         hero.Stats.Luck -= ModifierValue;
-        InnerWeapon.ApplyModifier(hero);
     }
 
     public override void RemoveModifier(Hero hero)
     {
         hero.Stats.Luck += ModifierValue;
-        InnerWeapon.RemoveModifier(hero);
     }
 }
 
@@ -118,13 +106,11 @@ public class AggressivenessBoostDecorator : AbstractWeaponDecorator
     public override void ApplyModifier(Hero hero)
     {
         hero.Stats.Agressiveness += ModifierValue;
-        InnerWeapon.ApplyModifier(hero);
     }
 
     public override void RemoveModifier(Hero hero)
     {
         hero.Stats.Agressiveness -= ModifierValue;
-        InnerWeapon.RemoveModifier(hero);
     }
 }
 
@@ -136,13 +122,11 @@ public class AggressivenessWeakenDecorator : AbstractWeaponDecorator
     public override void ApplyModifier(Hero hero)
     {
         hero.Stats.Agressiveness -= ModifierValue;
-        InnerWeapon.ApplyModifier(hero);
     }
 
     public override void RemoveModifier(Hero hero)
     {
         hero.Stats.Agressiveness += ModifierValue;
-        InnerWeapon.RemoveModifier(hero);
     }
 }
 
@@ -155,13 +139,11 @@ public class WisdomBoostDecorator : AbstractWeaponDecorator
     public override void ApplyModifier(Hero hero)
     {
         hero.Stats.Wisdom += ModifierValue;
-        InnerWeapon.ApplyModifier(hero);
     }
 
     public override void RemoveModifier(Hero hero)
     {
         hero.Stats.Wisdom -= ModifierValue;
-        InnerWeapon.RemoveModifier(hero);
     }
 }
 
@@ -173,13 +155,11 @@ public class WisdomWeakenDecorator : AbstractWeaponDecorator
     public override void ApplyModifier(Hero hero)
     {
         hero.Stats.Wisdom -= ModifierValue;
-        InnerWeapon.ApplyModifier(hero);
     }
 
     public override void RemoveModifier(Hero hero)
     {
         hero.Stats.Wisdom += ModifierValue;
-        InnerWeapon.RemoveModifier(hero);
     }
 }
 
@@ -192,13 +172,11 @@ public class HealthBoostDecorator : AbstractWeaponDecorator
     public override void ApplyModifier(Hero hero)
     {
         hero.Stats.Health += ModifierValue;
-        InnerWeapon.ApplyModifier(hero);
     }
 
     public override void RemoveModifier(Hero hero)
     {
         hero.Stats.Health -= ModifierValue;
-        InnerWeapon.RemoveModifier(hero);
     }
 }
 
@@ -210,12 +188,10 @@ public class HealthWeakenDecorator : AbstractWeaponDecorator
     public override void ApplyModifier(Hero hero)
     {
         hero.Stats.Health -= ModifierValue;
-        InnerWeapon.ApplyModifier(hero);
     }
 
     public override void RemoveModifier(Hero hero)
     {
         hero.Stats.Health += ModifierValue;
-        InnerWeapon.RemoveModifier(hero);
     }
 }

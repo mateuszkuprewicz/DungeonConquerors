@@ -146,6 +146,7 @@ namespace ConsoleApp1
             lock(ConsoleLock)
             {
                 Console.SetCursorPosition(StatsTableStart.Item1, StatsTableStart.Item2);
+                // for(int i = 0; i < )
                 Console.WriteLine($"Stats");
 
                 Console.SetCursorPosition(StatsTableStart.Item1, StatsTableStart.Item2 + 1);
@@ -171,25 +172,32 @@ namespace ConsoleApp1
         {
             lock(ConsoleLock)
             {
-                Console.SetCursorPosition(HandsTableStart.Item1, HandsTableStart.Item2);
-                Console.Write(new string(' ', Console.WindowWidth - HandsTableStart.Item1));
-                Console.SetCursorPosition(HandsTableStart.Item1, HandsTableStart.Item2);
+                Console.SetCursorPosition(StatsTableStart.Item1, StatsTableStart.Item2);
+                Console.Write(new string(' ', Console.WindowWidth - StatsTableStart.Item1));
+                Console.SetCursorPosition(StatsTableStart.Item1, StatsTableStart.Item2);
+                Console.Write($"Stats");
 
-                Console.Write("LH: ");
-                if (hero.Hands.LeftHand == null) Console.Write("...");
-                else
-                {
-                    Console.Write($"{hero.Hands.LeftHand.Name}");
-                }
-                Console.SetCursorPosition(HandsTableStart.Item1, HandsTableStart.Item2 + 1);
-                Console.Write(new string(' ', Console.WindowWidth - HandsTableStart.Item1));
-                Console.SetCursorPosition(HandsTableStart.Item1, HandsTableStart.Item2 + 1);
-                Console.Write("RH: ");
-                if (hero.Hands.RightHand == null) Console.Write("...");
-                else
-                {
-                    Console.Write($"{hero.Hands.RightHand.Name}");
-                }
+                Console.SetCursorPosition(StatsTableStart.Item1, StatsTableStart.Item2 + 1);
+                Console.Write(new string(' ', Console.WindowWidth - StatsTableStart.Item1));
+                Console.SetCursorPosition(StatsTableStart.Item1, StatsTableStart.Item2 + 1);
+                Console.Write($"Health: {hero.Stats.Health}");
+                Console.SetCursorPosition(StatsTableStart.Item1 + Tab, StatsTableStart.Item2 + 1);
+                Console.Write($"Luck: {hero.Stats.Luck}");
+
+                Console.SetCursorPosition(StatsTableStart.Item1, StatsTableStart.Item2 + 2);
+                Console.Write(new string(' ', Console.WindowWidth - StatsTableStart.Item1));
+                Console.SetCursorPosition(StatsTableStart.Item1, StatsTableStart.Item2 + 2);
+                Console.Write($"Strength: {hero.Stats.Strength}");
+                Console.SetCursorPosition(StatsTableStart.Item1 + Tab, StatsTableStart.Item2 + 2);
+                Console.Write($"Agility: {hero.Stats.Agility}");
+
+                Console.SetCursorPosition(StatsTableStart.Item1, StatsTableStart.Item2 + 3);
+                Console.Write(new string(' ', Console.WindowWidth - StatsTableStart.Item1));
+                Console.SetCursorPosition(StatsTableStart.Item1, StatsTableStart.Item2 + 3);
+                Console.Write($"Wisdom: {hero.Stats.Wisdom}");
+                Console.SetCursorPosition(StatsTableStart.Item1 + Tab, StatsTableStart.Item2 + 3);
+                Console.Write($"Aggresivness: {hero.Stats.Agressiveness}");
+
                 Console.SetCursorPosition(DefaultCursorPosition.Item1, DefaultCursorPosition.Item2);
             }
         }
@@ -239,5 +247,24 @@ namespace ConsoleApp1
                 }
             }
         }
+        
+        public static void RenderEnemies(GameMap gameMap)
+        {
+            lock (ConsoleLock)
+            {
+                for (int i = 0; i < GameMap.MapHeight; i++)
+                for (int j = 0; j < GameMap.MapWidth; j++)
+                {
+                    if (gameMap.enemies[i, j] != null)
+                    {
+                        Console.SetCursorPosition(j, i);
+                        Console.Write(gameMap.enemies[i, j].Symbol);
+                    }
+                }
+                Console.SetCursorPosition(DefaultCursorPosition.Item1, DefaultCursorPosition.Item2);
+            }
+        }
     }
+    
+    
 }

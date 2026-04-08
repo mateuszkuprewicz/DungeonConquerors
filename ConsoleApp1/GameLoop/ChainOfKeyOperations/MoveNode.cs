@@ -16,6 +16,7 @@ public class MoveNode : KeyNode
                 {
                     Render.ActualiseAfterHeroMove(MyHero, Position, Map);
                     Render.RenderInfo(Map, MyHero);
+                    Render.RenderEnemies(Map);
                 }
                 else
                 {
@@ -27,6 +28,7 @@ public class MoveNode : KeyNode
                 {
                     Render.ActualiseAfterHeroMove(MyHero, Position, Map);
                     Render.RenderInfo(Map, MyHero);
+                    Render.RenderEnemies(Map);
                 }
                 else
                 {
@@ -37,6 +39,7 @@ public class MoveNode : KeyNode
                 if (MyHero.Move(Direction.Down, Map))
                 {
                     Render.ActualiseAfterHeroMove(MyHero, Position, Map);
+                    Render.RenderEnemies(Map);
                     Render.RenderInfo(Map, MyHero);
                 }
                 else
@@ -48,6 +51,7 @@ public class MoveNode : KeyNode
                 if (MyHero.Move(Direction.Right, Map))
                 {
                     Render.ActualiseAfterHeroMove(MyHero, Position, Map);
+                    Render.RenderEnemies(Map);
                     Render.RenderInfo(Map, MyHero);
                 }
                 else

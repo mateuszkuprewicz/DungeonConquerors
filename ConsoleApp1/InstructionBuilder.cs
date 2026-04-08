@@ -6,7 +6,7 @@ internal class InstructionBuilder
     private GameMap Map;
     private Hero MyHero;
 
-    public InstructionBuilder(GameMap map, Hero myHero)
+    public InstructionBuilder(Hero myHero, GameMap map = null)
     {
         Map = map;
         MyHero = myHero;
@@ -94,13 +94,52 @@ internal class InstructionBuilder
         }
         return false;
     }
+    
+    bool Fighting()
+    {
+        int posX = MyHero.Position.X;
+        int posY = MyHero.Position.Y;
+        if (Map.enemies[posY, posX] != null)
+        {
+            Console.SetCursorPosition(CursorForInstruction.Item1, CursorForInstruction.Item2);
+            CursorForInstruction.Item2++;
+            Console.Write("P - start fight.");
+            Console.SetCursorPosition(Render.DefaultCursorPosition.Item1, Render.DefaultCursorPosition.Item2);
+            return true;
+        }
+        return false;
+    }
+    
+    void HitEnemy()
+    {
+        Console.SetCursorPosition(CursorForInstruction.Item1, CursorForInstruction.Item2);
+        CursorForInstruction.Item2++;
+        Console.Write("H - hit enemy.");
+        Console.SetCursorPosition(Render.DefaultCursorPosition.Item1, Render.DefaultCursorPosition.Item2);
+    }
 
-    public void PrintInstruction()
+    void RunAway()
+    {
+        Console.SetCursorPosition(CursorForInstruction.Item1, CursorForInstruction.Item2);
+        CursorForInstruction.Item2++;
+        Console.Write("L - run away.");
+        Console.SetCursorPosition(Render.DefaultCursorPosition.Item1, Render.DefaultCursorPosition.Item2);
+    }
+
+    public void PrintInstructionInGameLoop()
     {
         Clear();
         HeroMove();
         bool picking = PickingItems() || ThrowItems();
         bool equiping = EquipingWeapons() || UnequipingWeapons();
-        //maybe change to chain of resposibility
+        Fighting();
+    }
+
+    public void PrintInstructionInFightLoop()
+    {
+        Clear();
+        bool equiping = EquipingWeapons() || UnequipingWeapons();
+        HitEnemy(); 
+        RunAway();
     }
 }

@@ -23,6 +23,8 @@ public class MapDirector
 
         for(int i = 0; i < 10; i++)
             builder.AddWeapons();
+        
+        builder.AddEnemies();
     }
     
     public void BasicDungeonWithNoItems()
@@ -66,6 +68,8 @@ public class MapDirector
 
         for(int i = 0; i < 10; i++)
             builder.AddWeapons();
+        
+        builder.AddEnemies();
     }
 
     public void CorridorDungeon()
@@ -81,6 +85,9 @@ public class MapDirector
 
         for(int i = 0; i < 10; i++)
             builder.AddWeapons();
+        
+        builder.AddEnemies();
+        
     }
     
     
