@@ -219,7 +219,10 @@ public class MapBuilder
                         Map.enemies[h, w] = enemy;
                         ExistingFieldsCount++;
                     }
-                    ExistingFieldsCount++;
+                    else
+                    {
+                        ExistingFieldsCount++;
+                    }
                 }
             }
         }

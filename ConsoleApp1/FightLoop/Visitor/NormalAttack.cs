@@ -24,5 +24,5 @@ public class NormalAttack : IAttackVisitor
         => stats.Agility + stats.Luck;
 
     public int CalculateDefaultDefence(HeroStats stats)
-        => stats.Agressiveness;
+        => stats.Agility;
 }

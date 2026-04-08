@@ -31,7 +31,7 @@ public abstract class AbstractWeaponDecorator : AbstractWeapon
         if (b)
         {
             RemoveModifier(hero);
-            InnerWeapon.RemoveModifier(hero);
+            //InnerWeapon.RemoveModifier(hero);
         }
         return b;
     }
