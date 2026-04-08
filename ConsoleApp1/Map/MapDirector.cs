@@ -11,10 +11,10 @@ public class MapDirector
     public void BasicDungeon()
     {
         builder.GenerateFullDungeon();
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 15; i++)
             builder.AddCorridor();
             
-        for(int i = 0; i < 3; i++)
+        for(int i = 0; i < 5; i++)
             builder.AddChamber();
         
         builder.AddCentralRoom();

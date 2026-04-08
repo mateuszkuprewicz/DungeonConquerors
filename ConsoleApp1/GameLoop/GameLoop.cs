@@ -18,7 +18,7 @@ namespace ConsoleApp1
             InstructionBuilder instructionBuilder = new InstructionBuilder(myHero, map);
             
             Render.RenderMap(myHero, map);
-            Render.RenderEnemies(map);
+            Render.RenderEnemies(map, myHero);
             Render.RenderMenu(myHero, map);
 
             ConsoleKeyInfo key;

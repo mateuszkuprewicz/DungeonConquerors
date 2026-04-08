@@ -46,4 +46,8 @@ public abstract class AbstractWeaponDecorator : AbstractWeapon
     
     public abstract override void ApplyModifier(Hero hero);
     public abstract override void RemoveModifier(Hero hero);
+    public override int AcceptDamage(IAttackVisitor visitor, HeroStats stats)
+        => InnerWeapon.AcceptDamage(visitor, stats);
+    public override int AcceptDefense(IAttackVisitor visitor, HeroStats stats)
+        => InnerWeapon.AcceptDefense(visitor, stats);
 }

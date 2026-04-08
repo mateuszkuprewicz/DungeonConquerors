@@ -6,6 +6,12 @@ public class OneHandedWeapon : AbstractWeapon
 
     public override void ApplyModifier(Hero hero) { }
     public override void RemoveModifier(Hero hero) { }
+    
+    public override int AcceptDamage(IAttackVisitor visitor, HeroStats stats)
+        => visitor.CalculateDamage(this, stats);
+    public override int AcceptDefense(IAttackVisitor visitor, HeroStats stats)
+        => visitor.CalculateDefense(this, stats);
+    
 }
 
 public class HeavyWeapon : AbstractWeapon
@@ -25,6 +31,12 @@ public class HeavyWeapon : AbstractWeapon
 
     public override void ApplyModifier(Hero hero) { }
     public override void RemoveModifier(Hero hero) { }
+    
+    public override int AcceptDamage(IAttackVisitor visitor, HeroStats stats)
+        => visitor.CalculateDamage(this, stats);
+    public override int AcceptDefense(IAttackVisitor visitor, HeroStats stats)
+        => visitor.CalculateDefense(this, stats);
+    
 }
 
 public class MagicalWeapon : AbstractWeapon
@@ -33,4 +45,9 @@ public class MagicalWeapon : AbstractWeapon
 
     public override void ApplyModifier(Hero hero) { }
     public override void RemoveModifier(Hero hero) { }
+    
+    public override int AcceptDamage(IAttackVisitor visitor, HeroStats stats)
+        => visitor.CalculateDamage(this, stats);
+    public override int AcceptDefense(IAttackVisitor visitor, HeroStats stats)
+        => visitor.CalculateDefense(this, stats);
 }

@@ -210,14 +210,17 @@ public class MapBuilder
             for(int h = 0; h < GameMap.MapHeight; h++)
             for (int w = 0; w < GameMap.MapWidth; w++)
             {
-                if (ExistingFieldsCount == EnemyLocalisation)
+                if (Map.map[h, w] != null)
                 {
-                    if(Map.enemies[h,w] != null) continue;
-                    var enemy = new Enemy(75, 5, 5, "Goblin", 'G');
-                    Map.enemies[h, w] = enemy;
+                    if (ExistingFieldsCount == EnemyLocalisation)
+                    {
+                        if(Map.enemies[h,w] != null) continue;
+                        var enemy = new Enemy(75, 5, 2, "Goblin", Map.enemies, (w, h));
+                        Map.enemies[h, w] = enemy;
+                        ExistingFieldsCount++;
+                    }
                     ExistingFieldsCount++;
                 }
-                if (Map.map[h, w] != null) ExistingFieldsCount++;
             }
         }
     }

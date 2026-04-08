@@ -37,4 +37,6 @@ public abstract class AbstractWeapon : Item
 
     public abstract void ApplyModifier(Hero hero);
     public abstract void RemoveModifier(Hero hero);
+    public abstract int AcceptDamage(IAttackVisitor visitor, HeroStats stats);
+    public abstract int AcceptDefense(IAttackVisitor visitor, HeroStats stats);
 }

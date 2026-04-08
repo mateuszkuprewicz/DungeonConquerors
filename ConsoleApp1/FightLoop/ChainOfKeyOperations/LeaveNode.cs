@@ -9,7 +9,18 @@ public class LeaveNode : KeyNode
     {
         if (keyInfo == ConsoleKey.L)
         {
-
+            Hero.Stats.Health -= Enemy.Damage;
+            Render.RenderStats(Hero);
+            if (Hero.Stats.Health <= 0)
+            {
+                Render.RenderGameOver();
+                _cts.Cancel();
+            }
+            else
+            {
+                Render.RenderAnnouncement("You run from the fight");
+                _cts.Cancel();
+            }
             return;
         }
         NextKeyNode.HandleKey(keyInfo);

@@ -5,7 +5,7 @@ public abstract class KeyNode
     protected Hero Hero;
     protected Enemy Enemy;
     protected KeyNode NextKeyNode;
-    private CancellationTokenSource _cts;
+    protected CancellationTokenSource _cts;
 
     public KeyNode(Hero hero, Enemy enemy, CancellationTokenSource cts)
         => (Hero, Enemy, _cts) = (hero, enemy, cts);

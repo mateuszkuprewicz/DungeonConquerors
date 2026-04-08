@@ -79,11 +79,11 @@ namespace ConsoleApp1
         public int Health { get; set; }
         public HeroStats()
         {
-            Strength = 0;
-            Agility = 0;
-            Luck = 0;
-            Agressiveness = 0;
-            Wisdom = 0;
+            Strength = 5;
+            Agility = 5;
+            Luck = 5;
+            Agressiveness = 5;
+            Wisdom = 5;
             Health = 100;
         }
         public HeroStats(int strength, int agility, int luck, int agressiveness, int wisdom, int health)

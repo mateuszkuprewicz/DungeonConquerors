@@ -13,6 +13,11 @@ public class FightNode : KeyNode
             {
                 var fightLoop = new FightLoop(MyHero, enemy);
                 fightLoop.Loop();
+                if (MyHero.Stats.Health <= 0)
+                {
+                    System.Threading.Thread.Sleep(1000);
+                    Environment.Exit(0);
+                }
                 return;
             }
         }

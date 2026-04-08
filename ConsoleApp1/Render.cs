@@ -143,34 +143,7 @@ namespace ConsoleApp1
 
         public static void RenderStats(Hero hero)
         {
-            lock(ConsoleLock)
-            {
-                Console.SetCursorPosition(StatsTableStart.Item1, StatsTableStart.Item2);
-                // for(int i = 0; i < )
-                Console.WriteLine($"Stats");
-
-                Console.SetCursorPosition(StatsTableStart.Item1, StatsTableStart.Item2 + 1);
-                Console.Write($"Health: {hero.Stats.Health}");
-                Console.SetCursorPosition(StatsTableStart.Item1 + Tab, StatsTableStart.Item2 + 1);
-                Console.Write($"Luck: {hero.Stats.Luck}\n");
-
-                Console.SetCursorPosition(StatsTableStart.Item1, StatsTableStart.Item2 + 2);
-                Console.Write($"Strength: {hero.Stats.Strength}");
-                Console.SetCursorPosition(StatsTableStart.Item1 + Tab, StatsTableStart.Item2 + 2);
-                Console.Write($"Agility: {hero.Stats.Agility}\n");
-
-                Console.SetCursorPosition(StatsTableStart.Item1, StatsTableStart.Item2 + 3);
-                Console.Write($"Wisdom: {hero.Stats.Wisdom}");
-                Console.SetCursorPosition(StatsTableStart.Item1 + Tab, StatsTableStart.Item2 + 3);
-                Console.Write($"Aggresivness: {hero.Stats.Agressiveness}\n");
-
-                Console.SetCursorPosition(DefaultCursorPosition.Item1, DefaultCursorPosition.Item2);
-            }
-        }
-
-        public static void RenderHeroHands(Hero hero)
-        {
-            lock(ConsoleLock)
+            lock (ConsoleLock)
             {
                 Console.SetCursorPosition(StatsTableStart.Item1, StatsTableStart.Item2);
                 Console.Write(new string(' ', Console.WindowWidth - StatsTableStart.Item1));
@@ -197,6 +170,28 @@ namespace ConsoleApp1
                 Console.Write($"Wisdom: {hero.Stats.Wisdom}");
                 Console.SetCursorPosition(StatsTableStart.Item1 + Tab, StatsTableStart.Item2 + 3);
                 Console.Write($"Aggresivness: {hero.Stats.Agressiveness}");
+
+                Console.SetCursorPosition(DefaultCursorPosition.Item1, DefaultCursorPosition.Item2);
+            }
+        }
+
+        public static void RenderHeroHands(Hero hero)
+        {
+            lock(ConsoleLock)
+            {
+                Console.SetCursorPosition(HandsTableStart.Item1, HandsTableStart.Item2);
+                Console.Write(new string(' ', Console.WindowWidth - HandsTableStart.Item1));
+                Console.SetCursorPosition(HandsTableStart.Item1, HandsTableStart.Item2);
+                Console.Write("LH: ");
+                if (hero.Hands.LeftHand == null) Console.Write("...");
+                else Console.Write($"{hero.Hands.LeftHand.Name}");
+
+                Console.SetCursorPosition(HandsTableStart.Item1, HandsTableStart.Item2 + 1);
+                Console.Write(new string(' ', Console.WindowWidth - HandsTableStart.Item1));
+                Console.SetCursorPosition(HandsTableStart.Item1, HandsTableStart.Item2 + 1);
+                Console.Write("RH: ");
+                if (hero.Hands.RightHand == null) Console.Write("...");
+                else Console.Write($"{hero.Hands.RightHand.Name}");
 
                 Console.SetCursorPosition(DefaultCursorPosition.Item1, DefaultCursorPosition.Item2);
             }
@@ -248,7 +243,7 @@ namespace ConsoleApp1
             }
         }
         
-        public static void RenderEnemies(GameMap gameMap)
+        public static void RenderEnemies(GameMap gameMap, Hero hero)
         {
             lock (ConsoleLock)
             {
@@ -258,13 +253,63 @@ namespace ConsoleApp1
                     if (gameMap.enemies[i, j] != null)
                     {
                         Console.SetCursorPosition(j, i);
-                        Console.Write(gameMap.enemies[i, j].Symbol);
+                        if(hero.Position.Y != i ||  hero.Position.X != j) 
+                            Console.Write(gameMap.enemies[i, j].Symbol);
                     }
                 }
                 Console.SetCursorPosition(DefaultCursorPosition.Item1, DefaultCursorPosition.Item2);
             }
         }
+        
+        private static readonly (int, int) EnemyStatsStart = (43, 16);
+
+        public static void RenderEnemyStats(Enemy enemy)
+        {
+            lock (ConsoleLock)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    Console.SetCursorPosition(EnemyStatsStart.Item1, EnemyStatsStart.Item2 + i);
+                    Console.Write(new string(' ', Console.WindowWidth - EnemyStatsStart.Item1));
+                }
+
+                Console.SetCursorPosition(EnemyStatsStart.Item1, EnemyStatsStart.Item2);
+                Console.Write($"Enemy: {enemy.Name}");
+
+                Console.SetCursorPosition(EnemyStatsStart.Item1, EnemyStatsStart.Item2 + 1);
+                Console.Write($"Health: {enemy.Hp}");
+                Console.SetCursorPosition(EnemyStatsStart.Item1 + Tab, EnemyStatsStart.Item2 + 1);
+                Console.Write($"Damage: {enemy.Damage}");
+
+                Console.SetCursorPosition(DefaultCursorPosition.Item1, DefaultCursorPosition.Item2);
+            }
+        }
+        
+        public static void ClearEnemyStats()
+        {
+            lock (ConsoleLock)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    Console.SetCursorPosition(EnemyStatsStart.Item1, EnemyStatsStart.Item2 + i);
+                    Console.Write(new string(' ', Console.WindowWidth - EnemyStatsStart.Item1));
+                }
+                Console.SetCursorPosition(DefaultCursorPosition.Item1, DefaultCursorPosition.Item2);
+            }
+        }
+        
+        public static void RenderGameOver()
+        {
+            lock (ConsoleLock)
+            {
+                Console.Clear();
+                int centerX = Console.WindowWidth / 2 - 5;
+                int centerY = Console.WindowHeight / 2;
+                Console.SetCursorPosition(centerX, centerY);
+                Console.Write("GAME OVER");
+            }
+        }
+        
+        
     }
-    
-    
 }

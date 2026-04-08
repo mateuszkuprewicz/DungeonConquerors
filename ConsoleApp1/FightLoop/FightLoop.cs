@@ -24,6 +24,7 @@ public class FightLoop
         {
             instruction.PrintInstructionInFightLoop();
             var key = Console.ReadKey(true);
+            hit.HandleKey(key.Key);
         }
     }
 }

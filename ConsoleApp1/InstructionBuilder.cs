@@ -15,9 +15,9 @@ internal class InstructionBuilder
 
     void Clear()
     {
-        for (int i = Render.Instruction.Item2; i < CursorForInstruction.Item2; i++)
+        for (int i = Render.Instruction.Item2; i < Render.DefaultCursorPosition.Item2; i++)
         {
-            Console.SetCursorPosition(Render.DefaultCursorPosition.Item1, i);
+            Console.SetCursorPosition(Render.Instruction.Item1, i);
             Console.Write(new string(' ', Console.WindowWidth));
         }
         Console.SetCursorPosition(Render.DefaultCursorPosition.Item1, Render.DefaultCursorPosition.Item2);
@@ -25,7 +25,6 @@ internal class InstructionBuilder
     
     bool HeroMove()
     {
-        CursorForInstruction = Render.Instruction;
         int posX = MyHero.Position.X;
         int posY = MyHero.Position.Y;
         if ((posX + 1 >=GameMap.MapWidth || Map.map[posY, posX+1] == null) && 
@@ -101,12 +100,14 @@ internal class InstructionBuilder
         int posY = MyHero.Position.Y;
         if (Map.enemies[posY, posX] != null)
         {
+            Render.RenderEnemyStats(Map.enemies[posY, posX]);
             Console.SetCursorPosition(CursorForInstruction.Item1, CursorForInstruction.Item2);
             CursorForInstruction.Item2++;
             Console.Write("P - start fight.");
             Console.SetCursorPosition(Render.DefaultCursorPosition.Item1, Render.DefaultCursorPosition.Item2);
             return true;
         }
+        Render.ClearEnemyStats();
         return false;
     }
     
@@ -129,6 +130,7 @@ internal class InstructionBuilder
     public void PrintInstructionInGameLoop()
     {
         Clear();
+        CursorForInstruction = Render.Instruction;
         HeroMove();
         bool picking = PickingItems() || ThrowItems();
         bool equiping = EquipingWeapons() || UnequipingWeapons();
@@ -138,8 +140,18 @@ internal class InstructionBuilder
     public void PrintInstructionInFightLoop()
     {
         Clear();
-        bool equiping = EquipingWeapons() || UnequipingWeapons();
+        CursorForInstruction = Render.Instruction;
+        //bool equiping = EquipingWeapons() || UnequipingWeapons();
         HitEnemy(); 
         RunAway();
+    }
+    
+    public void PrintAttackInstruction()
+    {
+        Clear();
+        Console.SetCursorPosition(CursorForInstruction.Item1, CursorForInstruction.Item2);
+        CursorForInstruction.Item2++;
+        Console.Write("1 - normal attack, 2 - stealth attack, 3 - magic attack.");
+        Console.SetCursorPosition(Render.DefaultCursorPosition.Item1, Render.DefaultCursorPosition.Item2);
     }
 }
