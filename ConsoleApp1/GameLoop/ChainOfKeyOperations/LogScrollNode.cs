@@ -6,7 +6,7 @@ public class LogScrollNode : KeyNode
 
     public override void HandleKey(ConsoleKey keyInfo)
     {
-        if (keyInfo == ConsoleKey.P)
+        if (keyInfo == ConsoleKey.O)
         {
             Render.ScrollLogsUp();
         }

@@ -5,15 +5,17 @@ public interface ISavingLogsStrategy
 {
     public void Save(string  message);
     public IEnumerable<string> Load();
+    public string SavePath { get; }
 }
 
 public class SavingLogs : ISavingLogsStrategy
 {
-    private string SavePath;
+    public string SavePath { get; private set; }
 
-    public SavingLogs(string savePath)
+    public SavingLogs(string savePath, string heroName)
     {
-        SavePath = savePath;
+        string fileName = $"{heroName}_{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.txt";
+        SavePath = Path.Combine(savePath, fileName);
         File.Create(SavePath).Close();
     }
     

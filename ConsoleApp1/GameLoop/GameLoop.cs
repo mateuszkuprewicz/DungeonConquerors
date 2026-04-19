@@ -14,7 +14,7 @@ namespace ConsoleApp1
             var heroName = configManager.GetHeroName();
             var logFilePath = configManager.GetLogPath();
             string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            ISavingLogsStrategy logSaver = new SavingLogs(Path.Combine(desktop, "CyberPunk2 Logi"));
+            ISavingLogsStrategy logSaver = new SavingLogs(logFilePath, heroName);
             EventLog eventLog = EventLog.GetEventLog();
             eventLog.Initialise(heroName,  logSaver);
             

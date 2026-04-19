@@ -38,7 +38,8 @@ public class HitNode : KeyNode
                 el.Log(LogType.HeroHits, [Enemy.Name, damage.ToString()]);
                 
                 int damageNetto = Enemy.Damage - defence;
-                Hero.Stats.Health -= damageNetto > 0 ? damageNetto : 0;
+                damageNetto = damageNetto > 0 ? damageNetto : 0;
+                Hero.Stats.Health -= damageNetto;
                 el.Log(LogType.EnemyHits, [Enemy.Name, damageNetto.ToString()]);
                 break;
             }

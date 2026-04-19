@@ -46,7 +46,7 @@ public static class LogTexts
 
     public static string DefeatedEnemy(string heroName, string enemyName)
     {
-        return $"{enemyName} dies from the hand of {heroName}";
+        return $"{enemyName} dies from hand of {heroName}";
     }
 
     public static string DefeatedHero(string heroName, string enemyName)

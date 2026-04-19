@@ -311,10 +311,52 @@ namespace ConsoleApp1;
         }
         
         //Rendering logs
-        private static readonly (int, int) LogsTableStart = (75, 0); 
-        private const int MaxVisibleLogLines = 20;
+        private static readonly (int, int) LogsTableStart = (78, 10); 
+        private const int MaxVisibleLogLines = 6;
         private static int _logScrollOffset = -1;
-        
+
+        private static List<string> GetWrappedLines(List<string> logs)
+        {
+            int maxWidth = Console.WindowWidth - LogsTableStart.Item1 - 1;
+            if (maxWidth <= 0) return new List<string>();
+
+            List<string> wrappedLines = new List<string>();
+
+            foreach (var log in logs)
+            {
+                if (string.IsNullOrEmpty(log)) continue;
+
+                string[] words = log.Split(' ');
+                string currentLine = "";
+
+                foreach (var word in words)
+                {
+                    // Jeśli słowo + spacja nie mieszczą się w linii
+                    if ((currentLine + word).Length > maxWidth)
+                    {
+                        if (!string.IsNullOrEmpty(currentLine))
+                            wrappedLines.Add(currentLine.TrimEnd());
+
+                        // Jeśli samo słowo jest szersze niż cała kolumna (bardzo długie nazwy)
+                        string tempWord = word;
+                        while (tempWord.Length > maxWidth)
+                        {
+                            wrappedLines.Add(tempWord.Substring(0, maxWidth));
+                            tempWord = tempWord.Substring(maxWidth);
+                        }
+                        currentLine = tempWord + " ";
+                    }
+                    else
+                    {
+                        currentLine += word + " ";
+                    }
+                }
+                if (!string.IsNullOrEmpty(currentLine))
+                    wrappedLines.Add(currentLine.TrimEnd());
+            }
+            return wrappedLines;
+        }
+
         public static void RenderRecentLogs(List<string> recentLogs)
         {
             _logScrollOffset = -1;
@@ -322,15 +364,19 @@ namespace ConsoleApp1;
             {
                 ClearLogArea();
 
+                List<string> linesToPrint = GetWrappedLines(recentLogs);
+        
                 Console.SetCursorPosition(LogsTableStart.Item1, LogsTableStart.Item2);
                 Console.Write("=== OSTATNIE ZDARZENIA ===");
+                Console.ResetColor();
 
-                for (int i = 0; i < recentLogs.Count; i++)
+                int count = Math.Min(linesToPrint.Count, MaxVisibleLogLines - 1);
+                for (int i = 0; i < count; i++)
                 {
                     Console.SetCursorPosition(LogsTableStart.Item1, LogsTableStart.Item2 + 1 + i);
-                    Console.Write(recentLogs[i]);
+                    Console.Write(linesToPrint[i]);
                 }
-                
+        
                 Console.SetCursorPosition(DefaultCursorPosition.Item1, DefaultCursorPosition.Item2);
             }
         }
@@ -346,24 +392,20 @@ namespace ConsoleApp1;
 
                 ClearLogArea();
 
-                Console.SetCursorPosition(LogsTableStart.Item1, LogsTableStart.Item2);
-                Console.Write("=== PEŁNY DZIENNIK P<->L - scroll ===");
+                List<string> allWrappedLines = GetWrappedLines(allLogs);
 
-                int startIndex = Math.Max(0, _logScrollOffset);
-                int count = Math.Min(MaxVisibleLogLines - 1, allLogs.Count - startIndex); 
+                Console.SetCursorPosition(LogsTableStart.Item1, LogsTableStart.Item2);
+                Console.Write("=== PEŁNY DZIENNIK O<->L - scroll ===");
+
+                int startIndex = Math.Clamp(_logScrollOffset, 0, Math.Max(0, allWrappedLines.Count - (MaxVisibleLogLines - 1)));
+                int count = Math.Min(MaxVisibleLogLines - 1, allWrappedLines.Count - startIndex); 
 
                 for (int i = 0; i < count; i++)
                 {
                     Console.SetCursorPosition(LogsTableStart.Item1, LogsTableStart.Item2 + 1 + i);
-            
-                    string log = allLogs[startIndex + i];
-                    int maxSpace = Console.WindowWidth - LogsTableStart.Item1 - 1;
-                    if (log.Length > maxSpace && maxSpace > 0)
-                        log = log.Substring(0, maxSpace);
-
-                    Console.Write(log);
+                    Console.Write(allWrappedLines[startIndex + i]);
                 }
-        
+
                 Console.SetCursorPosition(DefaultCursorPosition.Item1, DefaultCursorPosition.Item2);
             }
         }
@@ -372,10 +414,11 @@ namespace ConsoleApp1;
         {
             EventLog eventLog = EventLog.GetEventLog();
             List<string> allLogs = eventLog.GetAllLogs();
-            if (_logScrollOffset + MaxVisibleLogLines - 1 < allLogs.Count && _logScrollOffset > 0)
+    
+            if (_logScrollOffset > 0)
             {
-                _logScrollOffset++;
-                RenderAllLogs(allLogs); 
+                _logScrollOffset--;
+                RenderAllLogs(allLogs);
             }
         }
 
@@ -383,12 +426,16 @@ namespace ConsoleApp1;
         {
             EventLog eventLog = EventLog.GetEventLog();
             List<string> allLogs = eventLog.GetAllLogs();
-            if (_logScrollOffset > 0 )
+    
+            List<string> allWrappedLines = GetWrappedLines(allLogs);
+
+            if (_logScrollOffset < allWrappedLines.Count - (MaxVisibleLogLines - 1) && _logScrollOffset >= 0)
             {
-                _logScrollOffset--;
-                RenderAllLogs(allLogs);
+                _logScrollOffset++;
+                RenderAllLogs(allLogs); 
             }
         }
+        
 
         private static void ClearLogArea()
         {

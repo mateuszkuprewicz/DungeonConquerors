@@ -50,6 +50,11 @@ public class EventLog
     
     public bool renderType = false; //false -> render recent logs, true -> render all logs
 
+    public string GetSavePath()
+    {
+        return SavingLogsStrategy.SavePath;
+    }
+
     private static int RecentLogsCount = 3;
     
     private string getMessage(LogType logType, string[]? context = null)
@@ -63,7 +68,7 @@ public class EventLog
             LogType.HeroHits => LogTexts.HeroHits(HeroName, context ?? new string[]{"unknown enemy", "unknown"}),
             LogType.EnemyHits => LogTexts.EnemyHits(HeroName, context ?? new string[]{"unknown enemy", "unknown"}),
             LogType.DefeatedEnemy => LogTexts.DefeatedEnemy(HeroName, context != null ? context[0] : "unknown enemy"),
-            LogType.DefeatedHero => LogTexts.DefeatedEnemy(HeroName, context != null ? context[0] : "unknown hero"),
+            LogType.DefeatedHero => LogTexts.DefeatedHero(HeroName, context != null ? context[0] : "unknown hero"),
             _ => "unknown event"
         };
     }

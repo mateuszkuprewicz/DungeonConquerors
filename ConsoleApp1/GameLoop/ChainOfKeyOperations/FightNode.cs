@@ -20,6 +20,7 @@ public class FightNode : KeyNode
                 
                 if (MyHero.Stats.Health <= 0)
                 {
+                    Render.RenderAnnouncement(el.GetSavePath());
                     System.Threading.Thread.Sleep(1000);
                     Environment.Exit(0);
                 }
