@@ -1,6 +1,7 @@
 ﻿using System.Windows.Markup;
 using ConsoleApp1.ChainOfKeyOperations;
 using ConsoleApp1.ConfigurationFile;
+using ConsoleApp1.Dungeon_Themes;
 using ConsoleApp1.Logger;
 
 namespace ConsoleApp1
@@ -9,7 +10,7 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            //"config.json"
+            //"config.json", initializing logger
             ConfigManager configManager = new ConfigManager(Path.Combine(Environment.CurrentDirectory, "ConfigurationFile", "config.json"));
             var heroName = configManager.GetHeroName();
             var logFilePath = configManager.GetLogPath();
@@ -18,19 +19,22 @@ namespace ConsoleApp1
             EventLog eventLog = EventLog.GetEventLog();
             eventLog.Initialise(heroName,  logSaver);
             
+            //initializing hero, and dungeon map
             Hero myHero = new Hero();
             myHero.HeroName = heroName;
             GameMap map = new GameMap();
             MapBuilder builder = new MapBuilder(map);
-            MapDirector mapDirector = new MapDirector(builder);
-            mapDirector.BasicDungeon();
-            //builder.AddUsellesItems();
+            IDungeonTheme dungeonTheme = new ColonyTheme();
+            MapDirector mapDirector = new MapDirector(builder, dungeonTheme);
+            mapDirector.CreateDungeon();
+            
             InstructionBuilder instructionBuilder = new InstructionBuilder(myHero, map);
             
             Render.RenderMap(myHero, map);
             Render.RenderEnemies(map, myHero);
             Render.RenderMenu(myHero, map);
 
+            //initializing game loop 
             ConsoleKeyInfo key;
             KeyNode move = new MoveNode(myHero, map);
             KeyNode pick = new PickDropNode(myHero, map);

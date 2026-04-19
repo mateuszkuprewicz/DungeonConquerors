@@ -14,7 +14,32 @@ public class MapDirector
 
     public void CreateDungeon()
     {
-        
+        switch (_dungeonTheme.DungeonType)
+        {
+            case DungeonTypes.BasicDungeon:
+                BasicDungeon();
+                break;
+            case DungeonTypes.CorridorDungeon:
+                CorridorDungeon();
+                break;
+            case  DungeonTypes.ChamberDungeon:
+                ChamberDungeon();
+                break;
+        }
+
+        for (int i = 0; i < _dungeonTheme.ItemCount; i++)
+        {
+            _builder.AddItem(_dungeonTheme.Items.ToArray());
+        }
+        _builder.AddItem(_dungeonTheme.Artifact);
+
+        for (int i = 0; i < _dungeonTheme.EnemyCount; i++)
+        {
+            _builder.AddEnemy(_dungeonTheme.EnemyNames.ToArray());
+        }
+
+        Render.RenderAnnouncement(_dungeonTheme.Message);
+
     }
 
     private void BasicDungeon()
@@ -50,8 +75,5 @@ public class MapDirector
         
         for(int i = 0; i < 5; i++)
             _builder.AddChamber();
-        
     }
-    
-    
 }
