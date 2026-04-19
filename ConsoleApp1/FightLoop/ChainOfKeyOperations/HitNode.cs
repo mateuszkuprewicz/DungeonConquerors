@@ -1,4 +1,5 @@
 ﻿namespace ConsoleApp1.FightLoop.ChainOfKeyOperations;
+using ConsoleApp1.Logger;
 
 public class HitNode : KeyNode
 {
@@ -33,8 +34,12 @@ public class HitNode : KeyNode
                 int defence = CalculateTotal(visitor, false);
 
                 Enemy.ReceiveDamage(damage);
+                EventLog el = EventLog.GetEventLog();
+                el.Log(LogType.HeroHits, [Enemy.Name, damage.ToString()]);
+                
                 int damageNetto = Enemy.Damage - defence;
                 Hero.Stats.Health -= damageNetto > 0 ? damageNetto : 0;
+                el.Log(LogType.EnemyHits, [Enemy.Name, damageNetto.ToString()]);
                 break;
             }
 
@@ -44,6 +49,9 @@ public class HitNode : KeyNode
             {
                 Render.RenderGameOver();
                 _cts.Cancel();
+                
+                EventLog el =  EventLog.GetEventLog();
+                el.Log(LogType.DefeatedHero, [Enemy.Name]);
                 return;
             }
             else if(Enemy.Hp <= 0)
@@ -51,6 +59,9 @@ public class HitNode : KeyNode
                 Enemy.Die();
                 _cts.Cancel();
                 Render.RenderAnnouncement("Enemy defeated");
+                
+                EventLog el =  EventLog.GetEventLog();
+                el.Log(LogType.DefeatedEnemy, [Enemy.Name]);
             }
             return;
         }

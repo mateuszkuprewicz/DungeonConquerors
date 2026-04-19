@@ -8,7 +8,6 @@ public class EventLog
     private EventLog(){}
     private static EventLog? eventLog;
     private string HeroName;
-    private ConfigManager configManager;
     private ISavingLogsStrategy SavingLogsStrategy { get; set; }
     
     public static EventLog GetEventLog()
@@ -18,30 +17,40 @@ public class EventLog
         return eventLog;
     }
 
-    public void Initialise(string configurationFilePath, ISavingLogsStrategy savingLogsStrategy)
+    public void Initialise(string heroName, ISavingLogsStrategy savingLogsStrategy)
     {
-        configManager = new ConfigManager(configurationFilePath);
-        HeroName = configManager.GetHeroName();
-        savingLogsStrategy = new SavingLogs(configManager.GetLogPath());
+        HeroName = heroName;
+        SavingLogsStrategy = savingLogsStrategy;
     }
     
-    public void Log(LogType logType, string[]? context = null)
+    //with logType argument saves a specified log and prints logs
+    //with no arguments only print logs
+    public List<string> GetAllLogs()
     {
-        string message = getMessage(logType, context);
-        SavingLogsStrategy.Save($"{DateTime.Now.ToString()} : {message}");
-        //render recent messages
-        
+        return SavingLogsStrategy.Load().Reverse().ToList();
     }
     
-    public void renderAllLogs()
+    public void Log(LogType? logType = null, string[]? context = null)
     {
+        if (logType != null)
+        {
+            string message = getMessage(logType.Value, context);
+            SavingLogsStrategy.Save($"{DateTime.Now.ToString()} : {message}");
+        }
         
+        if (renderType)
+        {
+            Render.RenderAllLogs(GetAllLogs());
+        }
+        else
+        {
+            Render.RenderRecentLogs(GetAllLogs().Take(RecentLogsCount).ToList());
+        }
     }
+    
+    public bool renderType = false; //false -> render recent logs, true -> render all logs
 
-    private List<string> GetRecentLogs()
-    {
-        return SavingLogsStrategy.Load().Take(3).ToList();
-    }
+    private static int RecentLogsCount = 3;
     
     private string getMessage(LogType logType, string[]? context = null)
     {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using ConsoleApp1.Logger;
 
 namespace ConsoleApp1
 {
@@ -13,6 +14,7 @@ namespace ConsoleApp1
     }
     public class Hero
     {
+        public string HeroName { private get; set; }
         public  HeroStats Stats { get; private set; }
 
         public HeroHands Hands { get; private set; }
@@ -44,6 +46,7 @@ namespace ConsoleApp1
                 Position = newPosition;
                 return true;
             }
+            
             return false;
         }
         private static bool IsPositionValid((int X, int Y) position, GameMap gameMap)
@@ -105,15 +108,15 @@ namespace ConsoleApp1
 
         public List<Item> EquipmentList { get; private set; }
         public int EquipmentPointer = 0;
-        public int PickItem((int X, int Y) position, GameMap gameMap)
+        public (int completion, Item? item) PickItem((int X, int Y) position, GameMap gameMap)
         {
             if (gameMap.map[position.Y, position.X].Count() == 0)
-                return 0;
+                return (0, null);
             if(EquipmentList.Count >= MaxEquipment)
-                return -1;
+                return (-1, null);
             var item = gameMap.map[position.Y, position.X].Pop();
             item.OnPickup(this);
-            return 1;
+            return (1, item);
         }
         public bool DropItem((int X, int Y) position, GameMap gameMap)
         {
@@ -147,19 +150,19 @@ namespace ConsoleApp1
     {
         public AbstractWeapon? LeftHand { get; set; }
         public AbstractWeapon? RightHand { get; set; }
-        public bool EquipWeapon(Hero hero)
+        public (bool completion, Item? item) EquipWeapon(Hero hero)
         {
             HerosEquipment equipment = hero.Equipment;
-            if(equipment.EquipmentList.Count == 0) return false;
+            if(equipment.EquipmentList.Count == 0) return (false, null);
             var item = equipment.EquipmentList[equipment.EquipmentPointer];
             if(item.Wear(hero))
             {
                 equipment.EquipmentList.RemoveAt(equipment.EquipmentPointer);
                 if(equipment.EquipmentPointer > 0)
                     equipment.EquipmentPointer--;
-                return true;
+                return (true, item);
             }
-            else return false;
+            else return (false, null);
         }
         public bool UnequipWeapon(Hero hero, GameMap map)
         {

@@ -1,5 +1,6 @@
 ﻿namespace ConsoleApp1.ChainOfKeyOperations;
 using ConsoleApp1.FightLoop;
+using ConsoleApp1.Logger;
 
 public class FightNode : KeyNode
 {
@@ -13,6 +14,10 @@ public class FightNode : KeyNode
             {
                 var fightLoop = new FightLoop(MyHero, enemy);
                 fightLoop.Loop();
+                
+                EventLog el = EventLog.GetEventLog();
+                el.Log();
+                
                 if (MyHero.Stats.Health <= 0)
                 {
                     System.Threading.Thread.Sleep(1000);

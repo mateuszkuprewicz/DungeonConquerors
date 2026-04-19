@@ -1,4 +1,5 @@
-﻿namespace ConsoleApp1.ChainOfKeyOperations;
+﻿using ConsoleApp1.Logger;
+namespace ConsoleApp1.ChainOfKeyOperations;
 
 public class WeaponEquipmentNode : KeyNode
 {
@@ -9,11 +10,15 @@ public class WeaponEquipmentNode : KeyNode
     {
         if (keyInfo == ConsoleKey.F)
         {
-            if (MyHero.Hands.EquipWeapon(MyHero))
+            (bool succes, Item? item) = MyHero.Hands.EquipWeapon(MyHero);
+            if (succes)
             {
                 Render.RenderHeroHands(MyHero);
                 Render.RenderEquipment(MyHero);
                 Render.RenderStats(MyHero);
+
+                EventLog el = EventLog.GetEventLog();
+                el.Log(LogType.WeaponEquip, [item.Name]);
             }
             else
             {

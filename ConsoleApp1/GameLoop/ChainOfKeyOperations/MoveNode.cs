@@ -1,4 +1,7 @@
-﻿namespace ConsoleApp1.ChainOfKeyOperations;
+﻿using ConsoleApp1.Logger;
+
+namespace ConsoleApp1.ChainOfKeyOperations;
+using ConsoleApp1.Logger;
 
 public class MoveNode : KeyNode
 {
@@ -21,6 +24,8 @@ public class MoveNode : KeyNode
                 else
                 {
                     Render.RenderAnnouncement("Cant move into a wall");
+                    EventLog el = EventLog.GetEventLog();
+                    el.Log(LogType.WallHit);
                 }
                 return;
             case ConsoleKey.A:
@@ -33,6 +38,8 @@ public class MoveNode : KeyNode
                 else
                 {
                     Render.RenderAnnouncement("Cant move into a wall");
+                    EventLog el = EventLog.GetEventLog();
+                    el.Log(LogType.WallHit);
                 }
                 return;
             case ConsoleKey.S:
@@ -45,6 +52,8 @@ public class MoveNode : KeyNode
                 else
                 {
                     Render.RenderAnnouncement("Cant move into a wall");
+                    EventLog el = EventLog.GetEventLog();
+                    el.Log(LogType.WallHit);
                 }
                 return;
             case ConsoleKey.D:
@@ -57,6 +66,8 @@ public class MoveNode : KeyNode
                 else
                 {
                     Render.RenderAnnouncement("Cant move into a wall");
+                    EventLog el = EventLog.GetEventLog();
+                    el.Log(LogType.WallHit);
                 }
                 return;
         }
