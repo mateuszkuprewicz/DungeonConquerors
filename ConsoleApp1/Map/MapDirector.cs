@@ -1,92 +1,55 @@
-﻿namespace ConsoleApp1;
+﻿using ConsoleApp1.Dungeon_Themes;
+
+namespace ConsoleApp1;
 
 public class MapDirector
 {
-    private MapBuilder builder;
-    public MapDirector(MapBuilder builder)
+    private readonly MapBuilder _builder;
+    private readonly IDungeonTheme _dungeonTheme;
+    public MapDirector(MapBuilder builder, IDungeonTheme dungeonTheme)
     {
-        this.builder = builder;
+        this._builder = builder;
+        this._dungeonTheme = dungeonTheme;
     }
 
-    public void BasicDungeon()
+    public void CreateDungeon()
     {
-        builder.GenerateFullDungeon();
+        
+    }
+
+    private void BasicDungeon()
+    {
+        _builder.GenerateFullDungeon();
         for (int i = 0; i < 15; i++)
-            builder.AddCorridor();
+            _builder.AddCorridor();
             
         for(int i = 0; i < 5; i++)
-            builder.AddChamber();
+            _builder.AddChamber();
         
-        builder.AddCentralRoom();
+        _builder.AddCentralRoom();
         
-        builder.AddUsellesItems(10);
-
-        for(int i = 0; i < 10; i++)
-            builder.AddWeapons();
-        
-        builder.AddEnemies();
     }
     
-    public void BasicDungeonWithNoItems()
+    private void ChamberDungeon()
     {
-        builder.GenerateFullDungeon();
-        for (int i = 0; i < 10; i++)
-            builder.AddCorridor();
-            
-        for(int i = 0; i < 3; i++)
-            builder.AddChamber();
-        
-        builder.AddCentralRoom();
-    }
-    
-    public void BasicDungeonWithNoWeapons()
-    {
-        builder.GenerateFullDungeon();
-        for (int i = 0; i < 10; i++)
-            builder.AddCorridor();
-            
-        for(int i = 0; i < 3; i++)
-            builder.AddChamber();
-        
-        builder.AddCentralRoom();
-        
-        builder.AddUsellesItems(10);
-    }
-
-    public void ChamberDungeon()
-    {
-        builder.GenerateFullDungeon();
+        _builder.GenerateFullDungeon();
         for (int i = 0; i < 5; i++)
-            builder.AddCorridor();
+            _builder.AddCorridor();
         
         for(int i = 0; i < 20; i++)
-            builder.AddChamber();
+            _builder.AddChamber();
         
-        builder.AddCentralRoom();
-        
-        builder.AddUsellesItems(10);
-
-        for(int i = 0; i < 10; i++)
-            builder.AddWeapons();
-        
-        builder.AddEnemies();
+        _builder.AddCentralRoom();
     }
 
-    public void CorridorDungeon()
+    private void CorridorDungeon()
     {
-        builder.GenerateFullDungeon();
+        _builder.GenerateFullDungeon();
         for (int i = 0; i < 20; i++)
-            builder.AddCorridor();
+            _builder.AddCorridor();
         
         for(int i = 0; i < 5; i++)
-            builder.AddChamber();
-        
-        builder.AddUsellesItems(10);
-
-        for(int i = 0; i < 10; i++)
-            builder.AddWeapons();
-        
-        builder.AddEnemies();
+            _builder.AddChamber();
         
     }
     
