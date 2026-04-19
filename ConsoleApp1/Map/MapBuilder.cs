@@ -160,23 +160,20 @@ public class MapBuilder
     
     private AbstractWeapon ApplyRandomDecorators(AbstractWeapon weapon)
     {
-        int decoratorCount = _rnd.Next(4); // 0–3 dekoratorów
+        int decoratorCount = _rnd.Next(3) + 1; // 1–3 dekoratorów
 
-        // Dla każdej statystyki śledzimy: 0=nieużyta, 1=boost, -1=weaken
+        // 0=nieużyta, 1=boost, -1=weaken
         int[] used = new int[6];
 
         for (int d = 0; d < decoratorCount; d++)
         {
-            int stat = _rnd.Next(6);       // losowa statystyka
-            int direction = _rnd.Next(2);  // 0=boost, 1=weaken
+            int stat = _rnd.Next(6);       
+            int direction = _rnd.Next(2);  
             int dirValue = direction == 0 ? 1 : -1;
             
-            if (used[stat] != 0 && used[stat] != dirValue)
+            if (used[stat] != 0)
                 continue;
             
-            if (used[stat] == dirValue)
-                continue;
-
             used[stat] = dirValue;
 
             weapon = (stat, direction) switch
