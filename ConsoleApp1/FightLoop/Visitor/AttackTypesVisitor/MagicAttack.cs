@@ -1,15 +1,18 @@
-﻿namespace ConsoleApp1;
+﻿using ConsoleApp1.FightLoop.Visitor.CalculateBonusDamageVisitor;
+
+namespace ConsoleApp1.FightLoop.Visitor.AttackTypesVisitor;
 
 public class MagicAttack : IAttackVisitor
 {
+    private static readonly BonusDamageVisitor BonusDamageVisitor = new();
     public int CalculateDamage(HeavyWeapon weapon, HeroStats stats)
-        => 1 + weapon.GetBonusDamage();
+        => 1 + weapon.AcceptCalculateBonusDamage(BonusDamageVisitor);
 
     public int CalculateDamage(OneHandedWeapon weapon, HeroStats stats)
-        => 1 + weapon.GetBonusDamage();
+        => 1 + weapon.AcceptCalculateBonusDamage(BonusDamageVisitor);
 
     public int CalculateDamage(MagicalWeapon weapon, HeroStats stats)
-        => stats.Wisdom + weapon.GetBonusDamage();
+        => stats.Wisdom + weapon.AcceptCalculateBonusDamage(BonusDamageVisitor);
 
     public int CalculateDefaultDamage(HeroStats stats)
         => 0;

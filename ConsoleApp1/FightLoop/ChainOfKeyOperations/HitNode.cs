@@ -1,4 +1,6 @@
-﻿namespace ConsoleApp1.FightLoop.ChainOfKeyOperations;
+﻿using ConsoleApp1.FightLoop.Visitor.AttackTypesVisitor;
+
+namespace ConsoleApp1.FightLoop.ChainOfKeyOperations;
 using ConsoleApp1.Logger;
 
 public class HitNode : KeyNode

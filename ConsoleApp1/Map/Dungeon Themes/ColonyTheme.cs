@@ -34,7 +34,7 @@ public class ColonyTheme : IDungeonTheme
     private Item initArtifact()
     {
         return new LuckBoostDecorator(
-            new StrengthBoostDecorator(new AgilityBoostDecorator(new OneHandedWeapon("Xardas' Sword", 20))));
+            new StrengthBoostDecorator(new AgilityBoostDecorator(new HeavyWeapon("Xardas' Sword", 20))));
     }
 
     private List<string> initEnemies()

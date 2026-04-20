@@ -70,7 +70,7 @@ internal class InstructionBuilder
     bool EquipingWeapons()
     {
         int pointer = MyHero.Equipment.EquipmentPointer;
-        if (MyHero.Equipment.EquipmentList.Count != 0 && MyHero.Equipment.EquipmentList[pointer].ItemType == ItemType.Weapon)
+        if (MyHero.Equipment.EquipmentList.Count != 0 && MyHero.Equipment.EquipmentList[pointer] is AbstractWeapon)
         {
             Console.SetCursorPosition(CursorForInstruction.Item1, CursorForInstruction.Item2);
             CursorForInstruction.Item2++;

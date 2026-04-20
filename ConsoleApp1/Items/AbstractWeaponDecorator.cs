@@ -1,19 +1,19 @@
 ﻿using System.Runtime.CompilerServices;
+using ConsoleApp1.FightLoop.Visitor.CalculateBonusDamageVisitor;
 
 namespace ConsoleApp1;
 
 public abstract class AbstractWeaponDecorator : AbstractWeapon
 {
-    protected AbstractWeapon InnerWeapon { get; }
+    public IWeaponDecorated InnerWeapon { get; }
     protected int ModifierValue { get; }
 
-    protected AbstractWeaponDecorator(AbstractWeapon innerWeapon, int modifierValue, int bonusDamage, string suffix)
+    protected AbstractWeaponDecorator(IWeaponDecorated innerWeapon, int modifierValue, int bonusDamage, string suffix)
         : base($"{innerWeapon.Name} ({suffix})", innerWeapon.Symbol)
     {
         InnerWeapon = innerWeapon;
         ModifierValue = modifierValue;
-        ItemType = innerWeapon.ItemType;
-        _weaponDamage =  bonusDamage;
+        WeaponDamage =  bonusDamage;
     }
     
     
@@ -54,8 +54,9 @@ public abstract class AbstractWeaponDecorator : AbstractWeapon
     public override int AcceptDefense(IAttackVisitor visitor, HeroStats stats)
         => InnerWeapon.AcceptDefense(visitor, stats);
 
-    public override int GetBonusDamage()
+    public override int AcceptCalculateBonusDamage(BonusDamageVisitor visitor)
     {
-        return _weaponDamage + InnerWeapon.GetBonusDamage();
+        return visitor.CalculateBonusDamage(this);
     }
+    
 }

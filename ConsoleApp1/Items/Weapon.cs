@@ -1,24 +1,31 @@
 ﻿namespace ConsoleApp1;
+using ConsoleApp1.FightLoop.Visitor.CalculateBonusDamageVisitor;
 
-public class OneHandedWeapon : AbstractWeapon
+public abstract class AbstractPhysicalWeapon : AbstractWeapon
 {
-    public OneHandedWeapon(string name, int weaponDamage = 0, char? symbol = null) : base(name, weaponDamage, symbol) { }
+    public AbstractPhysicalWeapon(string name, int weaponDamage = 0, char? symbol = null) : base(name, weaponDamage, symbol) { }
 
     public override void ApplyModifier(Hero hero) { }
-    public override void RemoveModifier(Hero hero) { }
+    public override void RemoveModifier(Hero hero) { }  
+    public override int AcceptCalculateBonusDamage(BonusDamageVisitor visitor)
+    {
+        return visitor.CalculateBonusDamage(this);
+    }
+}
+
+public class OneHandedWeapon : AbstractPhysicalWeapon
+{
+    public OneHandedWeapon(string name, int weaponDamage = 0, char? symbol = null) : base(name, weaponDamage, symbol){}
     
     public override int AcceptDamage(IAttackVisitor visitor, HeroStats stats)
         => visitor.CalculateDamage(this, stats);
     public override int AcceptDefense(IAttackVisitor visitor, HeroStats stats)
         => visitor.CalculateDefense(this, stats);
+    
 
-    public override int GetBonusDamage()
-    {
-        return _weaponDamage;
-    }
 }
 
-public class HeavyWeapon : AbstractWeapon
+public class HeavyWeapon : AbstractPhysicalWeapon
 {
     public HeavyWeapon(string name, int weaponDamage = 0, char? symbol = null) : base(name, weaponDamage, symbol) { }
 
@@ -32,34 +39,21 @@ public class HeavyWeapon : AbstractWeapon
         }
         return false;
     }
-
-    public override  void ApplyModifier(Hero hero) { }
-    public override void RemoveModifier(Hero hero) { }
     
     public override int AcceptDamage(IAttackVisitor visitor, HeroStats stats)
         => visitor.CalculateDamage(this, stats);
     public override int AcceptDefense(IAttackVisitor visitor, HeroStats stats)
         => visitor.CalculateDefense(this, stats);
     
-    public override int GetBonusDamage()
-    {
-        return _weaponDamage;
-    }
 }
 
-public class MagicalWeapon : AbstractWeapon, IWeaponDecorated
+public class MagicalWeapon : AbstractPhysicalWeapon
 {
     public MagicalWeapon(string name, int weaponDamage = 0, char? symbol = null) : base(name, weaponDamage, symbol) { }
-
-    public override void ApplyModifier(Hero hero) { }
-    public override void RemoveModifier(Hero hero) { }
     
-    public override  int AcceptDamage(IAttackVisitor visitor, HeroStats stats)
+    public override int AcceptDamage(IAttackVisitor visitor, HeroStats stats)
         => visitor.CalculateDamage(this, stats);
-    public override  int AcceptDefense(IAttackVisitor visitor, HeroStats stats)
+    public override int AcceptDefense(IAttackVisitor visitor, HeroStats stats)
         => visitor.CalculateDefense(this, stats);
-    public override int GetBonusDamage()
-    {
-        return _weaponDamage;
-    }
+
 }

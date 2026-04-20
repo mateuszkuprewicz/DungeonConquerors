@@ -1,10 +1,12 @@
-﻿namespace ConsoleApp1;
+﻿using ConsoleApp1.FightLoop.Visitor.CalculateBonusDamageVisitor;
+
+namespace ConsoleApp1;
 
 public abstract class AbstractWeapon : Item, IWeaponDecorated
 {
-    public AbstractWeapon(string name, int weaponDamage = 0, char? symbol = null) : base(name, ItemType.Weapon, symbol)
+    public AbstractWeapon(string name, int weaponDamage = 0, char? symbol = null) : base(name, symbol)
     {
-        this._weaponDamage = weaponDamage;
+        this.WeaponDamage = weaponDamage;
     }
 
     public override void OnPickup(HerosEquipment equipment)
@@ -38,13 +40,14 @@ public abstract class AbstractWeapon : Item, IWeaponDecorated
         return true;
     }
 
-    protected int _weaponDamage = 0;
-
+    public int WeaponDamage = 0;
+    
     public abstract void ApplyModifier(Hero hero);
     public abstract void RemoveModifier(Hero hero);
     public abstract int AcceptDamage(IAttackVisitor visitor, HeroStats stats);
     public abstract int AcceptDefense(IAttackVisitor visitor, HeroStats stats);
-    public abstract int GetBonusDamage();
+    public abstract int AcceptCalculateBonusDamage(BonusDamageVisitor visitor);
+
 }
 
 public interface IWeaponDecorated
@@ -53,6 +56,12 @@ public interface IWeaponDecorated
     public void RemoveModifier(Hero hero);
     public int AcceptDamage(IAttackVisitor visitor, HeroStats stats);
     public int AcceptDefense(IAttackVisitor visitor, HeroStats stats);
-    public int GetBonusDamage();
-    
+    public bool Wear(Hero hero);
+    public string Name
+    {
+        get;
+    }
+    public char Symbol { get; }
+
+    public int AcceptCalculateBonusDamage(BonusDamageVisitor visitor);
 }
