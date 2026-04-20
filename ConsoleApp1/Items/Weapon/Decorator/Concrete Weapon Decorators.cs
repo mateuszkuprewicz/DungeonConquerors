@@ -1,4 +1,6 @@
-﻿namespace ConsoleApp1;
+﻿using ConsoleApp1.Items.Weapon;
+
+namespace ConsoleApp1;
 
 public class StrengthBoostDecorator : AbstractWeaponDecorator
 {

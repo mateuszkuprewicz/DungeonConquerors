@@ -1,4 +1,6 @@
 ﻿using ConsoleApp1.FightLoop.Visitor.CalculateBonusDamageVisitor;
+using ConsoleApp1.Items.Weapon;
+
 
 namespace ConsoleApp1.FightLoop.Visitor.AttackTypesVisitor;
 

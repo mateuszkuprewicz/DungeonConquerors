@@ -1,4 +1,6 @@
 ﻿namespace ConsoleApp1;
+using ConsoleApp1.Items.Weapon;
+
 
 public interface IAttackVisitor
 {

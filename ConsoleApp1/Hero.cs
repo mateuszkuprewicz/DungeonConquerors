@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using ConsoleApp1.Logger;
+﻿using ConsoleApp1.Items.Weapon;
 
 namespace ConsoleApp1
 {
