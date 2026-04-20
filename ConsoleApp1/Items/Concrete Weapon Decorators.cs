@@ -2,8 +2,8 @@
 
 public class StrengthBoostDecorator : AbstractWeaponDecorator
 {
-    public StrengthBoostDecorator(AbstractWeapon inner, int bonus = 5)
-        : base(inner, bonus, "Silny") { }
+    public StrengthBoostDecorator(AbstractWeapon inner, int bonusModifier = 5, int bonusDamage = 1)
+        : base(inner, bonusModifier, bonusDamage,"Silny") { }
 
     public override void ApplyModifier(Hero hero)
     {
@@ -19,8 +19,8 @@ public class StrengthBoostDecorator : AbstractWeaponDecorator
 
 public class StrengthWeakenDecorator : AbstractWeaponDecorator
 {
-    public StrengthWeakenDecorator(AbstractWeapon inner, int penalty = 5)
-        : base(inner, penalty, "Słaby") { }
+    public StrengthWeakenDecorator(AbstractWeapon inner, int bonusModifier = 5, int bonusDamage = 1)
+        : base(inner, bonusModifier, bonusDamage,"Słaby") { }
 
     public override void ApplyModifier(Hero hero)
     {
@@ -36,8 +36,8 @@ public class StrengthWeakenDecorator : AbstractWeaponDecorator
 
 public class AgilityBoostDecorator : AbstractWeaponDecorator
 {
-    public AgilityBoostDecorator(AbstractWeapon inner, int bonus = 5)
-        : base(inner, bonus, "Zwinny") { }
+    public AgilityBoostDecorator(AbstractWeapon inner, int bonusModifier = 5, int bonusDamage = 1)
+        : base(inner, bonusModifier, bonusDamage,"Zręczny") { }
 
     public override void ApplyModifier(Hero hero)
     {
@@ -53,8 +53,8 @@ public class AgilityBoostDecorator : AbstractWeaponDecorator
 
 public class AgilityWeakenDecorator : AbstractWeaponDecorator
 {
-    public AgilityWeakenDecorator(AbstractWeapon inner, int penalty = 5)
-        : base(inner, penalty, "Ociężały") { }
+    public AgilityWeakenDecorator(AbstractWeapon inner, int bonusModifier = 5, int bonusDamage = 1)
+        : base(inner, bonusModifier, bonusDamage,"Śliski") { }
 
     public override void ApplyModifier(Hero hero)
     {
@@ -71,8 +71,8 @@ public class AgilityWeakenDecorator : AbstractWeaponDecorator
 
 public class LuckBoostDecorator : AbstractWeaponDecorator
 {
-    public LuckBoostDecorator(AbstractWeapon inner, int bonus = 5)
-        : base(inner, bonus, "Szczęśliwy") { }
+    public LuckBoostDecorator(AbstractWeapon inner, int bonusModifier = 5, int bonusDamage = 1)
+        : base(inner, bonusModifier, bonusDamage,"Szczęśliwy") { }
 
     public override void ApplyModifier(Hero hero)
     {
@@ -88,8 +88,8 @@ public class LuckBoostDecorator : AbstractWeaponDecorator
 
 public class LuckWeakenDecorator : AbstractWeaponDecorator
 {
-    public LuckWeakenDecorator(AbstractWeapon inner, int penalty = 5)
-        : base(inner, penalty, "Pechowy") { }
+    public LuckWeakenDecorator(AbstractWeapon inner, int bonusModifier = 5, int bonusDamage = 1)
+        : base(inner, bonusModifier, bonusDamage,"Pechowy") { }
 
     public override void ApplyModifier(Hero hero)
     {
@@ -106,8 +106,8 @@ public class LuckWeakenDecorator : AbstractWeaponDecorator
 
 public class AggressivenessBoostDecorator : AbstractWeaponDecorator
 {
-    public AggressivenessBoostDecorator(AbstractWeapon inner, int bonus = 5)
-        : base(inner, bonus, "Agresywny") { }
+    public AggressivenessBoostDecorator(AbstractWeapon inner, int bonusModifier = 5, int bonusDamage = 1)
+        : base(inner, bonusModifier, bonusDamage,"Agresywny") { }
 
     public override void ApplyModifier(Hero hero)
     {
@@ -123,8 +123,8 @@ public class AggressivenessBoostDecorator : AbstractWeaponDecorator
 
 public class AggressivenessWeakenDecorator : AbstractWeaponDecorator
 {
-    public AggressivenessWeakenDecorator(AbstractWeapon inner, int penalty = 5)
-        : base(inner, penalty, "Spokojny") { }
+    public AggressivenessWeakenDecorator(AbstractWeapon inner, int bonusModifier = 5, int bonusDamage = 1)
+        : base(inner, bonusModifier, bonusDamage,"tchórzliwy") { }
 
     public override void ApplyModifier(Hero hero)
     {
@@ -141,8 +141,8 @@ public class AggressivenessWeakenDecorator : AbstractWeaponDecorator
 
 public class WisdomBoostDecorator : AbstractWeaponDecorator
 {
-    public WisdomBoostDecorator(AbstractWeapon inner, int bonus = 5)
-        : base(inner, bonus, "Mądry") { }
+    public WisdomBoostDecorator(AbstractWeapon inner, int bonusModifier = 5, int bonusDamage = 1)
+        : base(inner, bonusModifier, bonusDamage,"Mądry") { }
 
     public override void ApplyModifier(Hero hero)
     {
@@ -158,8 +158,8 @@ public class WisdomBoostDecorator : AbstractWeaponDecorator
 
 public class WisdomWeakenDecorator : AbstractWeaponDecorator
 {
-    public WisdomWeakenDecorator(AbstractWeapon inner, int penalty = 5)
-        : base(inner, penalty, "Głupi") { }
+    public WisdomWeakenDecorator(AbstractWeapon inner, int bonusModifier = 5, int bonusDamage = 1)
+        : base(inner, bonusModifier, bonusDamage,"Głupi") { }
 
     public override void ApplyModifier(Hero hero)
     {
@@ -176,8 +176,8 @@ public class WisdomWeakenDecorator : AbstractWeaponDecorator
 
 public class HealthBoostDecorator : AbstractWeaponDecorator
 {
-    public HealthBoostDecorator(AbstractWeapon inner, int bonus = 10)
-        : base(inner, bonus, "Ochronny") { }
+    public HealthBoostDecorator(AbstractWeapon inner, int bonusModifier = 5, int bonusDamage = 1)
+        : base(inner, bonusModifier, bonusDamage,"Mocny") { }
 
     public override void ApplyModifier(Hero hero)
     {
@@ -193,8 +193,8 @@ public class HealthBoostDecorator : AbstractWeaponDecorator
 
 public class HealthWeakenDecorator : AbstractWeaponDecorator
 {
-    public HealthWeakenDecorator(AbstractWeapon inner, int penalty = 10)
-        : base(inner, penalty, "Przeklęty") { }
+    public HealthWeakenDecorator(AbstractWeapon inner, int bonusModifier = 5, int bonusDamage = 1)
+        : base(inner, bonusModifier, bonusDamage,"Słaby") { }
 
     public override void ApplyModifier(Hero hero)
     {

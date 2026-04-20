@@ -25,16 +25,16 @@ public class ColonyTheme : IDungeonTheme
     {
         var item1 = new UselessItem("Mushroom");
         var item2 = new LuckBoostDecorator(new OneHandedWeapon("Torch"));
-        var item3 = new StrengthBoostDecorator(new HeavyWeapon("Paladin Sword"));
-        var item4 = new WisdomBoostDecorator(new MagicalWeapon("Inonos' Staff of Brightness"));
-        var item5 = new AggressivenessBoostDecorator(new MagicalWeapon("Beliar's Staff of Wrath"));
+        var item3 = new StrengthBoostDecorator(new HeavyWeapon("Paladin Sword", 5));
+        var item4 = new WisdomBoostDecorator(new MagicalWeapon("Inonos' Staff of Brightness", 2));
+        var item5 = new AggressivenessBoostDecorator(new MagicalWeapon("Beliar's Staff of Wrath", 3));
         return new List<Item>() { item1, item2, item3, item4, item5 };
     }
 
     private Item initArtifact()
     {
         return new LuckBoostDecorator(
-            new StrengthBoostDecorator(new AgilityBoostDecorator(new OneHandedWeapon("Xardas' Sword"))));
+            new StrengthBoostDecorator(new AgilityBoostDecorator(new OneHandedWeapon("Xardas' Sword", 20))));
     }
 
     private List<string> initEnemies()

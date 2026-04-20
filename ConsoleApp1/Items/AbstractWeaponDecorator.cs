@@ -1,16 +1,19 @@
-﻿namespace ConsoleApp1;
+﻿using System.Runtime.CompilerServices;
+
+namespace ConsoleApp1;
 
 public abstract class AbstractWeaponDecorator : AbstractWeapon
 {
     protected AbstractWeapon InnerWeapon { get; }
     protected int ModifierValue { get; }
 
-    protected AbstractWeaponDecorator(AbstractWeapon innerWeapon, int modifierValue, string suffix)
+    protected AbstractWeaponDecorator(AbstractWeapon innerWeapon, int modifierValue, int bonusDamage, string suffix)
         : base($"{innerWeapon.Name} ({suffix})", innerWeapon.Symbol)
     {
         InnerWeapon = innerWeapon;
         ModifierValue = modifierValue;
         ItemType = innerWeapon.ItemType;
+        _weaponDamage =  bonusDamage;
     }
     
     
@@ -50,4 +53,9 @@ public abstract class AbstractWeaponDecorator : AbstractWeapon
         => InnerWeapon.AcceptDamage(visitor, stats);
     public override int AcceptDefense(IAttackVisitor visitor, HeroStats stats)
         => InnerWeapon.AcceptDefense(visitor, stats);
+
+    public override int GetBonusDamage()
+    {
+        return _weaponDamage + InnerWeapon.GetBonusDamage();
+    }
 }

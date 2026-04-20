@@ -3,13 +3,13 @@
 public class MagicAttack : IAttackVisitor
 {
     public int CalculateDamage(HeavyWeapon weapon, HeroStats stats)
-        => 1;
+        => 1 + weapon.GetBonusDamage();
 
     public int CalculateDamage(OneHandedWeapon weapon, HeroStats stats)
-        => 1;
+        => 1 + weapon.GetBonusDamage();
 
     public int CalculateDamage(MagicalWeapon weapon, HeroStats stats)
-        => stats.Wisdom;
+        => stats.Wisdom + weapon.GetBonusDamage();
 
     public int CalculateDefaultDamage(HeroStats stats)
         => 0;
@@ -24,5 +24,5 @@ public class MagicAttack : IAttackVisitor
         => stats.Wisdom * 2;
 
     public int CalculateDefaultDefence(HeroStats stats)
-        => stats.Luck;
+        => stats.Luck ;
 }

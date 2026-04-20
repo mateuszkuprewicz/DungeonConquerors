@@ -2,7 +2,7 @@
 
 public class OneHandedWeapon : AbstractWeapon
 {
-    public OneHandedWeapon(string name, char? symbol = null) : base(name, symbol) { }
+    public OneHandedWeapon(string name, int weaponDamage = 0, char? symbol = null) : base(name, weaponDamage, symbol) { }
 
     public override void ApplyModifier(Hero hero) { }
     public override void RemoveModifier(Hero hero) { }
@@ -11,12 +11,16 @@ public class OneHandedWeapon : AbstractWeapon
         => visitor.CalculateDamage(this, stats);
     public override int AcceptDefense(IAttackVisitor visitor, HeroStats stats)
         => visitor.CalculateDefense(this, stats);
-    
+
+    public override int GetBonusDamage()
+    {
+        return _weaponDamage;
+    }
 }
 
 public class HeavyWeapon : AbstractWeapon
 {
-    public HeavyWeapon(string name, char? symbol = null) : base(name, symbol) { }
+    public HeavyWeapon(string name, int weaponDamage = 0, char? symbol = null) : base(name, weaponDamage, symbol) { }
 
     public override bool Wear(Hero hero)
     {
@@ -29,7 +33,7 @@ public class HeavyWeapon : AbstractWeapon
         return false;
     }
 
-    public override void ApplyModifier(Hero hero) { }
+    public override  void ApplyModifier(Hero hero) { }
     public override void RemoveModifier(Hero hero) { }
     
     public override int AcceptDamage(IAttackVisitor visitor, HeroStats stats)
@@ -37,17 +41,25 @@ public class HeavyWeapon : AbstractWeapon
     public override int AcceptDefense(IAttackVisitor visitor, HeroStats stats)
         => visitor.CalculateDefense(this, stats);
     
+    public override int GetBonusDamage()
+    {
+        return _weaponDamage;
+    }
 }
 
-public class MagicalWeapon : AbstractWeapon
+public class MagicalWeapon : AbstractWeapon, IWeaponDecorated
 {
-    public MagicalWeapon(string name, char? symbol = null) : base(name, symbol) { }
+    public MagicalWeapon(string name, int weaponDamage = 0, char? symbol = null) : base(name, weaponDamage, symbol) { }
 
     public override void ApplyModifier(Hero hero) { }
     public override void RemoveModifier(Hero hero) { }
     
-    public override int AcceptDamage(IAttackVisitor visitor, HeroStats stats)
+    public override  int AcceptDamage(IAttackVisitor visitor, HeroStats stats)
         => visitor.CalculateDamage(this, stats);
-    public override int AcceptDefense(IAttackVisitor visitor, HeroStats stats)
+    public override  int AcceptDefense(IAttackVisitor visitor, HeroStats stats)
         => visitor.CalculateDefense(this, stats);
+    public override int GetBonusDamage()
+    {
+        return _weaponDamage;
+    }
 }

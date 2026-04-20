@@ -3,13 +3,13 @@
 public class StealthAttack : IAttackVisitor
 {
     public int CalculateDamage(HeavyWeapon weapon, HeroStats stats)
-        => (stats.Strength + stats.Agressiveness) / 2;
+        => (stats.Strength + stats.Agressiveness) / 2 + weapon.GetBonusDamage();
 
     public int CalculateDamage(OneHandedWeapon weapon, HeroStats stats)
-        => (stats.Agility + stats.Luck) * 2;
+        => (stats.Agility + stats.Luck) * 2 + weapon.GetBonusDamage();
 
     public int CalculateDamage(MagicalWeapon weapon, HeroStats stats)
-        => 1;
+        => 1 + weapon.GetBonusDamage();
     
     public int CalculateDefaultDamage(HeroStats stats)
         => 0;

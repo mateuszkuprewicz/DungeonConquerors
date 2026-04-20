@@ -3,13 +3,13 @@
 public class NormalAttack : IAttackVisitor
 {
     public int CalculateDamage(HeavyWeapon weapon, HeroStats stats)
-        => stats.Strength + stats.Agressiveness;
+        => stats.Strength + stats.Agressiveness + weapon.GetBonusDamage();
 
     public int CalculateDamage(OneHandedWeapon weapon, HeroStats stats)
-        => stats.Agility + stats.Luck;
+        => stats.Agility + stats.Luck + weapon.GetBonusDamage();
 
     public int CalculateDamage(MagicalWeapon weapon, HeroStats stats)
-        => stats.Wisdom;
+        => stats.Wisdom + weapon.GetBonusDamage();
     
     public int CalculateDefaultDamage(HeroStats stats)
         => 0;
