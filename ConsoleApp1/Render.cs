@@ -256,6 +256,7 @@ namespace ConsoleApp1;
                         if(hero.Position.Y != i ||  hero.Position.X != j) 
                             Console.Write(gameMap.enemies[i, j].Symbol);
                     }
+                    
                 }
                 Console.SetCursorPosition(DefaultCursorPosition.Item1, DefaultCursorPosition.Item2);
             }

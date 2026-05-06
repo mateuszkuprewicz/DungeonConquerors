@@ -137,7 +137,7 @@ public class MapBuilder
                 if (ExistingFieldsCount == EnemyLocalisation)
                 {
                     if(Map.enemies[h,w] != null) continue;
-                    var enemy = new Enemy(75, 5, 2, Enemies[enemy_name_index], Map.enemies, (w, h));
+                    var enemy = new Enemy(75, 5, 2, Enemies[enemy_name_index], Map.enemies, (w, h), Map);
                     Map.enemies[h, w] = enemy;
                     ExistingFieldsCount++;
                 }

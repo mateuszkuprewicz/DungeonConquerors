@@ -23,13 +23,13 @@ public class EventLog
         SavingLogsStrategy = savingLogsStrategy;
     }
     
-    //with logType argument saves a specified log and prints logs
-    //with no arguments only print logs
     public List<string> GetAllLogs()
     {
         return SavingLogsStrategy.Load().Reverse().ToList();
     }
     
+    //with logType argument saves a specified log and prints logs
+    //with no arguments only print logs
     public void Log(LogType? logType = null, string[]? context = null)
     {
         if (logType != null)

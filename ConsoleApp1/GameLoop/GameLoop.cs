@@ -56,6 +56,25 @@ namespace ConsoleApp1
                 instructionBuilder.PrintInstructionInGameLoop();
                 key = Console.ReadKey(true);
                 move.HandleKey(key.Key);
+                
+                //Enemies Move
+                var enemiesToMove = new HashSet<Enemy>();
+                foreach (var enemy in map.enemies)
+                {
+                    if (enemy != null)
+                    {
+                        enemiesToMove.Add(enemy);
+                    }
+                }
+                
+                foreach (var enemy in enemiesToMove)
+                {
+                    enemy.Move();
+                }
+                
+                //corect render
+                Render.RenderMap(myHero, map);
+                Render.RenderEnemies(map, myHero);
                 //eventLog.Log();
             }
         }
