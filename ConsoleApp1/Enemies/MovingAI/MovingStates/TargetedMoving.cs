@@ -15,6 +15,11 @@ public class TargetedMoving : AbstractMovingState
             _enemy.MovingState = new RandomMoving(_enemy, _map);
             return _enemy.Position;
         }
-        else return path.Dequeue();
+        var nextPos = path.Peek();
+        if (_map.enemies[nextPos.y, nextPos.x] != null)
+        {
+            return _enemy.Position;
+        }
+        return path.Dequeue();
     }
 }

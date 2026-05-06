@@ -1,4 +1,5 @@
 ﻿using ConsoleApp1.Items.Weapon;
+using ConsoleApp1.SoundPropagation.SoundMediation;
 
 namespace ConsoleApp1
 {
@@ -13,12 +14,11 @@ namespace ConsoleApp1
     {
         public string HeroName { private get; set; }
         public  HeroStats Stats { get; private set; }
-
         public HeroHands Hands { get; private set; }
-
         public HerosEquipment Equipment { get; private set; }
-
         public (int X, int Y) Position { get; private set; }
+
+        private ISoundPublisher _soundPublisher;
         
         public bool Move(Direction direction, GameMap gameMap)
         {
@@ -53,19 +53,21 @@ namespace ConsoleApp1
             if (gameMap.map[position.Y, position.X] == null) return false;
             return true;
         }
-        public Hero()
+        public Hero(ISoundPublisher soundPublisher)
         {             
             Stats = new HeroStats();
             Equipment = new HerosEquipment();
             Hands = new HeroHands();
             Position = (0, 0);
+            _soundPublisher = soundPublisher;
         }
-        public Hero(int strength, int agility, int luck, int agressiveness, int wisdom, int health)
+        public Hero(int strength, int agility, int luck, int agressiveness, int wisdom, int health, ISoundPublisher soundPublisher)
         {
             Stats = new HeroStats(strength, agility, luck, agressiveness, wisdom, health);
             Equipment = new HerosEquipment();
             Hands = new HeroHands();
             Position = (0, 0);
+            _soundPublisher = soundPublisher;
         }
     }
 
@@ -102,6 +104,8 @@ namespace ConsoleApp1
         public readonly int MaxEquipment = 10;
         public int Coins { get; set; }
         public int Gold { get; set; }
+
+        private ISoundPublisher _soundPublisher; //Finish
 
         public List<Item> EquipmentList { get; private set; }
         public int EquipmentPointer = 0;

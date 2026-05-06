@@ -1,14 +1,18 @@
-﻿namespace ConsoleApp1;
+﻿using ConsoleApp1.SoundPropagation.SoundMediation;
+
+namespace ConsoleApp1;
 
 public class MapBuilder
 {
     private GameMap Map { get; set;}
     private readonly Random _rnd;
-    internal MapBuilder(GameMap map)
+    private ISoundSubscribtion _soundSubscription;
+    internal MapBuilder(GameMap map, ISoundSubscribtion soundSubscription)
     {
         Map = map;
         Map.ExistingFiels = 0;
         _rnd = new Random((int)DateTime.Now.Ticks);
+        _soundSubscription = soundSubscription;
     }
     
     public void GenerateEmptyDungeon()
@@ -137,7 +141,7 @@ public class MapBuilder
                 if (ExistingFieldsCount == EnemyLocalisation)
                 {
                     if(Map.enemies[h,w] != null) continue;
-                    var enemy = new Enemy(75, 5, 2, Enemies[enemy_name_index], Map.enemies, (w, h), Map);
+                    var enemy = new Enemy(75, 5, 2, Enemies[enemy_name_index], Map.enemies, (w, h), Map, _soundSubscription);
                     Map.enemies[h, w] = enemy;
                     ExistingFieldsCount++;
                 }

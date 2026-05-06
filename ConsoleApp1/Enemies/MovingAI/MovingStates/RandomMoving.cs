@@ -13,7 +13,13 @@ public class RandomMoving : AbstractMovingState
         if(y > 0 && _map.map[y - 1, x]!=null)potentialPositions.Add((x, y - 1));
         var rnd = new Random(DateTime.Now.Millisecond);
         int index = rnd.Next(potentialPositions.Count);
-        return potentialPositions[index];
+
+        (int x, int y) nextPos = potentialPositions[index];
+        if (_map.enemies[nextPos.y, nextPos.x] != null)
+        {
+            return _enemy.Position;
+        }
+        return nextPos;
     }
 
     public RandomMoving(IMovingEnemy Enemy, GameMap Map) : base(Enemy, Map)

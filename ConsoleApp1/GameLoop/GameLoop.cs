@@ -3,6 +3,7 @@ using ConsoleApp1.ChainOfKeyOperations;
 using ConsoleApp1.ConfigurationFile;
 using ConsoleApp1.Dungeon_Themes;
 using ConsoleApp1.Logger;
+using ConsoleApp1.SoundPropagation.SoundMediation;
 
 namespace ConsoleApp1
 {
@@ -20,10 +21,11 @@ namespace ConsoleApp1
             eventLog.Initialise(heroName,  logSaver);
             
             //initializing hero, and dungeon map
-            Hero myHero = new Hero();
-            myHero.HeroName = heroName;
             GameMap map = new GameMap();
-            MapBuilder builder = new MapBuilder(map);
+            DungeonSoundManager soundManager = new DungeonSoundManager(map);
+            Hero myHero = new Hero(soundManager);
+            myHero.HeroName = heroName;
+            MapBuilder builder = new MapBuilder(map, soundManager);
             IDungeonTheme dungeonTheme = new ColonyTheme();
             MapDirector mapDirector = new MapDirector(builder, dungeonTheme);
             mapDirector.CreateDungeon();

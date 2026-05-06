@@ -25,7 +25,6 @@
 
   <ItemGroup>
     <Folder Include="Enemies\Species\" />
-    <Folder Include="SoundPropagation\" />
   </ItemGroup>
 
 </Project>
