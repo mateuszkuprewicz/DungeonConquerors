@@ -9,7 +9,8 @@ public enum LogType
     HeroHits,
     EnemyHits,
     DefeatedEnemy,
-    DefeatedHero
+    DefeatedHero,
+    Default
 }
 
 public static class LogTexts

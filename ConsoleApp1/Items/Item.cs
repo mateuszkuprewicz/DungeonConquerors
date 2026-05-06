@@ -1,8 +1,10 @@
 ﻿
+using ConsoleApp1.SoundPropagation;
+
 namespace ConsoleApp1
 {
     
-    public abstract class Item
+    public abstract class Item : ISoundMaker
     {
         public string Name { get; set; }
         public char Symbol { get; set; }
@@ -19,6 +21,8 @@ namespace ConsoleApp1
             Name = name;
             Symbol = symbol != null ? symbol.Value : Name[0];
         }
+
+        public virtual int SoundRange => 0;
     }
     
     internal class UselessItem : Item

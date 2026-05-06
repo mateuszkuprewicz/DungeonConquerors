@@ -58,7 +58,7 @@ public class MapDirector
     private void ChamberDungeon()
     {
         _builder.GenerateFullDungeon();
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 15; i++)
             _builder.AddCorridor();
         
         for(int i = 0; i < 20; i++)

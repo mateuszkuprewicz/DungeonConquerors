@@ -1,4 +1,5 @@
-﻿using ConsoleApp1.MovingAI;
+﻿using ConsoleApp1.Logger;
+using ConsoleApp1.MovingAI;
 using ConsoleApp1.SoundPropagation;
 using ConsoleApp1.SoundPropagation.SoundMediation;
 
@@ -43,6 +44,9 @@ public class Enemy : IMovingEnemy, ISoundHearer
         if (!sound.HasReached(this.Position)) return;
         Queue<(int, int)> path = sound.GetPathToSource(this.Position);
         MovingState = new TargetedMoving(this, Map, path);
+        EventLog logger = EventLog.GetEventLog();
+        string log = "Enemy hearing sound coming from " + sound.Source + " at " + this.Position + ". Path length: " + path.Count;
+        logger.Log(LogType.Default, [log]);
     }
     
     public void ReceiveDamage(int damage)

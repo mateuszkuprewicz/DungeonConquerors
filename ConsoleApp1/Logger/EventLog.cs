@@ -69,7 +69,7 @@ public class EventLog
             LogType.EnemyHits => LogTexts.EnemyHits(HeroName, context ?? new string[]{"unknown enemy", "unknown"}),
             LogType.DefeatedEnemy => LogTexts.DefeatedEnemy(HeroName, context != null ? context[0] : "unknown enemy"),
             LogType.DefeatedHero => LogTexts.DefeatedHero(HeroName, context != null ? context[0] : "unknown hero"),
-            _ => "unknown event"
+            LogType.Default => context != null ? context[0] : "",
         };
     }
 }

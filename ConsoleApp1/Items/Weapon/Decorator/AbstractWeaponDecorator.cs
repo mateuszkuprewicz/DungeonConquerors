@@ -6,10 +6,10 @@ namespace ConsoleApp1;
 
 public abstract class AbstractWeaponDecorator : AbstractWeapon
 {
-    public IWeaponDecorated InnerWeapon { get; }
+    public AbstractWeapon InnerWeapon { get; }
     protected int ModifierValue { get; }
 
-    protected AbstractWeaponDecorator(IWeaponDecorated innerWeapon, int modifierValue, int bonusDamage, string suffix)
+    protected AbstractWeaponDecorator(AbstractWeapon innerWeapon, int modifierValue, int bonusDamage, string suffix)
         : base($"{innerWeapon.Name} ({suffix})", innerWeapon.Symbol)
     {
         InnerWeapon = innerWeapon;
@@ -59,5 +59,6 @@ public abstract class AbstractWeaponDecorator : AbstractWeapon
     {
         return visitor.CalculateBonusDamage(this);
     }
-    
+
+    public override int SoundRange => InnerWeapon.SoundRange;
 }

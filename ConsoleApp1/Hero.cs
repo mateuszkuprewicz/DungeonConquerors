@@ -56,18 +56,18 @@ namespace ConsoleApp1
         public Hero(ISoundPublisher soundPublisher)
         {             
             Stats = new HeroStats();
-            Equipment = new HerosEquipment();
+            _soundPublisher = soundPublisher;
+            Equipment = new HerosEquipment(this, _soundPublisher);
             Hands = new HeroHands();
             Position = (0, 0);
-            _soundPublisher = soundPublisher;
         }
         public Hero(int strength, int agility, int luck, int agressiveness, int wisdom, int health, ISoundPublisher soundPublisher)
         {
             Stats = new HeroStats(strength, agility, luck, agressiveness, wisdom, health);
-            Equipment = new HerosEquipment();
+            _soundPublisher = soundPublisher;
+            Equipment = new HerosEquipment(this, _soundPublisher);
             Hands = new HeroHands();
             Position = (0, 0);
-            _soundPublisher = soundPublisher;
         }
     }
 
@@ -104,8 +104,9 @@ namespace ConsoleApp1
         public readonly int MaxEquipment = 10;
         public int Coins { get; set; }
         public int Gold { get; set; }
+        private Hero hero;
 
-        private ISoundPublisher _soundPublisher; //Finish
+        private ISoundPublisher _soundPublisher; 
 
         public List<Item> EquipmentList { get; private set; }
         public int EquipmentPointer = 0;
@@ -117,6 +118,8 @@ namespace ConsoleApp1
                 return (-1, null);
             var item = gameMap.map[position.Y, position.X].Pop();
             item.OnPickup(this);
+            if(item.SoundRange > 0)
+                _soundPublisher.Notify(hero.Position, item.SoundRange);
             return (1, item);
         }
         public bool DropItem((int X, int Y) position, GameMap gameMap)
@@ -133,17 +136,21 @@ namespace ConsoleApp1
                 EquipmentPointer--;
             return true;
         }
-        public HerosEquipment()
+        public HerosEquipment(Hero hero, ISoundPublisher soundPublisher)
         {
             Coins = 0;
             Gold = 0;
             EquipmentList = new List<Item>();
+            this.hero = hero;
+            _soundPublisher = soundPublisher;
         }
-        public HerosEquipment(int money, int gold)
+        public HerosEquipment(int money, int gold, Hero hero, ISoundPublisher soundPublisher)
         {
             Coins = money;
             Gold = gold;
             EquipmentList = new List<Item>();
+            this.hero = hero;
+            _soundPublisher = soundPublisher;
         }
     }
 
