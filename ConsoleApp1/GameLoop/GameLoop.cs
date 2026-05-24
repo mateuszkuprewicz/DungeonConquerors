@@ -4,6 +4,7 @@ using ConsoleApp1.ConfigurationFile;
 using ConsoleApp1.Dungeon_Themes;
 using ConsoleApp1.Logger;
 using ConsoleApp1.SoundPropagation.SoundMediation;
+using ConsoleApp1.View;
 
 namespace ConsoleApp1
 {
@@ -32,27 +33,25 @@ namespace ConsoleApp1
             
             InstructionBuilder instructionBuilder = new InstructionBuilder(myHero, map);
             
-            Render.RenderMap(myHero, map);
-            Render.RenderEnemies(map, myHero);
-            Render.RenderMenu(myHero, map);
-
+            Render render = new Render(myHero, map);
+            render.RenderAll();
+            LogRenderer log_render = new LogRenderer(eventLog, new Lock());
+            
             //initializing game loop 
             ConsoleKeyInfo key;
-            KeyNode move = new MoveNode(myHero, map);
-            KeyNode pick = new PickDropNode(myHero, map);
-            KeyNode weaponEquip = new WeaponEquipmentNode(myHero, map);
-            KeyNode  scroll = new EquipmentScrollNode(myHero);
-            KeyNode fight = new FightNode(myHero, map);
-            KeyNode logView = new LogChangeViewNode();
-            KeyNode logScroll = new LogScrollNode();
+            KeyNode move = new MoveNode(myHero, map, render);
+            KeyNode pick = new PickDropNode(myHero, map, render);
+            KeyNode weaponEquip = new WeaponEquipmentNode(myHero, map, render);
+            KeyNode  scroll = new EquipmentScrollNode(render);
+            KeyNode fight = new FightNode(myHero, map, render);
+            KeyNode log = new LogChangeViewNode(log_render, render);
             KeyNode sentinel = new Sentinel();
             move.SetNextHandler(pick);
             pick.SetNextHandler(weaponEquip);
             weaponEquip.SetNextHandler(scroll);
             scroll.SetNextHandler(fight);
-            fight.SetNextHandler(logView);
-            logView.SetNextHandler(logScroll);
-            logScroll.SetNextHandler(sentinel);
+            fight.SetNextHandler(log);
+            log.SetNextHandler(sentinel);
             while (true)
             {
                 instructionBuilder.PrintInstructionInGameLoop();
@@ -75,9 +74,11 @@ namespace ConsoleApp1
                 }
                 
                 //corect render
-                Render.RenderMap(myHero, map);
-                Render.RenderEnemies(map, myHero);
-                //eventLog.Log();
+                render.RenderMap();
+                render.RenderEnemies();
+
+                if (log_render.IsRenderingAllLogs) log_render.RenderAll();
+                else log_render.RenderLast();
             }
         }
     }

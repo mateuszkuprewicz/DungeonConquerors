@@ -5,8 +5,9 @@ using ConsoleApp1.Logger;
 
 public class HitNode : KeyNode
 {
-    public HitNode(Hero hero, Enemy enemy, CancellationTokenSource cts) : 
-        base(hero, enemy, cts) { }
+    private Render _render;
+    public HitNode(Hero hero, Enemy enemy, CancellationTokenSource cts, Render render) : 
+        base(hero, enemy, cts) {_render = render;}
 
     public override void HandleKey(ConsoleKey keyInfo)
     {
@@ -47,7 +48,7 @@ public class HitNode : KeyNode
             }
 
             Render.RenderEnemyStats(Enemy);
-            Render.RenderStats(Hero);
+            _render.RenderStats();
             if (Hero.Stats.Health <= 0)
             {
                 Render.RenderGameOver();

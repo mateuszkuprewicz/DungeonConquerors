@@ -2,15 +2,16 @@
 
 public class LeaveNode : KeyNode
 {
-    public LeaveNode(Hero hero, Enemy enemy, CancellationTokenSource cts)
-        :base(hero, enemy, cts) {}
+    private Render _render;
+    public LeaveNode(Hero hero, Enemy enemy, CancellationTokenSource cts, Render render)
+        :base(hero, enemy, cts) {_render = render;}
 
     public override void HandleKey(ConsoleKey keyInfo)
     {
         if (keyInfo == ConsoleKey.L)
         {
             Hero.Stats.Health -= Enemy.Damage;
-            Render.RenderStats(Hero);
+            _render.RenderStats();
             if (Hero.Stats.Health <= 0)
             {
                 Render.RenderGameOver();

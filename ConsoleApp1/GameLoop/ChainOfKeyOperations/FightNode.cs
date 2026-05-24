@@ -4,7 +4,8 @@ using ConsoleApp1.Logger;
 
 public class FightNode : KeyNode
 {
-    public FightNode(Hero hero, GameMap map) :  base(hero, map){}
+    private Render _render;
+    public FightNode(Hero hero, GameMap map, Render render) :  base(hero, map){_render = render;}
     public override void HandleKey(ConsoleKey keyInfo)
     {
         if (keyInfo == ConsoleKey.P)
@@ -12,7 +13,7 @@ public class FightNode : KeyNode
             Enemy? enemy = Map.enemies[MyHero.Position.Y, MyHero.Position.X];
             if (enemy != null)
             {
-                var fightLoop = new FightLoop(MyHero, enemy);
+                var fightLoop = new FightLoop(MyHero, enemy, _render);
                 fightLoop.Loop();
                 
                 EventLog el = EventLog.GetEventLog();

@@ -5,8 +5,8 @@ using ConsoleApp1.Logger;
 
 public class MoveNode : KeyNode
 {
-
-    public MoveNode(Hero hero, GameMap map) : base(hero, map){}
+    private Render _render;
+    public MoveNode(Hero hero, GameMap map, Render render) : base(hero, map){_render = render;}
     
     public override void HandleKey(ConsoleKey keyInfo)
     {
@@ -17,9 +17,9 @@ public class MoveNode : KeyNode
             case ConsoleKey.W:
                 if (MyHero.Move(Direction.Up, Map))
                 {
-                    Render.ActualiseAfterHeroMove(MyHero, Position, Map);
-                    Render.RenderInfo(Map, MyHero);
-                    Render.RenderEnemies(Map, MyHero);
+                    _render.ActualiseAfterHeroMove(Position);
+                    _render.RenderInfo();
+                    _render.RenderEnemies();
                 }
                 else
                 {
@@ -31,9 +31,9 @@ public class MoveNode : KeyNode
             case ConsoleKey.A:
                 if (MyHero.Move(Direction.Left, Map))
                 {
-                    Render.ActualiseAfterHeroMove(MyHero, Position, Map);
-                    Render.RenderInfo(Map, MyHero);
-                    Render.RenderEnemies(Map, MyHero);
+                    _render.ActualiseAfterHeroMove(Position);
+                    _render.RenderInfo();
+                    _render.RenderEnemies();
                 }
                 else
                 {
@@ -45,9 +45,9 @@ public class MoveNode : KeyNode
             case ConsoleKey.S:
                 if (MyHero.Move(Direction.Down, Map))
                 {
-                    Render.ActualiseAfterHeroMove(MyHero, Position, Map);
-                    Render.RenderEnemies(Map, MyHero);
-                    Render.RenderInfo(Map, MyHero);
+                    _render.ActualiseAfterHeroMove(Position);
+                    _render.RenderEnemies();
+                    _render.RenderInfo();
                 }
                 else
                 {
@@ -59,9 +59,9 @@ public class MoveNode : KeyNode
             case ConsoleKey.D:
                 if (MyHero.Move(Direction.Right, Map))
                 {
-                    Render.ActualiseAfterHeroMove(MyHero, Position, Map);
-                    Render.RenderEnemies(Map,  MyHero);
-                    Render.RenderInfo(Map, MyHero);
+                    _render.ActualiseAfterHeroMove(Position);
+                    _render.RenderEnemies();
+                    _render.RenderInfo();
                 }
                 else
                 {

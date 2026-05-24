@@ -4,7 +4,7 @@ using System.Text;
 using ConsoleApp1.Logger;
 
 namespace ConsoleApp1;
-    internal static class Render
+    public class Render
     {
         const int MapHeight = 20;
         const int MapWidth = 40;
@@ -17,19 +17,35 @@ namespace ConsoleApp1;
         private static readonly (int, int) Info = (43, 20);
         public static readonly (int, int) DefaultCursorPosition = (0, 26);
         public static readonly (int, int) Instruction = (0, 21);
- 
-        public static void RenderMap(Hero hero, GameMap gameMap)
+
+        private Hero _hero; 
+        private GameMap _gameMap;
+
+        public Render(Hero hero, GameMap map)
+        {
+            _hero = hero;
+            _gameMap = map;
+        }
+
+        public void RenderAll()
+        {
+            RenderMap();
+            RenderMenu();
+            RenderEnemies();
+        }
+        
+        public void RenderMap()
         {
             Console.SetCursorPosition(0, 0);
             for (int i = 0; i < 20; i++)
             {
                 for (int j = 0; j < 40; j++)
                 {
-                    if (gameMap.map[i, j] != null)
+                    if (_gameMap.map[i, j] != null)
                     {
-                        if (gameMap.map[i, j].Count() == 0)
+                        if (_gameMap.map[i, j].Count() == 0)
                             Console.Write(" ");
-                        else Console.Write(gameMap.map[i, j].Peek().Symbol);
+                        else Console.Write(_gameMap.map[i, j].Peek().Symbol);
                     }
                     else
                         Console.Write("█");
@@ -37,65 +53,65 @@ namespace ConsoleApp1;
                 Console.WriteLine();
             }
 
-            Console.SetCursorPosition(hero.Position.X, hero.Position.Y);
+            Console.SetCursorPosition(_hero.Position.X, _hero.Position.Y);
             Console.Write("H");
             Console.SetCursorPosition(DefaultCursorPosition.Item1, DefaultCursorPosition.Item2);
         }
 
-        public static void RenderMenu(Hero hero, GameMap gameMap)
+        public void RenderMenu()
         {
-            RenderStats(hero);
-            RenderEquipment(hero);
-            RenderHeroHands(hero);
-            RenderInfo(gameMap, hero);
+            RenderStats();
+            RenderEquipment();
+            RenderHeroHands();
+            RenderInfo();
         }
 
-        public static void ActualiseAfterHeroMove(Hero hero, (int X, int Y) previousPosition, GameMap gameMap)
+        public void ActualiseAfterHeroMove((int X, int Y) previousPosition)
         {
             lock (ConsoleLock)
             {
                 (int X, int Y) = previousPosition;
                 Console.SetCursorPosition(X, Y);
-                if (gameMap.map[Y, X].Count() == 0)
+                if (_gameMap.map[Y, X].Count() == 0)
                     Console.Write(" ");
-                else Console.Write(gameMap.map[Y, X].Peek().Symbol);
-                Console.SetCursorPosition(hero.Position.X, hero.Position.Y);
+                else Console.Write(_gameMap.map[Y, X].Peek().Symbol);
+                Console.SetCursorPosition(_hero.Position.X, _hero.Position.Y);
                 Console.Write("H");
                 Console.SetCursorPosition(DefaultCursorPosition.Item1, DefaultCursorPosition.Item2);
             }
         }
 
         //static int EquipmentCursor = 0;
-        public static void EquipmentScroll(Hero hero, ConsoleKey k)
+        public void EquipmentScroll(ConsoleKey k)
         {
             if(k == ConsoleKey.UpArrow)
             {
-                if (hero.Equipment.EquipmentPointer > 0 && hero.Equipment.EquipmentPointer - 1 < hero.Equipment.EquipmentList.Count())
+                if (_hero.Equipment.EquipmentPointer > 0 && _hero.Equipment.EquipmentPointer - 1 < _hero.Equipment.EquipmentList.Count())
                 {
-                    hero.Equipment.EquipmentPointer--;
-                    PrintNthEquipmentLine(hero, hero.Equipment.EquipmentPointer);
-                    PrintNthEquipmentLine(hero, hero.Equipment.EquipmentPointer + 1);
+                    _hero.Equipment.EquipmentPointer--;
+                    PrintNthEquipmentLine(_hero.Equipment.EquipmentPointer);
+                    PrintNthEquipmentLine(_hero.Equipment.EquipmentPointer + 1);
                 }
             }
             else if(k == ConsoleKey.DownArrow)
             {
-                if (hero.Equipment.EquipmentPointer + 1 < hero.Equipment.EquipmentList.Count)
+                if (_hero.Equipment.EquipmentPointer + 1 < _hero.Equipment.EquipmentList.Count)
                 {
-                    hero.Equipment.EquipmentPointer++;
-                    PrintNthEquipmentLine(hero, hero.Equipment.EquipmentPointer);
-                    PrintNthEquipmentLine(hero, hero.Equipment.EquipmentPointer - 1);
+                    _hero.Equipment.EquipmentPointer++;
+                    PrintNthEquipmentLine(_hero.Equipment.EquipmentPointer);
+                    PrintNthEquipmentLine(_hero.Equipment.EquipmentPointer - 1);
                 }
             }
         }
 
-        public static void PrintNthEquipmentLine(Hero hero, int i)
+        public void PrintNthEquipmentLine(int i)
         {
             if (i < 0) return;
             Console.SetCursorPosition(EquipmentTableStart.Item1, EquipmentTableStart.Item2 + 4 + i);
             Console.Write(new string(' ', Console.WindowWidth - EquipmentTableStart.Item1));
             Console.SetCursorPosition(EquipmentTableStart.Item1, EquipmentTableStart.Item2 + 4 + i);
 
-            if (i == hero.Equipment.EquipmentPointer && hero.Equipment.EquipmentList.Count != 0)
+            if (i == _hero.Equipment.EquipmentPointer && _hero.Equipment.EquipmentList.Count != 0)
             {
                 Console.SetCursorPosition(EquipmentTableStart.Item1 - 1, EquipmentTableStart.Item2 + 4 + i);
                 Console.Write(">");
@@ -105,33 +121,33 @@ namespace ConsoleApp1;
                 Console.SetCursorPosition(EquipmentTableStart.Item1 - 1, EquipmentTableStart.Item2 + 4 + i);
                 Console.Write(" ");
             }
-            Console.Write($"{hero.Equipment.EquipmentList[i].Name}");
+            Console.Write($"{_hero.Equipment.EquipmentList[i].Name}");
 
             Console.SetCursorPosition(DefaultCursorPosition.Item1, DefaultCursorPosition.Item2);
         }
 
-        public static void RenderEquipment(Hero hero)
+        public void RenderEquipment()
         {
             lock(ConsoleLock)
             {
                 Console.SetCursorPosition(EquipmentTableStart.Item1, EquipmentTableStart.Item2);
                 Console.WriteLine($"Equipment");
                 Console.SetCursorPosition(EquipmentTableStart.Item1, EquipmentTableStart.Item2 + 1);
-                Console.Write($"Gold: {hero.Equipment.Gold}");
+                Console.Write($"Gold: {_hero.Equipment.Gold}");
                 Console.SetCursorPosition(EquipmentTableStart.Item1, EquipmentTableStart.Item2 + 2);
-                Console.Write($"Coins: {hero.Equipment.Coins}");
+                Console.Write($"Coins: {_hero.Equipment.Coins}");
 
-                if(hero.Equipment.EquipmentList.Count == 0)
+                if(_hero.Equipment.EquipmentList.Count == 0)
                 {
                     Console.SetCursorPosition(EquipmentTableStart.Item1, EquipmentTableStart.Item2 + 4);
                     Console.Write("No equipment.");
                 }
 
-                for (int i = 0; i < hero.Equipment.EquipmentList.Count; i++)
+                for (int i = 0; i < _hero.Equipment.EquipmentList.Count; i++)
                 {
-                    PrintNthEquipmentLine(hero, i);
+                    PrintNthEquipmentLine(i);
                 }
-                for(int i = hero.Equipment.EquipmentList.Count; i < hero.Equipment.MaxEquipment; i++)
+                for(int i = _hero.Equipment.EquipmentList.Count; i < _hero.Equipment.MaxEquipment; i++)
                 {
                     Console.SetCursorPosition(EquipmentTableStart.Item1 - 1, EquipmentTableStart.Item2 + 4 + i);
                     Console.Write(new string(' ', Console.WindowWidth - EquipmentTableStart.Item1 + 1));
@@ -141,7 +157,7 @@ namespace ConsoleApp1;
             }
         }
 
-        public static void RenderStats(Hero hero)
+        public void RenderStats()
         {
             lock (ConsoleLock)
             {
@@ -153,29 +169,29 @@ namespace ConsoleApp1;
                 Console.SetCursorPosition(StatsTableStart.Item1, StatsTableStart.Item2 + 1);
                 Console.Write(new string(' ', Console.WindowWidth - StatsTableStart.Item1));
                 Console.SetCursorPosition(StatsTableStart.Item1, StatsTableStart.Item2 + 1);
-                Console.Write($"Health: {hero.Stats.Health}");
+                Console.Write($"Health: {_hero.Stats.Health}");
                 Console.SetCursorPosition(StatsTableStart.Item1 + Tab, StatsTableStart.Item2 + 1);
-                Console.Write($"Luck: {hero.Stats.Luck}");
+                Console.Write($"Luck: {_hero.Stats.Luck}");
 
                 Console.SetCursorPosition(StatsTableStart.Item1, StatsTableStart.Item2 + 2);
                 Console.Write(new string(' ', Console.WindowWidth - StatsTableStart.Item1));
                 Console.SetCursorPosition(StatsTableStart.Item1, StatsTableStart.Item2 + 2);
-                Console.Write($"Strength: {hero.Stats.Strength}");
+                Console.Write($"Strength: {_hero.Stats.Strength}");
                 Console.SetCursorPosition(StatsTableStart.Item1 + Tab, StatsTableStart.Item2 + 2);
-                Console.Write($"Agility: {hero.Stats.Agility}");
+                Console.Write($"Agility: {_hero.Stats.Agility}");
 
                 Console.SetCursorPosition(StatsTableStart.Item1, StatsTableStart.Item2 + 3);
                 Console.Write(new string(' ', Console.WindowWidth - StatsTableStart.Item1));
                 Console.SetCursorPosition(StatsTableStart.Item1, StatsTableStart.Item2 + 3);
-                Console.Write($"Wisdom: {hero.Stats.Wisdom}");
+                Console.Write($"Wisdom: {_hero.Stats.Wisdom}");
                 Console.SetCursorPosition(StatsTableStart.Item1 + Tab, StatsTableStart.Item2 + 3);
-                Console.Write($"Aggresivness: {hero.Stats.Agressiveness}");
+                Console.Write($"Aggresivness: {_hero.Stats.Agressiveness}");
 
                 Console.SetCursorPosition(DefaultCursorPosition.Item1, DefaultCursorPosition.Item2);
             }
         }
 
-        public static void RenderHeroHands(Hero hero)
+        public void RenderHeroHands()
         {
             lock(ConsoleLock)
             {
@@ -183,21 +199,21 @@ namespace ConsoleApp1;
                 Console.Write(new string(' ', Console.WindowWidth - HandsTableStart.Item1));
                 Console.SetCursorPosition(HandsTableStart.Item1, HandsTableStart.Item2);
                 Console.Write("LH: ");
-                if (hero.Hands.LeftHand == null) Console.Write("...");
-                else Console.Write($"{hero.Hands.LeftHand.Name}");
+                if (_hero.Hands.LeftHand == null) Console.Write("...");
+                else Console.Write($"{_hero.Hands.LeftHand.Name}");
 
                 Console.SetCursorPosition(HandsTableStart.Item1, HandsTableStart.Item2 + 1);
                 Console.Write(new string(' ', Console.WindowWidth - HandsTableStart.Item1));
                 Console.SetCursorPosition(HandsTableStart.Item1, HandsTableStart.Item2 + 1);
                 Console.Write("RH: ");
-                if (hero.Hands.RightHand == null) Console.Write("...");
-                else Console.Write($"{hero.Hands.RightHand.Name}");
+                if (_hero.Hands.RightHand == null) Console.Write("...");
+                else Console.Write($"{_hero.Hands.RightHand.Name}");
 
                 Console.SetCursorPosition(DefaultCursorPosition.Item1, DefaultCursorPosition.Item2);
             }
         }
 
-        public static void RenderInfo(GameMap map, Hero hero)
+        public void RenderInfo()
         {
            lock(ConsoleLock)
             {
@@ -206,11 +222,11 @@ namespace ConsoleApp1;
 
                 Console.SetCursorPosition(Info.Item1, Info.Item2);
                 Console.Write("You are standing on: ");
-                if (map.map[hero.Position.Y, hero.Position.X] == null || map.map[hero.Position.Y, hero.Position.X].Count == 0)
+                if (_gameMap.map[_hero.Position.Y, _hero.Position.X] == null || _gameMap.map[_hero.Position.Y, _hero.Position.X].Count == 0)
                     Console.Write("nothing.");
                 else
                 {
-                    Console.Write(map.map[hero.Position.Y, hero.Position.X].Peek().Name);
+                    Console.Write(_gameMap.map[_hero.Position.Y, _hero.Position.X].Peek().Name);
                 }
                 Console.SetCursorPosition(DefaultCursorPosition.Item1, DefaultCursorPosition.Item2);
             }
@@ -243,18 +259,18 @@ namespace ConsoleApp1;
             }
         }
         
-        public static void RenderEnemies(GameMap gameMap, Hero hero)
+        public void RenderEnemies()
         {
             lock (ConsoleLock)
             {
                 for (int i = 0; i < GameMap.MapHeight; i++)
                 for (int j = 0; j < GameMap.MapWidth; j++)
                 {
-                    if (gameMap.enemies[i, j] != null)
+                    if (_gameMap.enemies[i, j] != null)
                     {
                         Console.SetCursorPosition(j, i);
-                        if(hero.Position.Y != i ||  hero.Position.X != j) 
-                            Console.Write(gameMap.enemies[i, j].Symbol);
+                        if(_hero.Position.Y != i ||  _hero.Position.X != j) 
+                            Console.Write(_gameMap.enemies[i, j].Symbol);
                     }
                     
                 }
@@ -308,143 +324,6 @@ namespace ConsoleApp1;
                 int centerY = Console.WindowHeight / 2;
                 Console.SetCursorPosition(centerX, centerY);
                 Console.Write("GAME OVER");
-            }
-        }
-        
-        //Rendering logs
-        private static readonly (int, int) LogsTableStart = (78, 10); 
-        private const int MaxVisibleLogLines = 6;
-        private static int _logScrollOffset = -1;
-
-        private static List<string> GetWrappedLines(List<string> logs)
-        {
-            int maxWidth = Console.WindowWidth - LogsTableStart.Item1 - 1;
-            if (maxWidth <= 0) return new List<string>();
-
-            List<string> wrappedLines = new List<string>();
-
-            foreach (var log in logs)
-            {
-                if (string.IsNullOrEmpty(log)) continue;
-
-                string[] words = log.Split(' ');
-                string currentLine = "";
-
-                foreach (var word in words)
-                {
-                    // Jeśli słowo + spacja nie mieszczą się w linii
-                    if ((currentLine + word).Length > maxWidth)
-                    {
-                        if (!string.IsNullOrEmpty(currentLine))
-                            wrappedLines.Add(currentLine.TrimEnd());
-
-                        // Jeśli samo słowo jest szersze niż cała kolumna (bardzo długie nazwy)
-                        string tempWord = word;
-                        while (tempWord.Length > maxWidth)
-                        {
-                            wrappedLines.Add(tempWord.Substring(0, maxWidth));
-                            tempWord = tempWord.Substring(maxWidth);
-                        }
-                        currentLine = tempWord + " ";
-                    }
-                    else
-                    {
-                        currentLine += word + " ";
-                    }
-                }
-                if (!string.IsNullOrEmpty(currentLine))
-                    wrappedLines.Add(currentLine.TrimEnd());
-            }
-            return wrappedLines;
-        }
-
-        public static void RenderRecentLogs(List<string> recentLogs)
-        {
-            _logScrollOffset = -1;
-            lock (ConsoleLock)
-            {
-                ClearLogArea();
-
-                List<string> linesToPrint = GetWrappedLines(recentLogs);
-        
-                Console.SetCursorPosition(LogsTableStart.Item1, LogsTableStart.Item2);
-                Console.Write("=== OSTATNIE ZDARZENIA ===");
-                Console.ResetColor();
-
-                int count = Math.Min(linesToPrint.Count, MaxVisibleLogLines - 1);
-                for (int i = 0; i < count; i++)
-                {
-                    Console.SetCursorPosition(LogsTableStart.Item1, LogsTableStart.Item2 + 1 + i);
-                    Console.Write(linesToPrint[i]);
-                }
-        
-                Console.SetCursorPosition(DefaultCursorPosition.Item1, DefaultCursorPosition.Item2);
-            }
-        }
-
-        public static void RenderAllLogs(List<string> allLogs)
-        {
-            lock (ConsoleLock)
-            {
-                if (_logScrollOffset == -1)
-                {
-                    _logScrollOffset = 0;
-                }
-
-                ClearLogArea();
-
-                List<string> allWrappedLines = GetWrappedLines(allLogs);
-
-                Console.SetCursorPosition(LogsTableStart.Item1, LogsTableStart.Item2);
-                Console.Write("=== PEŁNY DZIENNIK O<->L - scroll ===");
-
-                int startIndex = Math.Clamp(_logScrollOffset, 0, Math.Max(0, allWrappedLines.Count - (MaxVisibleLogLines - 1)));
-                int count = Math.Min(MaxVisibleLogLines - 1, allWrappedLines.Count - startIndex); 
-
-                for (int i = 0; i < count; i++)
-                {
-                    Console.SetCursorPosition(LogsTableStart.Item1, LogsTableStart.Item2 + 1 + i);
-                    Console.Write(allWrappedLines[startIndex + i]);
-                }
-
-                Console.SetCursorPosition(DefaultCursorPosition.Item1, DefaultCursorPosition.Item2);
-            }
-        }
-
-        public static void ScrollLogsUp()
-        {
-            EventLog eventLog = EventLog.GetEventLog();
-            List<string> allLogs = eventLog.GetAllLogs();
-    
-            if (_logScrollOffset > 0)
-            {
-                _logScrollOffset--;
-                RenderAllLogs(allLogs);
-            }
-        }
-
-        public static void ScrollLogsDown()
-        {
-            EventLog eventLog = EventLog.GetEventLog();
-            List<string> allLogs = eventLog.GetAllLogs();
-    
-            List<string> allWrappedLines = GetWrappedLines(allLogs);
-
-            if (_logScrollOffset < allWrappedLines.Count - (MaxVisibleLogLines - 1) && _logScrollOffset >= 0)
-            {
-                _logScrollOffset++;
-                RenderAllLogs(allLogs); 
-            }
-        }
-        
-
-        private static void ClearLogArea()
-        {
-            for (int i = 0; i < MaxVisibleLogLines; i++)
-            {
-                Console.SetCursorPosition(LogsTableStart.Item1, LogsTableStart.Item2 + i);
-                int spacesToClear = Math.Max(0, Console.WindowWidth - LogsTableStart.Item1 - 1);
-                Console.Write(new string(' ', spacesToClear));
             }
         }
     }

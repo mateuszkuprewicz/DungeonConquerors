@@ -37,25 +37,12 @@ public class EventLog
             string message = getMessage(logType.Value, context);
             SavingLogsStrategy.Save($"{DateTime.Now.ToString()} : {message}");
         }
-        
-        if (renderType)
-        {
-            Render.RenderAllLogs(GetAllLogs());
-        }
-        else
-        {
-            Render.RenderRecentLogs(GetAllLogs().Take(RecentLogsCount).ToList());
-        }
     }
     
-    public bool renderType = false; //false -> render recent logs, true -> render all logs
-
     public string GetSavePath()
     {
         return SavingLogsStrategy.SavePath;
     }
-
-    private static int RecentLogsCount = 3;
     
     private string getMessage(LogType logType, string[]? context = null)
     {

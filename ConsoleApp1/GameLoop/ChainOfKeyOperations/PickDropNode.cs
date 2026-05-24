@@ -3,8 +3,8 @@ namespace ConsoleApp1.ChainOfKeyOperations;
 
 public class PickDropNode : KeyNode
 {
-
-    public PickDropNode(Hero hero, GameMap map) : base(hero, map){}
+    private Render _render;
+    public PickDropNode(Hero hero, GameMap map, Render render) : base(hero, map){_render = render;}
     
     public override void HandleKey(ConsoleKey keyInfo)
     {
@@ -13,8 +13,8 @@ public class PickDropNode : KeyNode
             (int result, Item? item) = MyHero.Equipment.PickItem(MyHero.Position, Map);
             if(result == 1)
             {
-                Render.RenderInfo(Map, MyHero);
-                Render.RenderMenu(MyHero, Map);
+                _render.RenderInfo();
+                _render.RenderMenu();
                 
                 EventLog el = EventLog.GetEventLog();
                 el.Log(LogType.ItemPick, [item.Name]);
@@ -29,8 +29,8 @@ public class PickDropNode : KeyNode
         {
             if(MyHero.Equipment.DropItem(MyHero.Position, Map))
             {
-                Render.RenderInfo(Map, MyHero);
-                Render.RenderMenu(MyHero, Map);
+                _render.RenderInfo();
+                _render.RenderMenu();
             }
             else
             {

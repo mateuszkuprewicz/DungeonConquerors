@@ -3,8 +3,8 @@ namespace ConsoleApp1.ChainOfKeyOperations;
 
 public class WeaponEquipmentNode : KeyNode
 {
-
-    public WeaponEquipmentNode(Hero hero, GameMap map) : base(hero, map){}
+    private Render _render;
+    public WeaponEquipmentNode(Hero hero, GameMap map, Render render) : base(hero, map){_render = render;}
     
     public override void HandleKey(ConsoleKey keyInfo)
     {
@@ -13,9 +13,9 @@ public class WeaponEquipmentNode : KeyNode
             (bool succes, Item? item) = MyHero.Hands.EquipWeapon(MyHero);
             if (succes)
             {
-                Render.RenderHeroHands(MyHero);
-                Render.RenderEquipment(MyHero);
-                Render.RenderStats(MyHero);
+                _render.RenderHeroHands();
+                _render.RenderEquipment();
+                _render.RenderStats();
 
                 EventLog el = EventLog.GetEventLog();
                 el.Log(LogType.WeaponEquip, [item.Name]);
@@ -29,10 +29,10 @@ public class WeaponEquipmentNode : KeyNode
         {
             if (MyHero.Hands.UnequipWeapon(MyHero, Map))
             {
-                Render.RenderHeroHands(MyHero);
-                Render.RenderEquipment(MyHero);
-                Render.RenderInfo(Map, MyHero);
-                Render.RenderStats(MyHero);
+                _render.RenderHeroHands();
+                _render.RenderEquipment();
+                _render.RenderInfo();
+                _render.RenderStats();
             }
             else
             {

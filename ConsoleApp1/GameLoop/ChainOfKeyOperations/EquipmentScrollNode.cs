@@ -2,18 +2,19 @@
 
 public class EquipmentScrollNode : KeyNode
 {
-    public EquipmentScrollNode(Hero hero) : base(hero){}
+    Render _render;
+    public EquipmentScrollNode(Render render) => _render = render;
 
     public override void HandleKey(ConsoleKey keyInfo)
     {
         if (keyInfo == ConsoleKey.UpArrow)
         {
-            Render.EquipmentScroll(MyHero, ConsoleKey.UpArrow);
+            _render.EquipmentScroll(ConsoleKey.UpArrow);
             
         }
         else if (keyInfo == ConsoleKey.DownArrow)
         {
-            Render.EquipmentScroll(MyHero, ConsoleKey.DownArrow);
+            _render.EquipmentScroll(ConsoleKey.DownArrow);
         }
         else
         {

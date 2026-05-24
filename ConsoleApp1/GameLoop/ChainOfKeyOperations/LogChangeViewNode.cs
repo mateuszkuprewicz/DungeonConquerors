@@ -1,18 +1,30 @@
 ﻿using ConsoleApp1.Logger;
+using ConsoleApp1.View;
 
 namespace ConsoleApp1.ChainOfKeyOperations;
 
 public class LogChangeViewNode : KeyNode
 {
-    public LogChangeViewNode(){}
+    private LogRenderer _logRenderer;
+    private Render _render;
+    
+    public LogChangeViewNode(LogRenderer logRenderer, Render render)
+    {
+        _logRenderer = logRenderer;
+        _render = render;
+    }
 
     public override void HandleKey(ConsoleKey keyInfo)
     {
         if (keyInfo == ConsoleKey.J)
         {
-            EventLog eventLog = EventLog.GetEventLog();
-            eventLog.renderType = !eventLog.renderType;
-            eventLog.Log();
+            if(!_logRenderer.IsRenderingAllLogs)_logRenderer.RenderAll();
+            else
+            {
+                _render.RenderAll();
+                _logRenderer.IsRenderingAllLogs = false;
+                
+            }
         }
         else
         { 
