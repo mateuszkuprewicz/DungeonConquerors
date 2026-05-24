@@ -1,6 +1,6 @@
 ﻿namespace ConsoleApp1.ChainOfKeyOperations;
 
-public class Sentinel : KeyNode
+public class Sentinel : AbstractKeyNode
 {
     public Sentinel(){}
 

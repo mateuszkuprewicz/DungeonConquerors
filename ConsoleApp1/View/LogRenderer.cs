@@ -24,7 +24,7 @@ public class LogRenderer
     {
         List<string> logFileContent = LogSource.GetAllLogs().ToList();
         
-        List<string> recentLogs = logFileContent.TakeLast(LastLogsNum).ToList();
+        List<string> recentLogs = logFileContent.Take(LastLogsNum).ToList();
         
         lock (_renderLock)
         {
@@ -66,7 +66,6 @@ public class LogRenderer
                 Console.SetCursorPosition(1, h);
                 Console.WriteLine(log);
                 h++;
-                
             }
             
         }

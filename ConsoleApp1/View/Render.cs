@@ -29,6 +29,7 @@ namespace ConsoleApp1;
 
         public void RenderAll()
         {
+            Console.Clear();
             RenderMap();
             RenderMenu();
             RenderEnemies();

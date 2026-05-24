@@ -1,16 +1,19 @@
 ﻿using ConsoleApp1.Logger;
+using ConsoleApp1.View;
+
 namespace ConsoleApp1.ChainOfKeyOperations;
 
-public class PickDropNode : KeyNode
+public class PickDropNode : AbstractKeyNode
 {
     private Render _render;
-    public PickDropNode(Hero hero, GameMap map, Render render) : base(hero, map){_render = render;}
+    private GameMap _map;
+    public PickDropNode(Hero hero, GameMap map, Render render) : base(hero) => (_render, _map) = (render, map);
     
     public override void HandleKey(ConsoleKey keyInfo)
     {
-        if (keyInfo == ConsoleKey.E)
+        if (keyInfo == KeyConsts.PickItem.key)
         {
-            (int result, Item? item) = MyHero.Equipment.PickItem(MyHero.Position, Map);
+            (int result, Item? item) = Hero.Equipment.PickItem(Hero.Position, _map);
             if(result == 1)
             {
                 _render.RenderInfo();
@@ -25,9 +28,9 @@ public class PickDropNode : KeyNode
                 Render.RenderAnnouncement("Full inventory! Max number of items is 10.");
             }
         }
-        else if (keyInfo == ConsoleKey.Q)
+        else if (keyInfo == KeyConsts.DropItem.key)
         {
-            if(MyHero.Equipment.DropItem(MyHero.Position, Map))
+            if(Hero.Equipment.DropItem(Hero.Position, _map))
             {
                 _render.RenderInfo();
                 _render.RenderMenu();

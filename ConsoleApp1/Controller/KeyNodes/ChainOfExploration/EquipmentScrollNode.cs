@@ -1,6 +1,8 @@
-﻿namespace ConsoleApp1.ChainOfKeyOperations;
+﻿using ConsoleApp1.View;
 
-public class EquipmentScrollNode : KeyNode
+namespace ConsoleApp1.ChainOfKeyOperations;
+
+public class EquipmentScrollNode : AbstractKeyNode
 {
     Render _render;
     public EquipmentScrollNode(Render render) => _render = render;
@@ -9,12 +11,12 @@ public class EquipmentScrollNode : KeyNode
     {
         if (keyInfo == ConsoleKey.UpArrow)
         {
-            _render.EquipmentScroll(ConsoleKey.UpArrow);
+            _render.EquipmentScroll(KeyConsts.ScrollUp.key);
             
         }
         else if (keyInfo == ConsoleKey.DownArrow)
         {
-            _render.EquipmentScroll(ConsoleKey.DownArrow);
+            _render.EquipmentScroll(KeyConsts.ScrollDown.key);
         }
         else
         {

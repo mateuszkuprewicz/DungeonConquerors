@@ -2,7 +2,9 @@
 using ConsoleApp1.ChainOfKeyOperations;
 using ConsoleApp1.ConfigurationFile;
 using ConsoleApp1.Dungeon_Themes;
+using ConsoleApp1.GameState;
 using ConsoleApp1.Logger;
+using ConsoleApp1.LoopState;
 using ConsoleApp1.SoundPropagation.SoundMediation;
 using ConsoleApp1.View;
 
@@ -13,7 +15,7 @@ namespace ConsoleApp1
         static void Main(string[] args)
         {
             //"config.json", initializing logger
-            ConfigManager configManager = new ConfigManager(Path.Combine(Environment.CurrentDirectory, "ConfigurationFile", "config.json"));
+            ConfigManager configManager = new ConfigManager(Path.Combine(Environment.CurrentDirectory, "Infrastructure", "ConfigurationFile", "config.json"));
             var heroName = configManager.GetHeroName();
             var logFilePath = configManager.GetLogPath();
             string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
@@ -31,7 +33,8 @@ namespace ConsoleApp1
             MapDirector mapDirector = new MapDirector(builder, dungeonTheme);
             mapDirector.CreateDungeon();
             
-            InstructionBuilder instructionBuilder = new InstructionBuilder(myHero, map);
+            InstructionRender instructionRender = new InstructionRender();
+            InstructionBuilder instructionBuilder = new InstructionBuilder(myHero, map, instructionRender);
             
             Render render = new Render(myHero, map);
             render.RenderAll();
@@ -39,46 +42,21 @@ namespace ConsoleApp1
             
             //initializing game loop 
             ConsoleKeyInfo key;
-            KeyNode move = new MoveNode(myHero, map, render);
-            KeyNode pick = new PickDropNode(myHero, map, render);
-            KeyNode weaponEquip = new WeaponEquipmentNode(myHero, map, render);
-            KeyNode  scroll = new EquipmentScrollNode(render);
-            KeyNode fight = new FightNode(myHero, map, render);
-            KeyNode log = new LogChangeViewNode(log_render, render);
-            KeyNode sentinel = new Sentinel();
-            move.SetNextHandler(pick);
-            pick.SetNextHandler(weaponEquip);
-            weaponEquip.SetNextHandler(scroll);
-            scroll.SetNextHandler(fight);
-            fight.SetNextHandler(log);
-            log.SetNextHandler(sentinel);
+            GameStateContext stateContext = new GameStateContext(map, myHero, render, log_render); 
+            
             while (true)
             {
                 instructionBuilder.PrintInstructionInGameLoop();
+                
                 key = Console.ReadKey(true);
-                move.HandleKey(key.Key);
+                stateContext.HandleInput(key.Key);
                 
                 //Enemies Move
-                var enemiesToMove = new HashSet<Enemy>();
-                foreach (var enemy in map.enemies)
-                {
-                    if (enemy != null)
-                    {
-                        enemiesToMove.Add(enemy);
-                    }
-                }
-                
-                foreach (var enemy in enemiesToMove)
-                {
-                    enemy.Move();
-                }
+                stateContext.Update();
                 
                 //corect render
-                render.RenderMap();
-                render.RenderEnemies();
-
-                if (log_render.IsRenderingAllLogs) log_render.RenderAll();
-                else log_render.RenderLast();
+                stateContext.Render();
+                
             }
         }
     }

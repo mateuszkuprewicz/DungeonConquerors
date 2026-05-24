@@ -21,10 +21,13 @@
     <None Update="ConfigurationFile\config.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Infrastructure\ConfigurationFile\config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Enemies\Species\" />
+    <Folder Include="Infrastructure\" />
   </ItemGroup>
 
 </Project>

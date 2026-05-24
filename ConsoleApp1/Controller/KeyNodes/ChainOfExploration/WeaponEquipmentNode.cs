@@ -1,16 +1,19 @@
 ﻿using ConsoleApp1.Logger;
+using ConsoleApp1.View;
+
 namespace ConsoleApp1.ChainOfKeyOperations;
 
-public class WeaponEquipmentNode : KeyNode
+public class WeaponEquipmentNode : AbstractKeyNode
 {
     private Render _render;
-    public WeaponEquipmentNode(Hero hero, GameMap map, Render render) : base(hero, map){_render = render;}
+    private GameMap _map;
+    public WeaponEquipmentNode(Hero hero, GameMap map, Render render) : base(hero) => (_render, _map)  = (render, map);
     
     public override void HandleKey(ConsoleKey keyInfo)
     {
-        if (keyInfo == ConsoleKey.F)
+        if (keyInfo == KeyConsts.EquipWeapon.key)
         {
-            (bool succes, Item? item) = MyHero.Hands.EquipWeapon(MyHero);
+            (bool succes, Item? item) = Hero.Hands.EquipWeapon(Hero);
             if (succes)
             {
                 _render.RenderHeroHands();
@@ -25,9 +28,9 @@ public class WeaponEquipmentNode : KeyNode
                 Render.RenderAnnouncement("Cannot wear this now!");
             }
         }
-        else if (keyInfo == ConsoleKey.R)
+        else if (keyInfo == KeyConsts.UnequipWeapon.key)
         {
-            if (MyHero.Hands.UnequipWeapon(MyHero, Map))
+            if (Hero.Hands.UnequipWeapon(Hero, _map))
             {
                 _render.RenderHeroHands();
                 _render.RenderEquipment();

@@ -1,22 +1,25 @@
 ﻿using ConsoleApp1.FightLoop.Visitor.AttackTypesVisitor;
+using ConsoleApp1.View;
 
-namespace ConsoleApp1.FightLoop.ChainOfKeyOperations;
+namespace ConsoleApp1.ChainOfKeyOperations;
 using ConsoleApp1.Logger;
 
-public class HitNode : KeyNode
+public class HitNode : AbstractKeyNode
 {
     private Render _render;
-    public HitNode(Hero hero, Enemy enemy, CancellationTokenSource cts, Render render) : 
-        base(hero, enemy, cts) {_render = render;}
+    private Enemy _enemy;
+
+    public HitNode(Hero hero, Enemy enemy, Render render) :
+        base(hero) => (_render, _enemy) = (render, enemy);
 
     public override void HandleKey(ConsoleKey keyInfo)
     {
-        var instruction = new InstructionBuilder(Hero);
-        if (keyInfo == ConsoleKey.H)
+        if (keyInfo == KeyConsts.Hit.key)
         {
             while (true)
             {
-                instruction.PrintAttackInstruction();
+                InstructionRender instructionRender = new InstructionRender();
+                instructionRender.PrintAttackInstruction();
                 var attackType = Console.ReadKey(true);
 
                 IAttackVisitor? visitor = attackType.Key switch
@@ -36,36 +39,35 @@ public class HitNode : KeyNode
                 int damage = CalculateTotal(visitor, true);
                 int defence = CalculateTotal(visitor, false);
 
-                Enemy.ReceiveDamage(damage);
+                _enemy.ReceiveDamage(damage);
                 EventLog el = EventLog.GetEventLog();
-                el.Log(LogType.HeroHits, [Enemy.Name, damage.ToString()]);
+                el.Log(LogType.HeroHits, [_enemy.Name, damage.ToString()]);
                 
-                int damageNetto = Enemy.Damage - defence;
+                int damageNetto = _enemy.Damage - defence;
                 damageNetto = damageNetto > 0 ? damageNetto : 0;
                 Hero.Stats.Health -= damageNetto;
-                el.Log(LogType.EnemyHits, [Enemy.Name, damageNetto.ToString()]);
+                el.Log(LogType.EnemyHits, [_enemy.Name, damageNetto.ToString()]);
                 break;
             }
 
-            Render.RenderEnemyStats(Enemy);
+            Render.RenderEnemyStats(_enemy);
             _render.RenderStats();
             if (Hero.Stats.Health <= 0)
             {
                 Render.RenderGameOver();
-                _cts.Cancel();
                 
                 EventLog el =  EventLog.GetEventLog();
-                el.Log(LogType.DefeatedHero, [Enemy.Name]);
-                return;
+                el.Log(LogType.DefeatedHero, [_enemy.Name]);
+                Environment.Exit(0);
+                //return;
             }
-            else if(Enemy.Hp <= 0)
+            else if(_enemy.Hp <= 0)
             {
-                Enemy.Die();
-                _cts.Cancel();
+                _enemy.Die();
                 Render.RenderAnnouncement("Enemy defeated");
                 
                 EventLog el =  EventLog.GetEventLog();
-                el.Log(LogType.DefeatedEnemy, [Enemy.Name]);
+                el.Log(LogType.DefeatedEnemy, [_enemy.Name]);
             }
             return;
         }
