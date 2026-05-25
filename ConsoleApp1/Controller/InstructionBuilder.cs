@@ -1,6 +1,7 @@
 ﻿namespace ConsoleApp1;
 using ConsoleApp1.Items.Weapon;
 using ConsoleApp1.View;
+using ConsoleApp1.Shared;
 
 internal class InstructionBuilder
 {
@@ -21,9 +22,9 @@ internal class InstructionBuilder
     {
         int posX = MyHero.Position.X;
         int posY = MyHero.Position.Y;
-        if ((posX + 1 >=GameMap.MapWidth || Map.map[posY, posX+1] == null) && 
+        if ((posX + 1 >=ModelConsts.MapWidth || Map.map[posY, posX+1] == null) && 
             (posX == 0 || Map.map[posY, posX-1] == null) && 
-            (posY + 1 >= GameMap.MapHeight || Map.map[posY +1, posX] == null) &&
+            (posY + 1 >= ModelConsts.MapHeight || Map.map[posY +1, posX] == null) &&
              (posY == 0 || Map.map[posY - 1, posX] == null))
         {
             return false;

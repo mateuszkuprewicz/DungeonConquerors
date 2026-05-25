@@ -2,7 +2,7 @@
 
 namespace ConsoleApp1.ChainOfKeyOperations;
 using ConsoleApp1.Logger;
-
+using ConsoleApp1.Shared;
 
 public class LeaveNode : AbstractKeyNode
 {
@@ -35,7 +35,7 @@ public class LeaveNode : AbstractKeyNode
             }
             else
             {
-                if(Hero.Position.Y + 1 < GameMap.MapHeight && _map.map[Hero.Position.Y + 1, Hero.Position.X] != null && _map.enemies[Hero.Position.Y + 1, Hero.Position.X] == null)
+                if(Hero.Position.Y + 1 < ModelConsts.MapHeight && _map.map[Hero.Position.Y + 1, Hero.Position.X] != null && _map.enemies[Hero.Position.Y + 1, Hero.Position.X] == null)
                 {
                     Hero.Move(Direction.Down, _map);
                     Render.RenderAnnouncement("You run from the fight");
@@ -48,7 +48,7 @@ public class LeaveNode : AbstractKeyNode
                     _render.ActualiseAfterHeroMove((Hero.Position.X, Hero.Position.Y + 1));
                     
                 }
-                else if(Hero.Position.X + 1 < GameMap.MapWidth && _map.map[Hero.Position.Y, Hero.Position.X + 1] != null && _map.enemies[Hero.Position.Y, Hero.Position.X + 1] == null)
+                else if(Hero.Position.X + 1 < ModelConsts.MapWidth && _map.map[Hero.Position.Y, Hero.Position.X + 1] != null && _map.enemies[Hero.Position.Y, Hero.Position.X + 1] == null)
                 {
                     Hero.Move(Direction.Right, _map);
                     Render.RenderAnnouncement("You run from the fight");

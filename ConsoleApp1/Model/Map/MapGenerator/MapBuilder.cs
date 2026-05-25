@@ -1,5 +1,5 @@
 ﻿using ConsoleApp1.SoundPropagation.SoundMediation;
-
+using ConsoleApp1.Shared;
 namespace ConsoleApp1;
 
 public class MapBuilder
@@ -17,19 +17,19 @@ public class MapBuilder
     
     public void GenerateEmptyDungeon()
     {
-        for (int i = 0; i < GameMap.MapHeight; i++)
-            for (int j = 0; j < GameMap.MapWidth; j++)
+        for (int i = 0; i < ModelConsts.MapHeight; i++)
+            for (int j = 0; j < ModelConsts.MapWidth; j++)
             {
                 Map.map[i, j] = new Stack<Item>();
             }
         Map.map[0, 0] = new Stack<Item>();
-        Map.ExistingFiels = GameMap.MapHeight * GameMap.MapWidth;
+        Map.ExistingFiels = ModelConsts.MapHeight * ModelConsts.MapWidth;
     }
 
     public void GenerateFullDungeon()
     {
-        for (int i = 0; i < GameMap.MapHeight; i++)
-        for (int j = 0; j < GameMap.MapWidth; j++)
+        for (int i = 0; i < ModelConsts.MapHeight; i++)
+        for (int j = 0; j < ModelConsts.MapWidth; j++)
         {
             Map.map[i, j] = null;
         }
@@ -43,8 +43,8 @@ public class MapBuilder
         int position;
         if (vertical)
         {
-            position = _rnd.Next(GameMap.MapWidth);
-            for (int i = 0; i < GameMap.MapHeight; i++)
+            position = _rnd.Next(ModelConsts.MapWidth);
+            for (int i = 0; i < ModelConsts.MapHeight; i++)
             {
                 if (Map.map[i, position] == null)
                 {
@@ -55,8 +55,8 @@ public class MapBuilder
         }
         else
         {
-            position = _rnd.Next(GameMap.MapHeight);
-            for (int i = 0; i < GameMap.MapWidth; i++)
+            position = _rnd.Next(ModelConsts.MapHeight);
+            for (int i = 0; i < ModelConsts.MapWidth; i++)
             {
                 if (Map.map[position, i] == null)
                 {
@@ -72,8 +72,8 @@ public class MapBuilder
     public void AddChamber()
     {
         int x, y;
-        x = _rnd.Next(GameMap.MapWidth - ChamberSize);
-        y = _rnd.Next(GameMap.MapHeight - ChamberSize);
+        x = _rnd.Next(ModelConsts.MapWidth - ChamberSize);
+        y = _rnd.Next(ModelConsts.MapHeight - ChamberSize);
         
         for(int i = 0; i < ChamberSize; i++)
         for (int j = 0; j < ChamberSize; j++)
@@ -90,8 +90,8 @@ public class MapBuilder
     public void AddCentralRoom()
     {
         int x, y;
-        y = (GameMap.MapHeight - CentralRoomSize)/2;
-        x = (GameMap.MapWidth - CentralRoomSize)/2;
+        y = (ModelConsts.MapHeight - CentralRoomSize)/2;
+        x = (ModelConsts.MapWidth - CentralRoomSize)/2;
         
         for(int i = 0; i < CentralRoomSize; i++)
         for (int j = 0; j < CentralRoomSize; j++)
@@ -111,8 +111,8 @@ public class MapBuilder
         
         int itemField = _rnd.Next(Map.ExistingFiels);
         int existingFieldsCount = 0;
-        for(int i =  0; i < GameMap.MapHeight && !leave; i++)
-        for (int j = 0; j < GameMap.MapWidth; j++)
+        for(int i =  0; i < ModelConsts.MapHeight && !leave; i++)
+        for (int j = 0; j < ModelConsts.MapWidth; j++)
         {
             if (Map.map[i, j] != null)
             {
@@ -133,8 +133,8 @@ public class MapBuilder
         int enemy_name_index = _rnd.Next(Enemies.Length);
         int ExistingFieldsCount = 0;
         int EnemyLocalisation =  _rnd.Next(Map.ExistingFiels);
-        for(int h = 0; h < GameMap.MapHeight; h++)
-        for (int w = 0; w < GameMap.MapWidth; w++)
+        for(int h = 0; h < ModelConsts.MapHeight; h++)
+        for (int w = 0; w < ModelConsts.MapWidth; w++)
         {
             if (Map.map[h, w] != null)
             {

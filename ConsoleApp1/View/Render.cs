@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using ConsoleApp1.Logger;
+﻿using ConsoleApp1.Shared;
 
 namespace ConsoleApp1;
     public class Render
@@ -283,8 +280,8 @@ namespace ConsoleApp1;
         {
             lock (ConsoleLock)
             {
-                for (int i = 0; i < GameMap.MapHeight; i++)
-                for (int j = 0; j < GameMap.MapWidth; j++)
+                for (int i = 0; i < ModelConsts.MapHeight; i++)
+                for (int j = 0; j < ModelConsts.MapWidth; j++)
                 {
                     if (_gameMap.enemies[i, j] != null)
                     {

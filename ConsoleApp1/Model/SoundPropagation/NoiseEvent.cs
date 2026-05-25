@@ -1,4 +1,5 @@
 ﻿namespace ConsoleApp1.SoundPropagation;
+using ConsoleApp1.Shared;
 
 public class NoiseEvent
 {
@@ -55,7 +56,7 @@ public class NoiseEvent
                 int nextY = pos.Y + dir.dY;
                 var nextPos = (nextX, nextY);
 
-                if (nextX >= 0 && nextX < GameMap.MapWidth && nextY >= 0 && nextY < GameMap.MapHeight)
+                if (nextX >= 0 && nextX < ModelConsts.MapWidth && nextY >= 0 && nextY < ModelConsts.MapHeight)
                 {
                     if (map.map[nextY, nextX] != null) 
                     {

@@ -1,4 +1,5 @@
 ﻿namespace ConsoleApp1.MovingAI;
+using ConsoleApp1.Shared;
 
 public class RandomMoving : AbstractMovingState
 {
@@ -7,9 +8,9 @@ public class RandomMoving : AbstractMovingState
         (int x, int y) = _enemy.Position;
         List<(int, int)> potentialPositions = new List<(int, int)>();
         potentialPositions.Add((x,y));
-        if(x < GameMap.MapWidth - 1 && _map.map[y, x + 1]!=null)potentialPositions.Add((x + 1, y));
+        if(x < ModelConsts.MapWidth - 1 && _map.map[y, x + 1]!=null)potentialPositions.Add((x + 1, y));
         if(x > 0 && _map.map[y, x - 1]!=null)potentialPositions.Add((x - 1, y));
-        if(y < GameMap.MapHeight - 1 && _map.map[y + 1, x]!=null)potentialPositions.Add((x, y + 1));
+        if(y < ModelConsts.MapHeight - 1 && _map.map[y + 1, x]!=null)potentialPositions.Add((x, y + 1));
         if(y > 0 && _map.map[y - 1, x]!=null)potentialPositions.Add((x, y - 1));
         var rnd = new Random(DateTime.Now.Millisecond);
         int index = rnd.Next(potentialPositions.Count);

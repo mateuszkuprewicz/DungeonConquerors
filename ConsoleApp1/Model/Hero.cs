@@ -1,5 +1,6 @@
 ﻿using ConsoleApp1.Items.Weapon;
 using ConsoleApp1.SoundPropagation.SoundMediation;
+using ConsoleApp1.Shared;
 
 namespace ConsoleApp1
 {
@@ -48,8 +49,8 @@ namespace ConsoleApp1
         }
         private static bool IsPositionValid((int X, int Y) position, GameMap gameMap)
         {
-            if (position.X < 0 || position.X >= GameMap.MapWidth) return false;
-            if (position.Y < 0 || position.Y >= GameMap.MapHeight) return false;
+            if (position.X < 0 || position.X >= ModelConsts.MapWidth) return false;
+            if (position.Y < 0 || position.Y >= ModelConsts.MapHeight) return false;
             if (gameMap.map[position.Y, position.X] == null) return false;
             return true;
         }
