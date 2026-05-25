@@ -2,5 +2,6 @@
 
 public class ShallowItem
 {
-    
+    public char Symbol { get; set; }
+    public string Name { get; set; }
 }

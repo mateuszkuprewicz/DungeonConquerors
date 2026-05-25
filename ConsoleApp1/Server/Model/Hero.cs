@@ -102,7 +102,6 @@ namespace ConsoleApp1
 
     public class HerosEquipment
     {
-        public readonly int MaxEquipment = 10;
         public int Coins { get; set; }
         public int Gold { get; set; }
         private Hero hero;
@@ -115,7 +114,7 @@ namespace ConsoleApp1
         {
             if (gameMap.map[position.Y, position.X].Count() == 0)
                 return (0, null);
-            if(EquipmentList.Count >= MaxEquipment)
+            if(EquipmentList.Count >= ModelConsts.MaxEquipment)
                 return (-1, null);
             var item = gameMap.map[position.Y, position.X].Pop();
             item.OnPickup(this);
@@ -180,7 +179,7 @@ namespace ConsoleApp1
                 return false;
             if(item.Unwear(hero))
             {
-                if(hero.Equipment.EquipmentList.Count >= hero.Equipment.MaxEquipment)
+                if(hero.Equipment.EquipmentList.Count >= ModelConsts.MaxEquipment)
                 {
                     map.map[hero.Position.Y, hero.Position.X].Push(item);
                 }

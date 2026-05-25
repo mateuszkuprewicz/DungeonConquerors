@@ -69,3 +69,14 @@ public class NewClient
     public int X{get;set;}
     public int Y{get;set;}
 }
+
+public class SoundPropogation
+{
+    public List<int> Enemies;
+    public List<int> Heros;
+}
+
+public class RequestRejected
+{
+    public required string Text { get; set; }
+}

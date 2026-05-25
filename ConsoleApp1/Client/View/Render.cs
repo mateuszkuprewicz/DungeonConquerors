@@ -1,4 +1,5 @@
 ﻿using ConsoleApp1.Shared;
+using ConsoleApp1.Shared.ShallowModel;
 
 namespace ConsoleApp1;
     public class Render
@@ -15,10 +16,10 @@ namespace ConsoleApp1;
         public static readonly (int, int) DefaultCursorPosition = (0, 26);
         public static readonly (int, int) Instruction = (0, 21);
 
-        private Hero _hero; 
-        private GameMap _gameMap;
+        private ShallowHero _hero; 
+        private ShallowMap _gameMap;
 
-        public Render(Hero hero, GameMap map)
+        public Render(ShallowHero hero, ShallowMap map)
         {
             _hero = hero;
             _gameMap = map;
@@ -39,11 +40,11 @@ namespace ConsoleApp1;
             {
                 for (int j = 0; j < 40; j++)
                 {
-                    if (_gameMap.map[i, j] != null)
+                    if (_gameMap.TyleTypes[i][j] == TyleType.Normal)
                     {
-                        if (_gameMap.map[i, j].Count() == 0)
+                        if (_gameMap.Map[i][j] == null)
                             Console.Write(" ");
-                        else Console.Write(_gameMap.map[i, j].Peek().Symbol);
+                        else Console.Write(_gameMap.Map[i][j].Symbol);
                     }
                     else
                         Console.Write("█");
@@ -51,7 +52,7 @@ namespace ConsoleApp1;
                 Console.WriteLine();
             }
 
-            Console.SetCursorPosition(_hero.Position.X, _hero.Position.Y);
+            Console.SetCursorPosition(_hero.Pos.X, _hero.Pos.Y);
             Console.Write("H");
             Console.SetCursorPosition(DefaultCursorPosition.Item1, DefaultCursorPosition.Item2);
         }
@@ -70,29 +71,29 @@ namespace ConsoleApp1;
             {
                 (int X, int Y) = previousPosition;
                 Console.SetCursorPosition(X, Y);
-                if(_gameMap.enemies[Y, X] != null)
+                if(_gameMap.Enemies[Y][X] != null)
                     Console.Write("E");
-                else if (_gameMap.map[Y, X].Count() == 0)
+                else if (_gameMap.Map[Y][X] == null)
                     Console.Write(" ");
-                else Console.Write(_gameMap.map[Y, X].Peek().Symbol);
+                else Console.Write(_gameMap.Map[Y][X]!.Symbol);
                 
-                Console.SetCursorPosition(_hero.Position.X, _hero.Position.Y);
+                Console.SetCursorPosition(_hero.Pos.X, _hero.Pos.Y);
                 Console.Write("H");
                 Console.SetCursorPosition(DefaultCursorPosition.Item1, DefaultCursorPosition.Item2);
             }
         }
         
-        public void ActualiseAfterEnemyMove((int X, int Y) previousPosition, Enemy enemy)
+        public void ActualiseAfterEnemyMove((int X, int Y) previousPosition, ShallowEnemy enemy)
         {
             lock (ConsoleLock)
             {
                 (int X, int Y) = previousPosition;
                 Console.SetCursorPosition(X, Y);
-                if (_gameMap.map[Y, X].Count() == 0)
+                if (_gameMap.Map[Y][X] == null)
                     Console.Write(" ");
-                else Console.Write(_gameMap.map[Y, X].Peek().Symbol);
+                else Console.Write(_gameMap.Map[Y][X]!.Symbol);
                 
-                Console.SetCursorPosition(enemy.Position.X, enemy.Position.Y);
+                Console.SetCursorPosition(enemy.Pos.X, enemy.Pos.Y);
                 Console.Write("E");
                 Console.SetCursorPosition(DefaultCursorPosition.Item1, DefaultCursorPosition.Item2);
             }
@@ -164,7 +165,7 @@ namespace ConsoleApp1;
                 {
                     PrintNthEquipmentLine(i);
                 }
-                for(int i = _hero.Equipment.EquipmentList.Count; i < _hero.Equipment.MaxEquipment; i++)
+                for(int i = _hero.Equipment.EquipmentList.Count; i < ModelConsts.MaxEquipment; i++)
                 {
                     Console.SetCursorPosition(EquipmentTableStart.Item1 - 1, EquipmentTableStart.Item2 + 4 + i);
                     Console.Write(new string(' ', Console.WindowWidth - EquipmentTableStart.Item1 + 1));
@@ -239,11 +240,11 @@ namespace ConsoleApp1;
 
                 Console.SetCursorPosition(Info.Item1, Info.Item2);
                 Console.Write("You are standing on: ");
-                if (_gameMap.map[_hero.Position.Y, _hero.Position.X] == null || _gameMap.map[_hero.Position.Y, _hero.Position.X].Count == 0)
+                if (_gameMap.Map[_hero.Pos.Y][_hero.Pos.X] == null)
                     Console.Write("nothing.");
                 else
                 {
-                    Console.Write(_gameMap.map[_hero.Position.Y, _hero.Position.X].Peek().Name);
+                    Console.Write(_gameMap.Map[_hero.Pos.Y][_hero.Pos.X]!.Name);
                 }
                 Console.SetCursorPosition(DefaultCursorPosition.Item1, DefaultCursorPosition.Item2);
             }
@@ -283,11 +284,11 @@ namespace ConsoleApp1;
                 for (int i = 0; i < ModelConsts.MapHeight; i++)
                 for (int j = 0; j < ModelConsts.MapWidth; j++)
                 {
-                    if (_gameMap.enemies[i, j] != null)
+                    if (_gameMap.Enemies[i][j] != null)
                     {
                         Console.SetCursorPosition(j, i);
-                        if(_hero.Position.Y != i ||  _hero.Position.X != j) 
-                            Console.Write(_gameMap.enemies[i, j].Symbol);
+                        if(_hero.Pos.Y != i ||  _hero.Pos.X != j) 
+                            Console.Write(_gameMap.Enemies[i][j].Symbol);
                     }
                     
                 }

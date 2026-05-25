@@ -4,7 +4,6 @@ public class ShallowAnotherHero
 {
     public int ID { get; set; }
     public char Name { get; init; }
-    public int X { get; set; }
-    public int Y { get; set; }
+    public Position Pos { get; set; }
     
 }
