@@ -58,6 +58,7 @@ public class HitNode : AbstractKeyNode
                 
                 EventLog el =  EventLog.GetEventLog();
                 el.Log(LogType.DefeatedHero, [_enemy.Name]);
+                Thread.Sleep(1000);
                 Environment.Exit(0);
                 //return;
             }

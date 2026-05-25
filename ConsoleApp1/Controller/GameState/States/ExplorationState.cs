@@ -48,7 +48,7 @@ public class ExplorationState : IGameState
         Enemy? my_enemy = _map.enemies[_hero.Position.Y, _hero.Position.X]; 
         if (my_enemy != null)
         {
-            _stateContext.GameState = new CombatState(_hero, _map, _map.enemies[_hero.Position.Y, _hero.Position.X], _render, _logRenderer, _stateContext);
+            _stateContext.GameState = new CombatState(_hero, _map, my_enemy, _render, _logRenderer, _stateContext);
             ConsoleApp1.Render.RenderAnnouncement("You are in a figtht!");
         }
         
@@ -57,16 +57,20 @@ public class ExplorationState : IGameState
         {
             if (enemy != null && enemy!=my_enemy) enemies.Add(enemy);
         }
-        
-        foreach(var enemy in enemies)
+
+        foreach (var enemy in enemies)
+        {
+            (int X, int Y) prev_pos = (enemy.Position.X, enemy.Position.Y);
             enemy.Move();
+            _render.ActualiseAfterEnemyMove(prev_pos, enemy);
+        }
     }
 
     public void Render()
     {
+        //_render.RenderMap();
+        //_render.RenderEnemies();
         if (_logRenderer.IsRenderingAllLogs) _logRenderer.RenderAll();
         else _logRenderer.RenderLast();
-        _render.RenderMap();
-        _render.RenderEnemies();
     }
 }

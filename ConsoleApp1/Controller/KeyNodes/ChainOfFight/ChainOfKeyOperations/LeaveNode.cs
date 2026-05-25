@@ -1,6 +1,8 @@
 ﻿using ConsoleApp1.View;
 
 namespace ConsoleApp1.ChainOfKeyOperations;
+using ConsoleApp1.Logger;
+
 
 public class LeaveNode : AbstractKeyNode
 {
@@ -25,6 +27,11 @@ public class LeaveNode : AbstractKeyNode
             if (Hero.Stats.Health <= 0)
             {
                 Render.RenderGameOver();
+                
+                EventLog el =  EventLog.GetEventLog();
+                el.Log(LogType.DefeatedHero, [_enemy.Name]);
+                Thread.Sleep(1000);
+                Environment.Exit(0);
             }
             else
             {
@@ -32,21 +39,26 @@ public class LeaveNode : AbstractKeyNode
                 {
                     Hero.Move(Direction.Down, _map);
                     Render.RenderAnnouncement("You run from the fight");
+                    _render.ActualiseAfterHeroMove((Hero.Position.X, Hero.Position.Y - 1));
                 }
                 else if(Hero.Position.Y - 1 >= 0 && _map.map[Hero.Position.Y - 1, Hero.Position.X] != null && _map.enemies[Hero.Position.Y - 1, Hero.Position.X] == null)
                 {
                     Hero.Move(Direction.Up, _map);
                     Render.RenderAnnouncement("You run from the fight");
+                    _render.ActualiseAfterHeroMove((Hero.Position.X, Hero.Position.Y + 1));
+                    
                 }
                 else if(Hero.Position.X + 1 < GameMap.MapWidth && _map.map[Hero.Position.Y, Hero.Position.X + 1] != null && _map.enemies[Hero.Position.Y, Hero.Position.X + 1] == null)
                 {
                     Hero.Move(Direction.Right, _map);
                     Render.RenderAnnouncement("You run from the fight");
+                    _render.ActualiseAfterHeroMove((Hero.Position.X - 1, Hero.Position.Y));
                 }
                 else if(Hero.Position.X - 1 >= 0 && _map.map[Hero.Position.Y, Hero.Position.X - 1] != null && _map.enemies[Hero.Position.Y, Hero.Position.X - 1] == null)
                 {
                     Hero.Move(Direction.Left, _map);
                     Render.RenderAnnouncement("You run from the fight");
+                    _render.ActualiseAfterHeroMove((Hero.Position.X + 1, Hero.Position.Y));
                 }
                 else
                 {

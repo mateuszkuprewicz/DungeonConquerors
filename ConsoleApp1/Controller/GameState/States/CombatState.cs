@@ -41,6 +41,8 @@ public class CombatState : IGameState
 
     public void Render()
     {
+        //_render.RenderMap();
+        //_render.RenderEnemies();
         if (_logRenderer.IsRenderingAllLogs) _logRenderer.RenderAll();
         else _logRenderer.RenderLast();
     }
@@ -52,8 +54,13 @@ public class CombatState : IGameState
         {
             if (enemy != null && enemy !=_enemy) enemies.Add(enemy);
         }
-        foreach(var enemy in enemies)
+
+        foreach (var enemy in enemies)
+        {
+            (int X, int Y) prev_pos = (enemy.Position.X, enemy.Position.Y);
             enemy.Move();
+            _render.ActualiseAfterEnemyMove(prev_pos, enemy);
+        }
         
         if (_map.enemies[_hero.Position.Y, _hero.Position.X] == null)
         {

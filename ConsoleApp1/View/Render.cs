@@ -73,11 +73,30 @@ namespace ConsoleApp1;
             {
                 (int X, int Y) = previousPosition;
                 Console.SetCursorPosition(X, Y);
+                if(_gameMap.enemies[Y, X] != null)
+                    Console.Write("E");
+                else if (_gameMap.map[Y, X].Count() == 0)
+                    Console.Write(" ");
+                else Console.Write(_gameMap.map[Y, X].Peek().Symbol);
+                
+                Console.SetCursorPosition(_hero.Position.X, _hero.Position.Y);
+                Console.Write("H");
+                Console.SetCursorPosition(DefaultCursorPosition.Item1, DefaultCursorPosition.Item2);
+            }
+        }
+        
+        public void ActualiseAfterEnemyMove((int X, int Y) previousPosition, Enemy enemy)
+        {
+            lock (ConsoleLock)
+            {
+                (int X, int Y) = previousPosition;
+                Console.SetCursorPosition(X, Y);
                 if (_gameMap.map[Y, X].Count() == 0)
                     Console.Write(" ");
                 else Console.Write(_gameMap.map[Y, X].Peek().Symbol);
-                Console.SetCursorPosition(_hero.Position.X, _hero.Position.Y);
-                Console.Write("H");
+                
+                Console.SetCursorPosition(enemy.Position.X, enemy.Position.Y);
+                Console.Write("E");
                 Console.SetCursorPosition(DefaultCursorPosition.Item1, DefaultCursorPosition.Item2);
             }
         }

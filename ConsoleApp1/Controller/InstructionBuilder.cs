@@ -80,18 +80,18 @@ internal class InstructionBuilder
     {
         _instructionRender.Clear();
         
-        if(HeroMove()) _instructionRender.HowToMove();
-        if(PickingItems()) _instructionRender.HowToPickItems();
-        else if(ThrowItems()) _instructionRender.HowToDropItems();
-        if(EquipingWeapons()) _instructionRender.HowToEquipItems();
-        else if(UnequipingWeapons()) _instructionRender.HowToUnequipItems();
-
         if (Fighting())
         {
             _instructionRender.HowToHitEnemy();
             _instructionRender.HowToRunAway();
         }
+        else
+        {
+            if(HeroMove()) _instructionRender.HowToMove();
+            if(PickingItems()) _instructionRender.HowToPickItems();
+            else if(ThrowItems()) _instructionRender.HowToDropItems();
+            if(EquipingWeapons()) _instructionRender.HowToEquipItems();
+            else if(UnequipingWeapons()) _instructionRender.HowToUnequipItems();
+        }
     }
-    
-    
 }
