@@ -1,29 +1,34 @@
 ﻿using System.Collections.Concurrent;
 using System.Net.Sockets;
+using ConsoleApp1.DTO.ClientRequests;
 using ConsoleApp1.Server.ClientStates;
 using ConsoleApp1.Server.Controller.Command;
 
 namespace ConsoleApp1.Server;
 
-public class ClientGameInitialiser
+public class QueueClientRequest
 {
-    private TcpClient _client;
-    //Queue Initialiser
     private BlockingCollection<IModelCommand> _modelCommands;
     private IControllerClientState _controllerClientState;
+    private ModelCommandFactory _modelCommandFactory;
     private GameMap _map;
     
-    public ClientGameInitialiser(GameMap map, BlockingCollection<IModelCommand> modelCommands, IControllerClientState controllerClientState)
+    public QueueClientRequest(GameMap map, BlockingCollection<IModelCommand> modelCommands, IControllerClientState controllerClientState)
     {
         _map = map;
-        _client = new TcpClient();
         _modelCommands = modelCommands;
         _controllerClientState = controllerClientState;
+        _modelCommandFactory = new ModelCommandFactory();
     }
 
     public void Initialise(int id, TcpClient client, CancellationToken token)
     {
         _modelCommands.Add(new InitHeroCommand(id, _map, _controllerClientState), token);
+    }
+
+    public void AddCommand(IClientMessage message)
+    {
+        
     }
     
 }

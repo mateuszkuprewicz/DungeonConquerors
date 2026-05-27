@@ -35,7 +35,7 @@ public class InitHeroCommand : IModelCommand
     
     public void Execute(GameStateContext context, BlockingCollection<IViewCommand> viewCommands)
     {
-        _clientStates.InitClientGame(Id, _map);
+        //zamien na tworzenie odpowiedniego DTO
         string mapJson = "{\"TestMapMessage\": \"Zaraz tu bedzie zserializowana mapa DTO\"}";
         viewCommands.Add(new SendMapViewCommand(Id, mapJson));
         Console.WriteLine($"[GameLoop] Zainicjalizowano gracza {Id} i wrzucono mapę do wysyłki.");

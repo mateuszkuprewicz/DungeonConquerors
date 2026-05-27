@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
+    <StartupObject>ConsoleApp1.Program</StartupObject>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
@@ -18,17 +19,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="ConfigurationFile\config.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Infrastructure\ConfigurationFile\config.json">
+    <None Update="Shared\Infrastructure\ConfigurationFile\config.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Client\Controller\" />
     <Folder Include="Shared\ClientServerCommunication\" />
   </ItemGroup>
+
+
 
 </Project>

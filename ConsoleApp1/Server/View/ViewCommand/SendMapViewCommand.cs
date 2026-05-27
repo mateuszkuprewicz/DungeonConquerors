@@ -1,4 +1,6 @@
-﻿namespace ConsoleApp1.Server.View.ViewCommand;
+﻿using ConsoleApp1.Server.ClientStates;
+
+namespace ConsoleApp1.Server.View.ViewCommand;
 
 public class SendMapViewCommand : IViewCommand
 {
@@ -10,5 +12,16 @@ public class SendMapViewCommand : IViewCommand
     {
         TargetId = targetId;
         Text = text;
+    }
+
+    private void OnSend(ISocketClientStates clientStates)
+    {
+        clientStates.InitialiseClientGame(TargetId);
+    }
+    
+    public bool CanSend(ISocketClientStates clientStates, int id)
+    {
+        OnSend(clientStates);
+        return (clientStates.IsClientInitialised(id));
     }
 }

@@ -1,4 +1,5 @@
 ﻿using ConsoleApp1.Server.ClientStates;
+using ConsoleApp1.Server.View;
 
 namespace ConsoleApp1.Server;
 using System.Globalization;
@@ -6,20 +7,22 @@ using System.Net;
 using System.Net.Sockets;
 
 
-public class ServerListener
+public class ClientLifeManager
 {
     private int _port;
     private SemaphoreSlim _connections;
     private IAcceptClientState _states;
-    private ClientGameInitialiser _clientGameInitialiser;
+    private QueueClientRequest _clientsQueuer;
+    private RenderDispatcher _renderDispatcher;
     private CancellationTokenSource cts;
 
-    public ServerListener(int Port, ClientGameInitialiser clientGameInitialiser, IAcceptClientState states, CancellationTokenSource cts)
+    public ClientLifeManager(int Port, QueueClientRequest clientsQueuer, IAcceptClientState states, RenderDispatcher renderDispatcher, CancellationTokenSource cts)
     {
         _port = Port;
         _connections = new SemaphoreSlim(ServerConsts.MaxConnections, ServerConsts.MaxConnections);
         _states = states;
-        _clientGameInitialiser = clientGameInitialiser;
+        _clientsQueuer = clientsQueuer;
+        _renderDispatcher = renderDispatcher;
         this.cts = cts;
     }
     
@@ -32,7 +35,6 @@ public class ServerListener
 
     private async Task AcceptClients(TcpListener listener, CancellationToken token = default)
     {
-        Console.WriteLine("New client connected");
         listener.Start(ServerConsts.MaxConnections);
         var clients = new List<Task>();
         try
@@ -41,8 +43,10 @@ public class ServerListener
             {
                 await _connections.WaitAsync(token);
                 TcpClient client = await listener.AcceptTcpClientAsync(token);
+                Console.WriteLine("New client connected\n");
+                
                 int id = _states.Connect(client);
-                clients.Add(RunClientAndCleanup(client, id, token));
+                clients.Add(StartClientAndCleanup(client, id, token));
                 clients.RemoveAll(t => t.IsCompleted);
             }
         }
@@ -55,12 +59,15 @@ public class ServerListener
         }
     }
 
-    private async Task RunClientAndCleanup(TcpClient client, int id, CancellationToken token)
+    private async Task StartClientAndCleanup(TcpClient client, int id, CancellationToken token)
     {
         try
         {
-            ClientService cs = new ClientService(id, client, _clientGameInitialiser);
-            await cs.HandleCLient(token);
+            var clientView = new ClientView(id, client);
+            _renderDispatcher.Subscribe(id, clientView);
+            _clientsQueuer.Initialise(id, client, token);
+            ClientReader cr = new ClientReader(id, client, _clientsQueuer);
+            await cr.HandleCLient(token);
         }
         catch (Exception e)
         {
@@ -68,6 +75,7 @@ public class ServerListener
         }
         finally
         {
+            _renderDispatcher.UnSubscribe(id);
             _states.Disconnect(id);
             _connections.Release();
             client.Dispose();

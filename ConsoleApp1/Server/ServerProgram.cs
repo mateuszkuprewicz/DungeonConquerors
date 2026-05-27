@@ -13,10 +13,10 @@ using ConsoleApp1.SoundPropagation.SoundMediation;
 
 public class ServerProgram
 {
-    public async void Run(int port)
+    public async Task Run(int port)
     {
         //"config.json", initializing logger
-        ConfigManager configManager = new ConfigManager(Path.Combine(Environment.CurrentDirectory, "Infrastructure", "ConfigurationFile", "config.json"));
+        ConfigManager configManager = new ConfigManager(Path.Combine(Environment.CurrentDirectory, "Shared", "Infrastructure", "ConfigurationFile", "config.json"));
         var heroName = configManager.GetHeroName();
         var logFilePath = configManager.GetLogPath();
         string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
@@ -35,20 +35,20 @@ public class ServerProgram
         var cts = new CancellationTokenSource();
         var modelCommands = new BlockingCollection<IModelCommand>();
         var viewCommands = new BlockingCollection<IViewCommand>();
-        var clientStates = new ClientStates.ClientStates();
+        var clientStates = new ClientStates.ClientStateses();
         
         //Initializing collections and threads
-        ClientGameInitialiser cgi = new ClientGameInitialiser(map, modelCommands, clientStates);
+        QueueClientRequest cgi = new QueueClientRequest(map, modelCommands, clientStates);
         var gameLoop = new GameLoop(clientStates, modelCommands, viewCommands, cts);
-        var viewWriter = new ViewWriter(viewCommands, clientStates, cts);
-        var serverListener = new ServerListener(8080, cgi, clientStates, cts);
+        var renderDispatcher = new RenderDispatcher(viewCommands, clientStates, cts);
+        var serverListener = new ClientLifeManager(port, cgi, clientStates, renderDispatcher, cts);
         
         //starting server tasks
         List<Task> tasks = new List<Task>();
         
         
         tasks.Add(Task.Run(()=>gameLoop.Run()));
-        tasks.Add(viewWriter.RunAsync());
+        tasks.Add(Task.Run(()=>renderDispatcher.Dispatch()));
         tasks.Add(serverListener.Run());
         
         await Task.WhenAll(tasks);

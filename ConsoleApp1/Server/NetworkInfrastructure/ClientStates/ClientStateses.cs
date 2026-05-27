@@ -3,11 +3,11 @@ using ConsoleApp1.GameState;
 
 namespace ConsoleApp1.Server.ClientStates;
 
-public class ClientStates : IAcceptClientState, IControllerClientState, ISocketClientState
+public class ClientStateses : IAcceptClientState, IControllerClientState, ISocketClientStates
 {
     private (bool connected, bool hasGameInititialised, TcpClient? client, GameStateContext? context)[] _globalStates;
 
-    public ClientStates()
+    public ClientStateses()
     {
         _globalStates =
             new (bool connected, bool hasGameInititialised, TcpClient? client, GameStateContext?)[ServerConsts
@@ -80,6 +80,14 @@ public class ClientStates : IAcceptClientState, IControllerClientState, ISocketC
         lock (_globalStates)
         {
             return _globalStates[id].hasGameInititialised;
+        }
+    }
+
+    public void InitialiseClientGame(int id)
+    {
+        lock (_globalStates)
+        {
+            _globalStates[id].hasGameInititialised = true;
         }
     }
     
