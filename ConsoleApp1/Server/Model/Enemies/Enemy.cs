@@ -8,6 +8,7 @@ namespace ConsoleApp1;
 public class Enemy : IMovingEnemy, ISoundHearer
 {
     public AbstractMovingState MovingState { private get; set; }
+    public int Id;
     public string Name { get; }
     public char Symbol { get; private set; }
     public int Hp { get; private set; }

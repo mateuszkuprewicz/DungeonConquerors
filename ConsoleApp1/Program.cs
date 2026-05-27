@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 namespace ConsoleApp1;
@@ -18,6 +21,31 @@ class Program
         }
 
         string mode = args[0].ToLower();
+
+        // --- AUTOMATYCZNE OTWIERANIE NOWEGO OKNA DLA KLIENTA ---
+        if (mode == "--client" && !args.Contains("--detached"))
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                // Rekonstruujemy dokładnie te same argumenty, z którymi wywołano program,
+                // dorzucając flagę bezpieczeństwa --detached na koniec
+                string passArguments = string.Join(" ", args) + " --detached";
+
+                var startInfo = new ProcessStartInfo
+                {
+                    FileName = "cmd.exe",
+                    // /c odpala okno, wykonuje komendę i po jej zamknięciu przez gracza zwalnia cmd
+                    Arguments = $"/c dotnet run -- {passArguments}",
+                    CreateNoWindow = false,
+                    UseShellExecute = true
+                };
+
+                Process.Start(startInfo);
+                
+                // Kończymy działanie w obecnej konsoli – klient żyje już w nowym oknie
+                return; 
+            }
+        }
 
         try
         {

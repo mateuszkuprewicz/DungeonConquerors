@@ -13,7 +13,8 @@ namespace ConsoleApp1
     }
     public class Hero
     {
-        public string HeroName { private get; set; }
+        public string HeroName { get; set; }
+        public int Id { get; set; }
         public  HeroStats Stats { get; private set; }
         public HeroHands Hands { get; private set; }
         public HerosEquipment Equipment { get; private set; }

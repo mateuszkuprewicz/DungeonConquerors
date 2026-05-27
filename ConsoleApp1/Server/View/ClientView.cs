@@ -44,14 +44,14 @@ public class ClientView : IDisposable
     {
         if (_client.Connected)
         {
-            string payload = $"{(int)command.Type}|{command.Text}\n";
+            string payload = $"{command.Type}|{command.Text}\n";
             byte[] data = Encoding.UTF8.GetBytes(payload);
 
             var stream = _client.GetStream();
             await stream.WriteAsync(data, 0, data.Length, _cts.Token);
             await stream.FlushAsync(_cts.Token); 
             
-            Console.WriteLine($"[ViewWriter] Wysłano {(ViewCommandType)command.Type} do gracza {Id}.");
+            Console.WriteLine($"[ViewWriter] Wysłano {command.Type} do gracza {Id}.");
         }
     }
 }

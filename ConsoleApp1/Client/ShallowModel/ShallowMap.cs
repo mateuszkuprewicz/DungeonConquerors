@@ -1,4 +1,6 @@
-﻿namespace ConsoleApp1.Shared.ShallowModel;
+﻿using System.Text.Json.Serialization;
+
+namespace ConsoleApp1.Shared.ShallowModel;
 
 public class ShallowMap
 {
@@ -13,7 +15,10 @@ public class ShallowMap
         Enemies = enemies;
         Heroes = heroes;
         TyleTypes = types;
-    }
+    } 
+    
+    [JsonConstructor] 
+    public ShallowMap() { }
 }
 
 public enum TyleType

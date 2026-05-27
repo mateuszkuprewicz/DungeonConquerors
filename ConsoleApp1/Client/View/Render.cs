@@ -16,13 +16,11 @@ namespace ConsoleApp1;
         public static readonly (int, int) DefaultCursorPosition = (0, 26);
         public static readonly (int, int) Instruction = (0, 21);
 
-        private ShallowHero _hero; 
-        private ShallowMap _gameMap;
+        private Shared.ShallowModel.GameState _state;
 
-        public Render(ShallowHero hero, ShallowMap map)
+        public Render(Shared.ShallowModel.GameState state)
         {
-            _hero = hero;
-            _gameMap = map;
+            _state = state;
         }
 
         public void RenderAll()
@@ -35,6 +33,7 @@ namespace ConsoleApp1;
         
         public void RenderMap()
         {
+            var _gameMap = _state.Map;
             Console.SetCursorPosition(0, 0);
             for (int i = 0; i < 20; i++)
             {
@@ -52,9 +51,9 @@ namespace ConsoleApp1;
                 Console.WriteLine();
             }
 
-            Console.SetCursorPosition(_hero.Pos.X, _hero.Pos.Y);
-            Console.Write("H");
-            Console.SetCursorPosition(DefaultCursorPosition.Item1, DefaultCursorPosition.Item2);
+            // Console.SetCursorPosition(_hero.Pos.X, _hero.Pos.Y);
+            // Console.Write("H");
+            // Console.SetCursorPosition(DefaultCursorPosition.Item1, DefaultCursorPosition.Item2);
         }
 
         public void RenderMenu()
@@ -67,6 +66,8 @@ namespace ConsoleApp1;
 
         public void ActualiseAfterHeroMove((int X, int Y) previousPosition)
         {
+            var _gameMap = _state.Map;
+            var _hero = _state.Hero;
             lock (ConsoleLock)
             {
                 (int X, int Y) = previousPosition;
@@ -85,6 +86,8 @@ namespace ConsoleApp1;
         
         public void ActualiseAfterEnemyMove((int X, int Y) previousPosition, ShallowEnemy enemy)
         {
+            var _gameMap = _state.Map;
+            var _hero = _state.Hero;
             lock (ConsoleLock)
             {
                 (int X, int Y) = previousPosition;
@@ -102,6 +105,8 @@ namespace ConsoleApp1;
         //static int EquipmentCursor = 0;
         public void EquipmentScroll(ConsoleKey k)
         {
+            var _gameMap = _state.Map;
+            var _hero = _state.Hero;
             if(k == ConsoleKey.UpArrow)
             {
                 if (_hero.Equipment.EquipmentPointer > 0 && _hero.Equipment.EquipmentPointer - 1 < _hero.Equipment.EquipmentList.Count())
@@ -124,6 +129,8 @@ namespace ConsoleApp1;
 
         public void PrintNthEquipmentLine(int i)
         {
+            var _gameMap = _state.Map;
+            var _hero = _state.Hero;
             if (i < 0) return;
             Console.SetCursorPosition(EquipmentTableStart.Item1, EquipmentTableStart.Item2 + 4 + i);
             Console.Write(new string(' ', Console.WindowWidth - EquipmentTableStart.Item1));
@@ -146,6 +153,8 @@ namespace ConsoleApp1;
 
         public void RenderEquipment()
         {
+            var _gameMap = _state.Map;
+            var _hero = _state.Hero;
             lock(ConsoleLock)
             {
                 Console.SetCursorPosition(EquipmentTableStart.Item1, EquipmentTableStart.Item2);
@@ -177,6 +186,8 @@ namespace ConsoleApp1;
 
         public void RenderStats()
         {
+            var _gameMap = _state.Map;
+            var _hero = _state.Hero;
             lock (ConsoleLock)
             {
                 Console.SetCursorPosition(StatsTableStart.Item1, StatsTableStart.Item2);
@@ -211,6 +222,8 @@ namespace ConsoleApp1;
 
         public void RenderHeroHands()
         {
+            var _gameMap = _state.Map;
+            var _hero = _state.Hero;
             lock(ConsoleLock)
             {
                 Console.SetCursorPosition(HandsTableStart.Item1, HandsTableStart.Item2);
@@ -233,6 +246,8 @@ namespace ConsoleApp1;
 
         public void RenderInfo()
         {
+            var _gameMap = _state.Map;
+            var _hero = _state.Hero;
            lock(ConsoleLock)
             {
                 Console.SetCursorPosition(Info.Item1, Info.Item2);
@@ -279,6 +294,10 @@ namespace ConsoleApp1;
         
         public void RenderEnemies()
         {
+            var _gameMap = _state.Map;
+            ShallowHero? _hero = _state.Hero;
+            int posX = _hero != null ? _hero.Pos.X : -1;
+            int posY = _hero != null ? _hero.Pos.Y : -1;
             lock (ConsoleLock)
             {
                 for (int i = 0; i < ModelConsts.MapHeight; i++)
@@ -287,7 +306,7 @@ namespace ConsoleApp1;
                     if (_gameMap.Enemies[i][j] != null)
                     {
                         Console.SetCursorPosition(j, i);
-                        if(_hero.Pos.Y != i ||  _hero.Pos.X != j) 
+                        if(posY != i || posY != j) 
                             Console.Write(_gameMap.Enemies[i][j].Symbol);
                     }
                     
