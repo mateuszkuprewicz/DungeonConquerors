@@ -1,86 +1,57 @@
-﻿using ConsoleApp1.View;
+﻿using System.Diagnostics;
+using System.Net.Sockets;
+using System.Text;
+using System.Text.Json;
+using ConsoleApp1.DTO.ClientRequests;
+using ConsoleApp1.View;
 
 namespace ConsoleApp1.ChainOfKeyOperations;
 using ConsoleApp1.Logger;
 
 public class MoveNode : AbstractKeyNode
 {
-    private Render _render;
-    private GameMap _map;
-    public MoveNode(Hero hero, GameMap map, Render render) : base(hero) => (_render, _map) = (render, map);
+    private TcpClient _client;
+    private Shared.ShallowModel.GameState _state;
+    public MoveNode(TcpClient client, Shared.ShallowModel.GameState state) => (_client, _state) = (client, state); 
     
-    public override void HandleKey(ConsoleKey keyInfo)
+    public override async Task HandleKey(ConsoleKey keyInfo)
     {
-        (int, int) Position = Hero.Position;
-        if (keyInfo == KeyConsts.MoveUp.key)
+        if (keyInfo == KeyConsts.MoveUp.key || keyInfo == KeyConsts.MoveDown.key || keyInfo == KeyConsts.MoveLeft.key ||
+            keyInfo == KeyConsts.MoveRight.key)
         {
-            if (Hero.Move(Direction.Up, _map))
-            {
-                _render.ActualiseAfterHeroMove(Position);
-                _render.RenderInfo();
-                _render.RenderEnemies();
-            }
+            string type = ClientRequestsTypes.ClientMove;
+            ClientMove move = new ClientMove();
+            
+            if(_state.Map == null) return;
+            move.Id = _state.Map.PlayerId;
+            Console.Error.WriteLine(_state.Map.PlayerId);
+            
+            Direction direction;
+            if(keyInfo == KeyConsts.MoveUp.key)
+                direction = Direction.Up;
+            else if(keyInfo == KeyConsts.MoveDown.key)
+                direction = Direction.Down;
+            else if(keyInfo == KeyConsts.MoveLeft.key)
+                direction = Direction.Left;
             else
-            {
-                Render.RenderAnnouncement("Cant move into a wall");
-                EventLog el = EventLog.GetEventLog();
-                el.Log(LogType.WallHit);
-            }
-            return;    
+                direction = Direction.Right;
+            move.Direction = direction;
+
+            JsonSerializerOptions options = new JsonSerializerOptions();
+            options.WriteIndented = false;
+            
+            string serialized = JsonSerializer.Serialize(move);
+            string payload = $"{type}|{serialized}\n";
+            byte[] data = Encoding.UTF8.GetBytes(payload);
+            
+            var writer = _client.GetStream();
+            await writer.WriteAsync(data);
+            await writer.FlushAsync();
+            
         }
-
-
-        if (KeyConsts.MoveLeft.key == keyInfo)
+        else
         {
-            if (Hero.Move(Direction.Left, _map))
-            {
-                _render.ActualiseAfterHeroMove(Position);
-                _render.RenderInfo();
-                _render.RenderEnemies();
-            }
-            else
-            {
-                Render.RenderAnnouncement("Cant move into a wall");
-                EventLog el = EventLog.GetEventLog();
-                el.Log(LogType.WallHit);
-            }
-            return;
+            NextKeyNode.HandleKey(keyInfo);
         }
-
-        if (KeyConsts.MoveDown.key == keyInfo)
-        {
-            if (Hero.Move(Direction.Down, _map))
-            {
-                _render.ActualiseAfterHeroMove(Position);
-                _render.RenderEnemies();
-                _render.RenderInfo();
-            }
-            else
-            {
-                Render.RenderAnnouncement("Cant move into a wall");
-                EventLog el = EventLog.GetEventLog();
-                el.Log(LogType.WallHit);
-            }
-            return;
-        }
-
-        if (KeyConsts.MoveRight.key == keyInfo)
-        {
-            if (Hero.Move(Direction.Right, _map))
-            {
-                _render.ActualiseAfterHeroMove(Position);
-                _render.RenderEnemies();
-                _render.RenderInfo();
-            }
-            else
-            {
-                Render.RenderAnnouncement("Cant move into a wall");
-                EventLog el = EventLog.GetEventLog();
-                el.Log(LogType.WallHit);
-            }
-            return;
-        }
-        
-        NextKeyNode.HandleKey(keyInfo);
     }
 }

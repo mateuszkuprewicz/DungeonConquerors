@@ -7,7 +7,7 @@ namespace ConsoleApp1.GameState;
 
 public class GameStateContext
 {
-    public IGameState GameState { private get; set; }
+    public IGameState GameState { get; set; }
 
     public GameStateContext(GameMap map)
     {

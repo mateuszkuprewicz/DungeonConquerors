@@ -1,16 +1,10 @@
-﻿using ConsoleApp1.Items.Weapon;
+﻿using ConsoleApp1.DTO.ClientRequests;
+using ConsoleApp1.Items.Weapon;
 using ConsoleApp1.SoundPropagation.SoundMediation;
 using ConsoleApp1.Shared;
 
 namespace ConsoleApp1
 {
-    public enum Direction
-    {
-        Up,
-        Down,
-        Left,
-        Right
-    }
     public class Hero
     {
         public string HeroName { get; set; }
@@ -18,7 +12,7 @@ namespace ConsoleApp1
         public  HeroStats Stats { get; private set; }
         public HeroHands Hands { get; private set; }
         public HerosEquipment Equipment { get; private set; }
-        public (int X, int Y) Position { get; private set; }
+        public (int X, int Y) Position { get; set; }
 
         private ISoundPublisher _soundPublisher;
         
@@ -53,23 +47,16 @@ namespace ConsoleApp1
             if (position.X < 0 || position.X >= ModelConsts.MapWidth) return false;
             if (position.Y < 0 || position.Y >= ModelConsts.MapHeight) return false;
             if (gameMap.map[position.Y, position.X] == null) return false;
+            if (gameMap.heroes[position.Y, position.X] != null) return false;
             return true;
         }
-        public Hero(ISoundPublisher soundPublisher)
-        {             
+        public Hero(int Id, ISoundPublisher soundPublisher)
+        {
+            this.Id = Id;
             Stats = new HeroStats();
             _soundPublisher = soundPublisher;
             Equipment = new HerosEquipment(this, _soundPublisher);
             Hands = new HeroHands();
-            Position = (0, 0);
-        }
-        public Hero(int strength, int agility, int luck, int agressiveness, int wisdom, int health, ISoundPublisher soundPublisher)
-        {
-            Stats = new HeroStats(strength, agility, luck, agressiveness, wisdom, health);
-            _soundPublisher = soundPublisher;
-            Equipment = new HerosEquipment(this, _soundPublisher);
-            Hands = new HeroHands();
-            Position = (0, 0);
         }
     }
 

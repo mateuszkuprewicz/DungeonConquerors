@@ -4,23 +4,23 @@ namespace ConsoleApp1.ChainOfKeyOperations;
 
 public class EquipmentScrollNode : AbstractKeyNode
 {
-    Render _render;
-    public EquipmentScrollNode(Render render) => _render = render;
+    private readonly Render _render;
 
-    public override void HandleKey(ConsoleKey keyInfo)
+    public EquipmentScrollNode(Render render)
     {
-        if (keyInfo == ConsoleKey.UpArrow)
+        _render = render;
+    }
+
+    public override Task HandleKey(ConsoleKey keyInfo)
+    {
+        if (keyInfo == ConsoleKey.UpArrow || keyInfo == ConsoleKey.DownArrow)
         {
-            _render.EquipmentScroll(KeyConsts.ScrollUp.key);
-            
-        }
-        else if (keyInfo == ConsoleKey.DownArrow)
-        {
-            _render.EquipmentScroll(KeyConsts.ScrollDown.key);
+            _render.EquipmentScroll(keyInfo);
         }
         else
         {
-            NextKeyNode.HandleKey(keyInfo);
+            NextKeyNode?.HandleKey(keyInfo);
         }
+        return Task.CompletedTask;
     }
 }

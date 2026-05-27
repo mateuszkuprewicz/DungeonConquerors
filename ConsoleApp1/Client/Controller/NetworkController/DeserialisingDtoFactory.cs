@@ -19,7 +19,8 @@ public class DeserialisingDtoFactory
     {
         return type switch
         {
-            ServerRequestsTypes.InitMap => new InitHandler(_state, text, _view),
+            ServerRequestsTypes.ActualiseMap => new InitHandler(_state, text, _view),
+            ServerRequestsTypes.PlayerCreation => new PlayerCreationHandler(_state, text, _view),
             _ => null
         };
     }

@@ -22,7 +22,7 @@ public class Reader
         {
             string? line = await reader.ReadLineAsync();
             if (line == null) break; 
-
+            
             HandleServerMessage(line);
         }
     }
@@ -35,10 +35,10 @@ public class Reader
 
         string type = parts[0];
         string payload = parts[1];
-
- 
+        
         var command = _deserialisingDtoFactory.GetHandler(type, payload);
         if (command == null) throw new Exception("Command not found");
+        
         command.Handle();
     }
 }

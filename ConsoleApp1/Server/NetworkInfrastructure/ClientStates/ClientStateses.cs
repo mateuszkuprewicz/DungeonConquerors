@@ -47,7 +47,8 @@ public class ClientStateses : IAcceptClientState, IControllerClientState, ISocke
     {
         lock (_globalStates)
         {
-            if (_globalStates[id].connected == false || _globalStates[id].hasGameInititialised == false)
+            Console.WriteLine($"[DEBUG CONTEXT] Żądanie dla ID {id}. Connected: {_globalStates[id].connected}, Init: {_globalStates[id].hasGameInititialised}, ContextIsNull: {_globalStates[id].context == null}");
+            if (_globalStates[id].connected == false)
                 return null;
             return _globalStates[id].context!;
         }

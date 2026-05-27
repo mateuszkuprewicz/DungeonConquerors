@@ -1,4 +1,6 @@
-﻿namespace ConsoleApp1.Shared.ShallowModel;
+﻿using System.Text.Json.Serialization;
+
+namespace ConsoleApp1.Shared.ShallowModel;
 
 public class ShallowHero
 {
@@ -8,6 +10,19 @@ public class ShallowHero
     public ShallowEquipment Equipment { get; set; }
     public ShallowHeroHands Hands { get; set; }
     public ShallowHeroStats Stats { get; set; }
+
+    public ShallowHero(int Id, (int X, int Y) position)
+    {
+        this.Id = Id;
+        Pos = new Position(position.X, position.Y);
+        Name = Id.ToString()[0];
+        Stats = new ShallowHeroStats();
+        Equipment = new ShallowEquipment();
+        Hands = new ShallowHeroHands();
+    }
+    
+    [JsonConstructor]
+    public ShallowHero(){}
 }
 
 public class ShallowEquipment
@@ -32,4 +47,17 @@ public class ShallowHeroStats
     public int Agressiveness { get; set; }
     public int Wisdom { get; set; }
     public int Health { get; set; }
+
+    public ShallowHeroStats(int uselles = 0)
+    {
+        Strength = 5;
+        Agility = 5;
+        Luck = 5;
+        Agressiveness = 5;
+        Wisdom = 5;
+        Health = 100;
+    }
+    
+    [JsonConstructor]
+    public ShallowHeroStats(){}
 }

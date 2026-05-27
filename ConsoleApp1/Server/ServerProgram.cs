@@ -38,7 +38,7 @@ public class ServerProgram
         var clientStates = new ClientStates.ClientStateses();
         
         //Initializing collections and threads
-        QueueClientRequest cgi = new QueueClientRequest(map, modelCommands, clientStates);
+        QueueClientRequest cgi = new QueueClientRequest(map, modelCommands, soundManager, clientStates);
         var gameLoop = new GameLoop(clientStates, modelCommands, viewCommands, cts);
         var renderDispatcher = new RenderDispatcher(viewCommands, clientStates, cts);
         var serverListener = new ClientLifeManager(port, cgi, clientStates, renderDispatcher, cts);
@@ -49,7 +49,7 @@ public class ServerProgram
         
         tasks.Add(Task.Run(()=>gameLoop.Run()));
         tasks.Add(Task.Run(()=>renderDispatcher.Dispatch()));
-        tasks.Add(serverListener.Run());
+        tasks.Add(Task.Run(()=>serverListener.Run()));
         
         await Task.WhenAll(tasks);
     }

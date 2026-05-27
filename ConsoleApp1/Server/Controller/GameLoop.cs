@@ -23,16 +23,38 @@ public class GameLoop
 
     public void Run()
     {
-        while (_cts.IsCancellationRequested == false)
+        Console.WriteLine("[GameLoop] Pętla główna wystartowała.");
+        try
         {
-            while (_commands.TryTake(out IModelCommand? command))
+            foreach (var command in _commands.GetConsumingEnumerable(_cts.Token))
             {
                 var context = _clientStates.GetClientGameContext(command.Id);
-                if(command.CanExecute(context))
-                    command.Execute(context, _viewCommands);
-            }
             
-            Thread.Sleep(16);
+                if (context == null)
+                {
+                    Console.WriteLine($"[GameLoop ERROR] Pobrano kontekst NULL dla gracza o ID: {command.Id}. Pomijam komendę {command.GetType()}.");
+                    continue; // Przejdź do następnej komendy w kolejce, nie wywalaj pętli!
+                }
+                if (command.CanExecute(context))
+                {
+                    command.Execute(context, _viewCommands);
+                    Console.WriteLine($"[GameLoop] Wykonano polecenie typu {command.GetType()}");
+                }
+                else
+                {
+                    Console.WriteLine($"[GameLoop] Odmowa! Nie wykonano polecenia typu {command.GetType()}");
+                }
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            Console.WriteLine("[GameLoop] Zamknięto pętlę gry (Token anulowany).");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[KRYTYCZNY BŁĄD GAMELOOP] Pętla gry padła!");
+            Console.WriteLine($"Wiadomość: {ex.Message}");
+            Console.WriteLine($"Gdzie: {ex.StackTrace}");
         }
     }
 }

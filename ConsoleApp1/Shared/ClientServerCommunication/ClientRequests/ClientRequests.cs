@@ -10,7 +10,8 @@ public enum Direction
 
 public class ClientMove
 {
-    public Direction Direction { get; }
+    public int Id;
+    public Direction Direction { get; set; }
 }
 
 public class ClientPickUp{}

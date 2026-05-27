@@ -7,7 +7,7 @@ namespace ConsoleApp1.Server.View.ViewCommand;
 
 public class SendMapViewCommand : IViewCommand
 {
-    public string Type => ServerRequestsTypes.InitMap;
+    public string Type => ServerRequestsTypes.ActualiseMap;
     public int TargetId { get; set; }
     public string Text { get; }
 

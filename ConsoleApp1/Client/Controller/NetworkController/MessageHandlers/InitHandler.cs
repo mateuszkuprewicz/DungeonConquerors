@@ -21,8 +21,6 @@ public class InitHandler : IMessageHandler
     {
         if (_receivedMap == null) return;
         _state.Map = _receivedMap;
-        _render.RenderMap();
-        _render.RenderEnemies();
-        
+        _render.RenderAll();
     }
 }

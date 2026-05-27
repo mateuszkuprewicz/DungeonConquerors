@@ -2,6 +2,6 @@
 
 public class GameState
 {
-    public ShallowMap Map;
-    public ShallowHero Hero;
+    public ShallowMap? Map = null;
+    public ShallowHero? Hero = null;
 }
