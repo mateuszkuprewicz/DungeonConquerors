@@ -3,8 +3,11 @@ using ConsoleApp1.DTO.ClientRequests;
 using ConsoleApp1.GameState;
 using ConsoleApp1.LoopState;
 using ConsoleApp1.Server.ClientStates;
+using ConsoleApp1.Server.Model;
 using ConsoleApp1.Server.View.ViewCommand;
 using ConsoleApp1.Shared;
+using ConsoleApp1.Shared.DTO.ServerAnswers.GameChangedBroadcast;
+using ConsoleApp1.Shared.ShallowModel;
 using ConsoleApp1.SoundPropagation.SoundMediation;
 
 namespace ConsoleApp1.Server.Controller.Command;
@@ -12,53 +15,43 @@ namespace ConsoleApp1.Server.Controller.Command;
 public class MovePlayerCommand : IModelCommand
 {
     public int Id { get; set; }
-    private GameMap _map;
-    private IControllerClientState _clientStates;
-    private DungeonSoundManager _soundManager;
+    private GameContext _gameContext;
     private Direction _direction;
 
-    public MovePlayerCommand(int id, Direction direction, GameMap map, DungeonSoundManager manager)
+    public MovePlayerCommand(int id, Direction direction, GameContext gameContext)
     {
         Id = id;
         _direction = direction;
-        _map = map;
-        _soundManager = manager;
+        _gameContext = gameContext;
     }
 
-    public bool CanExecute(GameStateContext context)
+    public bool CanExecute()
     {
-        if (context.GameState is CombatState)
-        {
-            return false;
-        }
-
+        //zaimplementuj
         return true;
     }
 
-    public void Execute(GameStateContext context, BlockingCollection<IViewCommand> viewCommands)
+    public void Execute(BlockingCollection<IViewCommand> viewCommands)
     {
-        if (_map == null)
+        if (_gameContext.Map == null)
         {
             Console.WriteLine("[KRYTYCZNY BŁĄD] Obiekt _map w MovePlayerCommand jest NULLEM! Sprawdź konstruktor i fabrykę.");
             return;
         }
-    
-        if (_map.heroes == null)
-        {
-            Console.WriteLine("[KRYTYCZNY BŁĄD] Tablica _map.heroes jest NULLEM! Dodaj 'new Hero[wysokość, szerokość]' w klasie GameMap.");
-            return;
-        }
+        
+        var map = _gameContext.Map;
+
         for (int i = 0; i < ModelConsts.MapHeight; i++)
         {
             for (int j = 0; j < ModelConsts.MapWidth; j++) 
             {
-                if (_map.heroes[i, j] != null && _map.heroes[i, j].Id == Id)
+                if (map.heroes[i, j] != null && map.heroes[i, j].Id == Id)
                 {
-                    var hero = _map.heroes[i, j];
+                    var hero = map.heroes[i, j];
 
-                    if (hero.Move(_direction, _map))
+                    if (hero.Move(_direction, map))
                     {
-                        _map.heroes[i, j] = null; 
+                        map.heroes[i, j] = null; 
                     
                         int newI = i;
                         int newJ = j;
@@ -79,10 +72,19 @@ public class MovePlayerCommand : IModelCommand
                                 break;
                         }
 
-                        _map.heroes[newI, newJ] = hero;
+                        map.heroes[newI, newJ] = hero;
+                        hero.Position = (newJ, newI);
+                        
+                        Console.Error.WriteLine($"Player {hero.Id} moved to {hero.Position}");
+                        DeltaUpdateMessage deltaUpdateMessage = new DeltaUpdateMessage();
+                        deltaUpdateMessage.Deltas = new List<MapDelta>();
+                        List<ShallowHero> deltaHeroes = new List<ShallowHero>();
+                        deltaHeroes.Add(hero.ToShallowHero());
+                        deltaUpdateMessage.UpdatedHeroes = deltaHeroes;
+                        
 
-                        var shallowMap = _map.MapShallower(); 
-                        viewCommands.Add(new SendMapViewCommand(ServerConsts.BroadcastId, shallowMap));
+                        var shallowMap = map.MapShallower(); 
+                        viewCommands.Add(new MapDeltaCommand(deltaUpdateMessage));
 
                         return; 
                     }

@@ -3,14 +3,14 @@ using ConsoleApp1.GameState;
 
 namespace ConsoleApp1.Server.ClientStates;
 
-public class ClientStateses : IAcceptClientState, IControllerClientState, ISocketClientStates
+public class ClientStates : IAcceptClientState, ISocketClientStates
 {
-    private (bool connected, bool hasGameInititialised, TcpClient? client, GameStateContext? context)[] _globalStates;
+    private (bool connected, bool hasGameInititialised, TcpClient? client)[] _globalStates;
 
-    public ClientStateses()
+    public ClientStates()
     {
         _globalStates =
-            new (bool connected, bool hasGameInititialised, TcpClient? client, GameStateContext?)[ServerConsts
+            new (bool connected, bool hasGameInititialised, TcpClient? client)[ServerConsts
                 .MaxConnections];
     }
 
@@ -25,7 +25,7 @@ public class ClientStateses : IAcceptClientState, IControllerClientState, ISocke
                     _globalStates[i].connected = true;
                     _globalStates[i].hasGameInititialised = false; 
                     _globalStates[i].client = client;
-                    return i;
+                    return i + 1;
                 }
             }
         }
@@ -34,40 +34,18 @@ public class ClientStateses : IAcceptClientState, IControllerClientState, ISocke
 
     public void Disconnect(int id)
     {
+        id--;
         lock (_globalStates)
         {
             _globalStates[id].connected = false;
             _globalStates[id].hasGameInititialised = false;
             _globalStates[id].client = null;
-            _globalStates[id].context = null;
         }
     }
-
-    public GameStateContext? GetClientGameContext(int id)
-    {
-        lock (_globalStates)
-        {
-            Console.WriteLine($"[DEBUG CONTEXT] Żądanie dla ID {id}. Connected: {_globalStates[id].connected}, Init: {_globalStates[id].hasGameInititialised}, ContextIsNull: {_globalStates[id].context == null}");
-            if (_globalStates[id].connected == false)
-                return null;
-            return _globalStates[id].context!;
-        }
-    }
-
-    public bool InitClientGame(int id, GameMap map)
-    {
-        lock (_globalStates)
-        {
-            if (_globalStates[id].connected == false)
-                return false;
-            _globalStates[id].hasGameInititialised = true;
-            _globalStates[id].context = new GameStateContext(map);
-            return true;
-        }
-    }
-
+    
     public TcpClient? GetTcpClient(int id)
     {
+        id--;
         lock (_globalStates)
         {
             if (_globalStates[id].connected == false || _globalStates[id].client == null)
@@ -78,6 +56,7 @@ public class ClientStateses : IAcceptClientState, IControllerClientState, ISocke
 
     public bool IsClientInitialised(int id)
     {
+        id--;
         lock (_globalStates)
         {
             return _globalStates[id].hasGameInititialised;
@@ -86,6 +65,7 @@ public class ClientStateses : IAcceptClientState, IControllerClientState, ISocke
 
     public void InitialiseClientGame(int id)
     {
+        id--;
         lock (_globalStates)
         {
             _globalStates[id].hasGameInititialised = true;

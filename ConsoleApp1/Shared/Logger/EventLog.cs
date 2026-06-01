@@ -30,35 +30,14 @@ public class EventLog
     
     //with logType argument saves a specified log and prints logs
     //with no arguments only print logs
-    public void Log(LogType? logType = null, string[]? context = null)
+    public void Log(string context = null)
     {
-        if (logType != null)
-        {
-            string message = getMessage(logType.Value, context);
+            string message = context;
             SavingLogsStrategy.Save($"{DateTime.Now.ToString()} : {message}");
-        }
-    }
+     }
     
     public string GetSavePath()
     {
         return SavingLogsStrategy.SavePath;
     }
-    
-    private string getMessage(LogType logType, string[]? context = null)
-    {
-        return logType switch
-        {
-            LogType.WallHit => LogTexts.WallHit(HeroName),
-            LogType.ButtonHit => LogTexts.ButtonHit(HeroName),
-            LogType.ItemPick => LogTexts.ItemPick(HeroName, context != null ? context[0] : "unknown item"),
-            LogType.WeaponEquip => LogTexts.WeaponEquip(HeroName, context[0] ?? "unknownWeapon"),
-            LogType.HeroHits => LogTexts.HeroHits(HeroName, context ?? new string[]{"unknown enemy", "unknown"}),
-            LogType.EnemyHits => LogTexts.EnemyHits(HeroName, context ?? new string[]{"unknown enemy", "unknown"}),
-            LogType.DefeatedEnemy => LogTexts.DefeatedEnemy(HeroName, context != null ? context[0] : "unknown enemy"),
-            LogType.DefeatedHero => LogTexts.DefeatedHero(HeroName, context != null ? context[0] : "unknown hero"),
-            LogType.Default => context != null ? context[0] : "",
-        };
-    }
 }
-
-

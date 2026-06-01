@@ -1,31 +1,26 @@
 ﻿using System.Text.Json;
 using ConsoleApp1.Server.ClientStates;
 using ConsoleApp1.Shared.ClientServerCommunication.ServerRequests;
+using ConsoleApp1.Shared.DTO.ServerAnswers.GameChangedBroadcast;
 using ConsoleApp1.Shared.ShallowModel;
 
 namespace ConsoleApp1.Server.View.ViewCommand;
 
-public class SendMapViewCommand : IViewCommand
+public class MapDeltaCommand : IViewCommand
 {
-    public string Type => ServerRequestsTypes.ActualiseMap;
+    public string Type => ServerRequestsTypes.MapDelta;
     public int TargetId { get; set; }
     public string Text { get; }
-
-    public SendMapViewCommand(int targetId, ShallowMap map)
+    
+    public MapDeltaCommand(DeltaUpdateMessage mapDelta)
     {
-        TargetId = targetId;
+        TargetId = ServerConsts.BroadcastId;
         var options = new JsonSerializerOptions { WriteIndented = false };
-        Text = JsonSerializer.Serialize(map, options);
-    }
-
-    private void OnSend(ISocketClientStates clientStates, int id)
-    {
-        clientStates.InitialiseClientGame(id);
+        Text = JsonSerializer.Serialize(mapDelta, options);
     }
     
     public bool CanSend(ISocketClientStates clientStates, int id)
     {
-        OnSend(clientStates, id);
         return (clientStates.IsClientInitialised(id));
     }
 }

@@ -47,7 +47,7 @@ public class Enemy : IMovingEnemy, ISoundHearer
         MovingState = new TargetedMoving(this, Map, path);
         EventLog logger = EventLog.GetEventLog();
         string log = "Enemy hearing sound coming from " + sound.Source + " at " + this.Position + ". Path length: " + path.Count;
-        logger.Log(LogType.Default, [log]);
+        logger.Log(log);
     }
     
     public void ReceiveDamage(int damage)

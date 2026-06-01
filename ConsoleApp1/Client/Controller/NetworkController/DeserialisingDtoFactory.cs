@@ -21,6 +21,8 @@ public class DeserialisingDtoFactory
         {
             ServerRequestsTypes.ActualiseMap => new InitHandler(_state, text, _view),
             ServerRequestsTypes.PlayerCreation => new PlayerCreationHandler(_state, text, _view),
+            ServerRequestsTypes.MapDelta => new MapDeltaHandler(_state, text, _view),
+
             _ => null
         };
     }

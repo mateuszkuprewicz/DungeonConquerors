@@ -1,6 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using ConsoleApp1.Server.Controller.Command;
 using ConsoleApp1.Server.ClientStates;
+using ConsoleApp1.Server.Model;
 using ConsoleApp1.Server.View;
 using ConsoleApp1.Server.View.ViewCommand;
 
@@ -32,14 +33,17 @@ public class ServerProgram
         MapDirector mapDirector = new MapDirector(builder, dungeonTheme);
         mapDirector.CreateDungeon();
 
+        GameContext gameContext = new GameContext(map);
+
         var cts = new CancellationTokenSource();
         var modelCommands = new BlockingCollection<IModelCommand>();
         var viewCommands = new BlockingCollection<IViewCommand>();
-        var clientStates = new ClientStates.ClientStateses();
+        var clientStates = new ClientStates.ClientStates();
         
         //Initializing collections and threads
-        QueueClientRequest cgi = new QueueClientRequest(map, modelCommands, soundManager, clientStates);
-        var gameLoop = new GameLoop(clientStates, modelCommands, viewCommands, cts);
+        ModelCommandFactory modelCommandFactory = new ModelCommandFactory(gameContext);
+        ClientRequestsQueue cgi = new ClientRequestsQueue(gameContext, modelCommandFactory, modelCommands);
+        var gameLoop = new GameLoop(modelCommands, viewCommands, cts);
         var renderDispatcher = new RenderDispatcher(viewCommands, clientStates, cts);
         var serverListener = new ClientLifeManager(port, cgi, clientStates, renderDispatcher, cts);
         

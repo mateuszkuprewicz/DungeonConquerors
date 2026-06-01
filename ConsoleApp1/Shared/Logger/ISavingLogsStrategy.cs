@@ -33,5 +33,4 @@ public class SavingLogs : ISavingLogsStrategy
             yield return line;
         }
     }
-
 }

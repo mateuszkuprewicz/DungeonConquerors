@@ -8,14 +8,12 @@ namespace ConsoleApp1.Server;
 
 public class GameLoop
 {
-    private IControllerClientState _clientStates;
     private BlockingCollection<IModelCommand> _commands;
     private BlockingCollection<IViewCommand> _viewCommands;
     CancellationTokenSource _cts;
 
-    public GameLoop(IControllerClientState clientStates, BlockingCollection<IModelCommand> commands, BlockingCollection<IViewCommand> viewCommands,CancellationTokenSource cts)
+    public GameLoop(BlockingCollection<IModelCommand> commands, BlockingCollection<IViewCommand> viewCommands, CancellationTokenSource cts)
     {
-        _clientStates = clientStates;
         _commands = commands;
         _viewCommands = viewCommands;
         _cts = cts;
@@ -28,16 +26,9 @@ public class GameLoop
         {
             foreach (var command in _commands.GetConsumingEnumerable(_cts.Token))
             {
-                var context = _clientStates.GetClientGameContext(command.Id);
-            
-                if (context == null)
+                if (command.CanExecute())
                 {
-                    Console.WriteLine($"[GameLoop ERROR] Pobrano kontekst NULL dla gracza o ID: {command.Id}. Pomijam komendę {command.GetType()}.");
-                    continue; // Przejdź do następnej komendy w kolejce, nie wywalaj pętli!
-                }
-                if (command.CanExecute(context))
-                {
-                    command.Execute(context, _viewCommands);
+                    command.Execute(_viewCommands);
                     Console.WriteLine($"[GameLoop] Wykonano polecenie typu {command.GetType()}");
                 }
                 else

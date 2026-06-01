@@ -29,22 +29,8 @@ public class Render
 
     public void RenderAll()
     {
-        // Guard: Jeśli nie ma mapy, nie mamy czego rysować
         if (_state?.Map == null) return; 
-
-        // --- KLUCZOWA NAPRAWA RUCHU ---
-        // Przed narysowaniem czegokolwiek, pobieramy najświeższe dane o naszej postaci 
-        // prosto z nowej mapy przysłanej przez serwer.
-        if (_state.Hero != null && _state.Map.Heroes != null)
-        {
-            var updatedMe = _state.Map.Heroes.FirstOrDefault(h => h.Id == _state.Hero.Id);
-            if (updatedMe != null)
-            {
-                // Aktualizujemy pozycję, statystyki i ekwipunek na ułamek sekundy przed renderem!
-                _state.Hero = updatedMe; 
-            }
-        }
-        // ------------------------------
+        
 
         lock (ConsoleLock)
         {
@@ -88,7 +74,6 @@ public class Render
                 Console.WriteLine();
             }
 
-            // Rysowanie NASZEGO bohatera (teraz ma poprawnie zaktualizowaną pozycję!)
             if (_state?.Hero != null)
             {
                 var _hero = _state.Hero;
@@ -96,6 +81,44 @@ public class Render
                 Console.Write($"{_hero.Name}");
                 Console.SetCursorPosition(DefaultCursorPosition.Item1, DefaultCursorPosition.Item2);
             }
+        }
+    }
+    
+    public void UpdateSingleTile(int x, int y)
+    {
+        var _gameMap = _state?.Map;
+        if (_gameMap?.TyleTypes == null || y < 0 || y >= MapHeight || x < 0 || x >= MapWidth) return;
+
+        lock (ConsoleLock)
+        {
+            Console.SetCursorPosition(x, y);
+
+            if (_state.Hero != null && _state.Hero.Pos.X == x && _state.Hero.Pos.Y == y)
+            {
+                Console.Write(_state.Hero.Name);
+            }
+            else if (_gameMap.Heroes != null && _gameMap.Heroes.Any(h => h.Pos.X == x && h.Pos.Y == y))
+            {
+                var otherHero = _gameMap.Heroes.First(h => h.Pos.X == x && h.Pos.Y == y);
+                Console.Write(otherHero.Name);
+            }
+            else if (_gameMap.Enemies[y]?[x] != null)
+            {
+                Console.Write(_gameMap.Enemies[y][x]!.Symbol);
+            }
+            else if (_gameMap.TyleTypes[y][x] == TyleType.Normal)
+            {
+                if (_gameMap.Map[y]?[x] == null)
+                    Console.Write(" "); 
+                else
+                    Console.Write(_gameMap.Map[y][x]!.Symbol); 
+            }
+            else
+            {
+                Console.Write("█");
+            }
+
+            Console.SetCursorPosition(DefaultCursorPosition.Item1, DefaultCursorPosition.Item2);
         }
     }
 

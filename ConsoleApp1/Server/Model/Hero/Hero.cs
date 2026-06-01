@@ -1,7 +1,9 @@
 ﻿using ConsoleApp1.DTO.ClientRequests;
+using ConsoleApp1.GameState;
 using ConsoleApp1.Items.Weapon;
 using ConsoleApp1.SoundPropagation.SoundMediation;
 using ConsoleApp1.Shared;
+using ConsoleApp1.Shared.ShallowModel;
 
 namespace ConsoleApp1
 {
@@ -13,6 +15,8 @@ namespace ConsoleApp1
         public HeroHands Hands { get; private set; }
         public HerosEquipment Equipment { get; private set; }
         public (int X, int Y) Position { get; set; }
+        
+        public HeroStateContext HeroStateContext { get; private set; }
 
         private ISoundPublisher _soundPublisher;
         
@@ -37,6 +41,7 @@ namespace ConsoleApp1
             if(IsPositionValid(newPosition, gameMap))
             {
                 Position = newPosition;
+                HeroStateContext.Update(Position, gameMap);
                 return true;
             }
             
@@ -57,6 +62,57 @@ namespace ConsoleApp1
             _soundPublisher = soundPublisher;
             Equipment = new HerosEquipment(this, _soundPublisher);
             Hands = new HeroHands();
+            HeroStateContext = new HeroStateContext();
+        }
+        
+        public ShallowHero ToShallowHero()
+        {
+            var shallowHero = new ShallowHero
+            {
+                Id = this.Id,
+                Name = this.Id.ToString()[0], 
+                Pos = new Position(this.Position.X, this.Position.Y),
+        
+                Stats = new ShallowHeroStats
+                {
+                    Strength = this.Stats.Strength,
+                    Agility = this.Stats.Agility,
+                    Luck = this.Stats.Luck,
+                    Agressiveness = this.Stats.Agressiveness,
+                    Wisdom = this.Stats.Wisdom,
+                    Health = this.Stats.Health
+                },
+        
+                Equipment = new ShallowEquipment
+                {
+                    Coins = this.Equipment.Coins,
+                    Gold = this.Equipment.Gold,
+                    EquipmentPointer = this.Equipment.EquipmentPointer,
+            
+                    EquipmentList = this.Equipment.EquipmentList.Select(item => new ShallowItem 
+                    { 
+                       Symbol = item.Symbol,
+                       Name = item.Name
+                    }).ToList()
+                },
+        
+                Hands = new ShallowHeroHands
+                {
+                    LeftHand = this.Hands.LeftHand != null ? new ShallowItem 
+                    { 
+                        Symbol = this.Hands.LeftHand.Symbol,
+                        Name = this.Hands.LeftHand.Name
+                    } : null,
+            
+                    RightHand = this.Hands.RightHand != null ? new ShallowItem 
+                    { 
+                        Symbol = this.Hands.RightHand.Symbol,
+                        Name = this.Hands.RightHand.Name
+                    } : null
+                }
+            };
+
+            return shallowHero;
         }
     }
 

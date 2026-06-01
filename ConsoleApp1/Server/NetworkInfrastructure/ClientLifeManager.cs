@@ -10,16 +10,16 @@ using System.Net.Sockets;
 public class ClientLifeManager
 {
     private int _port;
-    private SemaphoreSlim _connections;
+    private SemaphoreSlim _connectionsSem;
     private IAcceptClientState _states;
-    private QueueClientRequest _clientsQueuer;
+    private ClientRequestsQueue _clientsQueuer;
     private RenderDispatcher _renderDispatcher;
     private CancellationTokenSource cts;
 
-    public ClientLifeManager(int Port, QueueClientRequest clientsQueuer, IAcceptClientState states, RenderDispatcher renderDispatcher, CancellationTokenSource cts)
+    public ClientLifeManager(int Port, ClientRequestsQueue clientsQueuer, IAcceptClientState states, RenderDispatcher renderDispatcher, CancellationTokenSource cts)
     {
         _port = Port;
-        _connections = new SemaphoreSlim(ServerConsts.MaxConnections, ServerConsts.MaxConnections);
+        _connectionsSem = new SemaphoreSlim(ServerConsts.MaxConnections, ServerConsts.MaxConnections);
         _states = states;
         _clientsQueuer = clientsQueuer;
         _renderDispatcher = renderDispatcher;
@@ -41,7 +41,7 @@ public class ClientLifeManager
         {
             while (!token.IsCancellationRequested)
             {
-                await _connections.WaitAsync(token);
+                await _connectionsSem.WaitAsync(token);
                 TcpClient client = await listener.AcceptTcpClientAsync(token);
                 Console.WriteLine("New client connected\n");
                 
@@ -50,8 +50,9 @@ public class ClientLifeManager
                 clients.RemoveAll(t => t.IsCompleted);
             }
         }
-        catch (ObjectDisposedException)
+        catch (Exception e)
         {
+            Console.Error.WriteLine(e);
         }
         finally
         {
@@ -65,20 +66,21 @@ public class ClientLifeManager
         {
             var clientView = new ClientView(id, client);
             _renderDispatcher.Subscribe(id, clientView);
-            _clientsQueuer.Initialise(id, client, token);
+            _clientsQueuer.Initialise(id, token);
             ClientReader cr = new ClientReader(id, client, _clientsQueuer);
             await cr.HandleCLient(token);
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            Console.Error.WriteLine(e);
         }
         finally
         {
             _renderDispatcher.UnSubscribe(id);
             _states.Disconnect(id);
-            _connections.Release();
+            _connectionsSem.Release();
             client.Dispose();
+            Console.Error.WriteLine($"Client {id} disconnected");
         }
     }
 }

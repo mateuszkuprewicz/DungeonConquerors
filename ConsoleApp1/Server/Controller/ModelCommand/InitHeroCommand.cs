@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using ConsoleApp1.GameState;
 using ConsoleApp1.Server.ClientStates;
+using ConsoleApp1.Server.Model;
 using ConsoleApp1.Server.View.ViewCommand;
 using ConsoleApp1.Shared;
 using ConsoleApp1.Shared.DTO.ServerAnswers.GameChangedBroadcast;
@@ -13,50 +14,46 @@ namespace ConsoleApp1.Server.Controller.Command;
 public class InitHeroCommand : IModelCommand
 {
     public int Id { get; }
-    private GameMap _map;
-    private IControllerClientState _clientStates;
-    private DungeonSoundManager _soundManager;
+    private GameContext _gameContext;
 
-    public InitHeroCommand(int id, GameMap map, IControllerClientState clientStates)
+    public InitHeroCommand(int id, GameContext gameContext)
     {
         Id = id;
-        _map = map;
-        _clientStates = clientStates;
+        _gameContext = gameContext;
     }
 
-    public bool CanExecute(GameStateContext context)
+    public bool CanExecute()
     {
+        var map = _gameContext.Map;
         for (int i = 0; i < ModelConsts.MapHeight; i++)
         {
             for (int j = 0; j < ModelConsts.MapWidth; j++)
             {
-                if (_map.map[i, j] != null && _map.enemies[i, j] == null && _map.heroes[i, j] == null)
+                if (map.map[i, j] != null && map.enemies[i, j] == null && map.heroes[i, j] == null)
                     return true;
             }
         }
         return false;
     }
     
-    public void Execute(GameStateContext context, BlockingCollection<IViewCommand> viewCommands)
+    public void Execute(BlockingCollection<IViewCommand> viewCommands)
     {
-        var map = _map.MapShallower();
-        map.PlayerId = Id + 1;
-        viewCommands.Add(new SendMapViewCommand(Id, map));
+        var shallow_map = _gameContext.Map.MapShallower();
+        shallow_map.PlayerId = Id;
+        viewCommands.Add(new SendMapViewCommand(Id, shallow_map));
 
-        Hero hero = new Hero(Id, _soundManager);
-        hero.Position = _map.GetRandomFreePosition();
+        var map = _gameContext.Map;
+        Hero hero = new Hero(Id, _gameContext.SoundManager);
+        hero.Position = map.GetRandomFreePosition();
         var newClient = new NewClient();
         newClient.Id = Id;
         newClient.X = hero.Position.X;
         newClient.Y = hero.Position.Y;
-        _map.heroes[hero.Position.Y, hero.Position.X] = hero;
+        map.heroes[hero.Position.Y, hero.Position.X] = hero;
         
         viewCommands.Add(new PlayerCreationCommand(newClient));
         
         Console.WriteLine($"[GameLoop] Zainicjalizowano gracza {Id} i wrzucono mapę do wysyłki.");
-        
-        //find pos
-        //context.Update();
     }
     
 }

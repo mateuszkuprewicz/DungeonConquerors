@@ -7,9 +7,9 @@ public class ClientReader
 {
     private int _id;
     private TcpClient _client;
-    private QueueClientRequest _queuer;
+    private ClientRequestsQueue _queuer;
 
-    public ClientReader(int id, TcpClient client, QueueClientRequest queuer)
+    public ClientReader(int id, TcpClient client, ClientRequestsQueue queuer)
     {
         _id = id;
         _client = client;
@@ -38,11 +38,6 @@ public class ClientReader
 
                     _queuer.AddCommand(_id, type, serialisedClientObject, token);
                     Console.WriteLine($"[ClientService] wywołano QueueClientRequest.AddCommand: {type}");
-                }
-
-                if (_client.Client.Poll(0, SelectMode.SelectRead) && _client.Available == 0)
-                {
-                    break;
                 }
             }
         }

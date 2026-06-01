@@ -4,6 +4,7 @@ using System.Text;
 using ConsoleApp1.Client.NetworkInfrastructure;
 using ConsoleApp1.NetworkController;
 using ConsoleApp1.KeyController;
+using ConsoleApp1.Logger;
 using ConsoleApp1.Shared.ShallowModel;
 
 namespace ConsoleApp1.Client
@@ -11,7 +12,7 @@ namespace ConsoleApp1.Client
     class Program
     {
         private string ServerIp;
-        private  int ServerPort = 8080;
+        private int ServerPort = 8080;
 
         public async Task Run(string ip, int port)
         {

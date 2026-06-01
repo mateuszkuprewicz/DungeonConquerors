@@ -3,31 +3,26 @@ using System.Net.Sockets;
 using ConsoleApp1.DTO.ClientRequests;
 using ConsoleApp1.Server.ClientStates;
 using ConsoleApp1.Server.Controller.Command;
+using ConsoleApp1.Server.Model;
 using ConsoleApp1.SoundPropagation.SoundMediation;
 
 namespace ConsoleApp1.Server;
 
-public class QueueClientRequest
+public class ClientRequestsQueue
 {
     private BlockingCollection<IModelCommand> _modelCommands;
-    private IControllerClientState _controllerClientState;
     private ModelCommandFactory _modelCommandFactory;
-    private GameMap _map;
-    private DungeonSoundManager _soundManager;
     
-    public QueueClientRequest(GameMap map, BlockingCollection<IModelCommand> modelCommands, DungeonSoundManager manager ,IControllerClientState controllerClientState)
+    public ClientRequestsQueue(GameContext gameContext, ModelCommandFactory modelCommandFactory, BlockingCollection<IModelCommand> modelCommands)
     {
-        _map = map;
+        _modelCommandFactory = modelCommandFactory;
         _modelCommands = modelCommands;
-        _controllerClientState = controllerClientState;
-        _soundManager = manager;
-        _modelCommandFactory = new ModelCommandFactory(_map, _soundManager);
     }
 
-    public void Initialise(int id, TcpClient client, CancellationToken token)
+    public void Initialise(int id, CancellationToken token)
     {
-        _controllerClientState.InitClientGame(id, _map);
-        _modelCommands.Add(new InitHeroCommand(id, _map, _controllerClientState), token);
+        _modelCommands.Add(_modelCommandFactory.GetInit(id), token);
+        
     }
 
     public void AddCommand(int id, string type, string SerialisedClientRequest, CancellationToken token)

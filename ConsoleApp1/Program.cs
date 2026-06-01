@@ -14,28 +14,77 @@ class Program
         int defaultPort = 5555;
         string defaultIp = "127.0.0.1";
 
-        if (args.Length == 0 || args[0].ToLower() == "--help")
+        string mode = "";
+        string targetAddress = ""; // Dla serwera to sam port, dla klienta ip:port
+        bool isDetached = args.Contains("--detached");
+
+        // --- 1. SPRAWDZANIE ARGUMENTÓW LUB MENU INTERAKTYWNE ---
+        // Jeśli przekazano argumenty (i pierwszy z nich to nie flaga --detached), parsowanie z wiersza poleceń
+        if (args.Length > 0 && args[0].ToLower() != "--detached")
         {
-            PrintHelp();
-            return;
+            if (args[0].ToLower() == "--help")
+            {
+                PrintHelp();
+                return;
+            }
+            mode = args[0].ToLower();
+            if (args.Length > 1)
+            {
+                // Zakładamy, że format to np. `--client 192.168.1.1:5555 --detached`
+                // adres to wtedy drugi element tablicy args[1]
+                targetAddress = args[1];
+            }
+        }
+        else if (!isDetached)
+        {
+            // Tryb interaktywny (brak argumentów startowych)
+            Console.WriteLine("Wybierz tryb uruchomienia:");
+            Console.WriteLine("1. Serwer");
+            Console.WriteLine("2. Klient");
+            Console.Write("Twój wybór (1/2): ");
+            
+            string choice = Console.ReadLine()?.Trim();
+
+            if (choice == "1")
+            {
+                mode = "--server";
+                Console.Write($"Podaj port (wciśnij Enter dla domyślnego {defaultPort}): ");
+                string portInput = Console.ReadLine()?.Trim();
+                if (!string.IsNullOrEmpty(portInput))
+                    targetAddress = portInput;
+            }
+            else if (choice == "2")
+            {
+                mode = "--client";
+                Console.Write($"Podaj adres IP:PORT (wciśnij Enter dla domyślnego {defaultIp}:{defaultPort}): ");
+                string ipInput = Console.ReadLine()?.Trim();
+                if (!string.IsNullOrEmpty(ipInput))
+                    targetAddress = ipInput;
+            }
+            else
+            {
+                Console.WriteLine("Nieprawidłowy wybór. Zamykanie programu.");
+                return;
+            }
         }
 
-        string mode = args[0].ToLower();
-
-        // --- AUTOMATYCZNE OTWIERANIE NOWEGO OKNA DLA KLIENTA ---
-        if (mode == "--client" && !args.Contains("--detached"))
+        // --- 2. AUTOMATYCZNE OTWIERANIE NOWEGO OKNA DLA KLIENTA ---
+        if (mode == "--client" && !isDetached)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                // Rekonstruujemy dokładnie te same argumenty, z którymi wywołano program,
-                // dorzucając flagę bezpieczeństwa --detached na koniec
-                string passArguments = string.Join(" ", args) + " --detached";
+                // Budujemy argumenty dla nowego okna
+                string passArguments = $"--client {targetAddress} --detached";
+                
+                // Pobieramy ścieżkę do obecnie uruchomionego pliku .exe, zamiast polegać na 'dotnet run'
+                string currentExecutable = Environment.ProcessPath;
 
                 var startInfo = new ProcessStartInfo
                 {
                     FileName = "cmd.exe",
-                    // /c odpala okno, wykonuje komendę i po jej zamknięciu przez gracza zwalnia cmd
-                    Arguments = $"/c dotnet run -- {passArguments}",
+                    // Używamy /k żeby okno się nie zamykało przy błędach, 
+                    // a ścieżkę .exe otaczamy cudzysłowami na wypadek spacji w nazwie folderu
+                    Arguments = $"/k \"\"{currentExecutable}\" {passArguments}\"",
                     CreateNoWindow = false,
                     UseShellExecute = true
                 };
@@ -47,12 +96,21 @@ class Program
             }
         }
 
+        // --- 3. GŁÓWNA LOGIKA URUCHAMIANIA ---
         try
         {
             if (mode == "--server")
             {
                 // Parsowanie portu serwera
-                int port = args.Length > 1 ? int.Parse(args[1]) : defaultPort;
+                int port = defaultPort;
+                if (!string.IsNullOrEmpty(targetAddress) && targetAddress != "--detached")
+                {
+                    if (!int.TryParse(targetAddress, out port))
+                    {
+                        Console.WriteLine("Błędny format portu. Używam domyślnego.");
+                        port = defaultPort;
+                    }
+                }
                 
                 Console.WriteLine($"[BOOT] Uruchamianie SERWERA na porcie {port}...");
                 var server = new Server.ServerProgram();
@@ -64,11 +122,14 @@ class Program
                 string ip = defaultIp;
                 int port = defaultPort;
 
-                if (args.Length > 1)
+                if (!string.IsNullOrEmpty(targetAddress) && targetAddress != "--detached")
                 {
-                    var parts = args[1].Split(':');
+                    var parts = targetAddress.Split(':');
                     ip = parts[0];
-                    if (parts.Length > 1) port = int.Parse(parts[1]);
+                    if (parts.Length > 1 && int.TryParse(parts[1], out int parsedPort))
+                    {
+                        port = parsedPort;
+                    }
                 }
 
                 Console.WriteLine($"[BOOT] Uruchamianie KLIENTA łączącego się z {ip}:{port}...");
@@ -77,7 +138,7 @@ class Program
             }
             else
             {
-                Console.WriteLine("Nieznany argument.");
+                Console.WriteLine("Nieznany tryb działania.");
                 PrintHelp();
             }
         }
@@ -86,12 +147,14 @@ class Program
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine($"[CRITICAL ERROR] {ex.Message}");
             Console.ResetColor();
+            Console.ReadLine(); // Zatrzymuje zamykanie konsoli przy błędzie krytycznym
         }
     }
 
     static void PrintHelp()
     {
         Console.WriteLine("\nUżycie:");
+        Console.WriteLine("  Możesz uruchomić program bez argumentów, aby skorzystać z menu interaktywnego.");
         Console.WriteLine("  --server [port]              - uruchamia serwer (domyślnie 5555)");
         Console.WriteLine("  --client [ip:port]           - uruchamia klienta (domyślnie 127.0.0.1:5555)");
         Console.WriteLine("\nPrzykłady:");
