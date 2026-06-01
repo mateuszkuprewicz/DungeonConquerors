@@ -37,7 +37,7 @@ public class ClientReader
                     string serialisedClientObject = parts[1];
 
                     _queuer.AddCommand(_id, type, serialisedClientObject, token);
-                    Console.WriteLine($"[ClientService] wywołano QueueClientRequest.AddCommand: {type}");
+                    Console.WriteLine($"[ClientService] Otrzymano polecenie od klienta {_id}: {type}");
                 }
             }
         }

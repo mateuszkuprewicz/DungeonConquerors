@@ -1,8 +1,5 @@
 ﻿using System.Collections.Concurrent;
 using ConsoleApp1.DTO.ClientRequests;
-using ConsoleApp1.GameState;
-using ConsoleApp1.LoopState;
-using ConsoleApp1.Server.ClientStates;
 using ConsoleApp1.Server.Model;
 using ConsoleApp1.Server.View.ViewCommand;
 using ConsoleApp1.Shared;
@@ -12,25 +9,17 @@ using ConsoleApp1.SoundPropagation.SoundMediation;
 
 namespace ConsoleApp1.Server.Controller.Command;
 
-public class MovePlayerCommand : IModelCommand
+public class MoveHeroCommand : AbstractExplorationCommand, IModelCommand
 {
-    public int Id { get; set; }
-    private GameContext _gameContext;
     private Direction _direction;
 
-    public MovePlayerCommand(int id, Direction direction, GameContext gameContext)
+    public MoveHeroCommand(int id, Direction direction, GameContext gameContext)
     {
         Id = id;
         _direction = direction;
         _gameContext = gameContext;
     }
-
-    public bool CanExecute()
-    {
-        //zaimplementuj
-        return true;
-    }
-
+    
     public void Execute(BlockingCollection<IViewCommand> viewCommands)
     {
         if (_gameContext.Map == null)
@@ -82,12 +71,12 @@ public class MovePlayerCommand : IModelCommand
                         deltaHeroes.Add(hero.ToShallowHero());
                         deltaUpdateMessage.UpdatedHeroes = deltaHeroes;
                         
-
-                        var shallowMap = map.MapShallower(); 
                         viewCommands.Add(new MapDeltaCommand(deltaUpdateMessage));
-
-                        return; 
+                        viewCommands.Add(new SendLogCommand(Id, new LogMessege() { Text = $"Player moved to {hero.Position}"}));
+                        return;
                     }
+                    else viewCommands.Add(new SendLogCommand(Id, new LogMessege() { Text = $"You cant move into a wall or enemy!"}));
+                    
                 }
             }
         }

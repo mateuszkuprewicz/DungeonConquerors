@@ -87,7 +87,6 @@ namespace ConsoleApp1
                 {
                     Coins = this.Equipment.Coins,
                     Gold = this.Equipment.Gold,
-                    EquipmentPointer = this.Equipment.EquipmentPointer,
             
                     EquipmentList = this.Equipment.EquipmentList.Select(item => new ShallowItem 
                     { 
@@ -153,7 +152,6 @@ namespace ConsoleApp1
         private ISoundPublisher _soundPublisher; 
 
         public List<Item> EquipmentList { get; private set; }
-        public int EquipmentPointer = 0;
         public (int completion, Item? item) PickItem((int X, int Y) position, GameMap gameMap)
         {
             if (gameMap.map[position.Y, position.X].Count() == 0)
@@ -166,18 +164,18 @@ namespace ConsoleApp1
                 _soundPublisher.Notify(hero.Position, item.SoundRange);
             return (1, item);
         }
-        public bool DropItem((int X, int Y) position, GameMap gameMap)
+        public bool DropItem((int X, int Y) position, GameMap gameMap, int equipmentPointer)
         {
-            if (EquipmentPointer < 0 || EquipmentPointer >= EquipmentList.Count)
+            if (equipmentPointer < 0 || equipmentPointer >= EquipmentList.Count)
             {
-                EquipmentPointer = 0;
+                equipmentPointer = 0;
                 return false;
             }
-            var item = EquipmentList[EquipmentPointer];
-            EquipmentList.RemoveAt(EquipmentPointer);
+            var item = EquipmentList[equipmentPointer];
+            EquipmentList.RemoveAt(equipmentPointer);
             gameMap.map[position.Y, position.X].Push(item);
-            if(EquipmentPointer > 0)
-                EquipmentPointer--;
+            if(equipmentPointer > 0)
+                equipmentPointer--;
             return true;
         }
         public HerosEquipment(Hero hero, ISoundPublisher soundPublisher)
@@ -202,16 +200,16 @@ namespace ConsoleApp1
     {
         public AbstractWeapon? LeftHand { get; set; }
         public AbstractWeapon? RightHand { get; set; }
-        public (bool completion, Item? item) EquipWeapon(Hero hero)
+        public (bool completion, Item? item) EquipWeapon(Hero hero, int equipmentPointer)
         {
             HerosEquipment equipment = hero.Equipment;
             if(equipment.EquipmentList.Count == 0) return (false, null);
-            var item = equipment.EquipmentList[equipment.EquipmentPointer];
+            var item = equipment.EquipmentList[equipmentPointer];
             if(item.Wear(hero))
             {
-                equipment.EquipmentList.RemoveAt(equipment.EquipmentPointer);
-                if(equipment.EquipmentPointer > 0)
-                    equipment.EquipmentPointer--;
+                equipment.EquipmentList.RemoveAt(equipmentPointer);
+                if(equipmentPointer > 0)
+                    equipmentPointer--;
                 return (true, item);
             }
             else return (false, null);

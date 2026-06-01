@@ -7,27 +7,21 @@ public class LogRenderer
     private static readonly (int, int) LogsTableStart = (78, 10); 
     private const int MaxVisibleLogLines = 6;
     private const int LastLogsNum = 4;
-    public EventLog LogSource { get; init; }
     
     public bool IsRenderingAllLogs { get; set; }
-
-    private Lock _renderLock;
     
-    public LogRenderer(EventLog logSource, Lock rLock)
+    public LogRenderer()
     {
-        LogSource = logSource;
-        _renderLock = rLock;
         IsRenderingAllLogs = false;
     }
 
     public void RenderLast()
     {
-        List<string> logFileContent = LogSource.GetAllLogs().ToList();
+        var logger = EventLog.GetEventLog();
+        List<string> logFileContent = logger.GetAllLogs().ToList();
         
         List<string> recentLogs = logFileContent.Take(LastLogsNum).ToList();
         
-        lock (_renderLock)
-        {
             ClearLogArea();
 
             List<string> linesToPrint = GetWrappedLines(recentLogs);
@@ -44,15 +38,13 @@ public class LogRenderer
             }
             
             Console.SetCursorPosition(RenderConsts.DefaultCursorPosition.Item1, RenderConsts.DefaultCursorPosition.Item2);
-        }
     }
 
     public void RenderAll()
     {
-        List<string> allLogs = LogSource.GetAllLogs().ToList();
-        
-        lock (_renderLock)
-        {
+        var logger = EventLog.GetEventLog();
+        List<string> allLogs = logger.GetAllLogs().ToList();
+
             int h = 1;
             if(Console.BufferHeight < allLogs.Count + h)
                 Console.BufferHeight = allLogs.Count + h;
@@ -67,8 +59,6 @@ public class LogRenderer
                 Console.WriteLine(log);
                 h++;
             }
-            
-        }
 
         IsRenderingAllLogs = true;
     }

@@ -6,6 +6,7 @@ using ConsoleApp1.NetworkController;
 using ConsoleApp1.KeyController;
 using ConsoleApp1.Logger;
 using ConsoleApp1.Shared.ShallowModel;
+using ConsoleApp1.View;
 
 namespace ConsoleApp1.Client
 {
@@ -18,7 +19,8 @@ namespace ConsoleApp1.Client
         {
             Shared.ShallowModel.GameState gameState = new Shared.ShallowModel.GameState();
             Render render = new Render(gameState);
-            DeserialisingDtoFactory deserialisingDtoFactory = new DeserialisingDtoFactory(gameState, render);
+            LogRenderer logRenderer = new LogRenderer();
+            DeserialisingDtoFactory deserialisingDtoFactory = new DeserialisingDtoFactory(gameState, render, logRenderer);
             
             ServerIp = ip;
             ServerPort = port;
@@ -30,7 +32,7 @@ namespace ConsoleApp1.Client
             {
                 using var client = new TcpClient();
                 await client.ConnectAsync(ServerIp, ServerPort);
-                KeyController.KeyController keyController = new KeyController.KeyController(client, render, gameState);
+                KeyController.KeyController keyController = new KeyController.KeyController(client, render, logRenderer, gameState);
                 Reader reader = new Reader(client, deserialisingDtoFactory);
                 List<Task> tasks = new List<Task>();
                 tasks.Add(reader.ReadLoop());

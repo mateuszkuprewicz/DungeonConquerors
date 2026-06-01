@@ -41,13 +41,10 @@ public class RenderDispatcher
             {
                 if (command.TargetId == ServerConsts.BroadcastId)
                 {
-                    Console.Error.WriteLine("Broadcast");
                     foreach (var clientView in _clientViews.Values)
                     {
-                        Console.Error.WriteLine($"checking if i can send to {clientView.Id}");
                         if (command.CanSend(_socketClientStates, clientView.Id))
                         {
-                            Console.Error.WriteLine($"Sending to {clientView.Id}");
                             clientView.Enqueue(command);
                         }
                     }

@@ -52,15 +52,15 @@ internal class InstructionBuilder
         }
         return false;
     }
-    bool EquipingWeapons()
-    {
-        int pointer = MyHero.Equipment.EquipmentPointer;
-        if (MyHero.Equipment.EquipmentList.Count != 0 && MyHero.Equipment.EquipmentList[pointer] is AbstractWeapon)
-        {
-            return true;
-        }
-        return false;
-    }
+    // bool EquipingWeapons()
+    // {
+    //     int pointer = MyHero.Equipment.equipmentPointer;
+    //     if (MyHero.Equipment.EquipmentList.Count != 0 && MyHero.Equipment.EquipmentList[pointer] is AbstractWeapon)
+    //     {
+    //         return true;
+    //     }
+    //     return false;
+    // }
 
     bool UnequipingWeapons()
     {
@@ -91,7 +91,7 @@ internal class InstructionBuilder
             if(HeroMove()) _instructionRender.HowToMove();
             if(PickingItems()) _instructionRender.HowToPickItems();
             else if(ThrowItems()) _instructionRender.HowToDropItems();
-            if(EquipingWeapons()) _instructionRender.HowToEquipItems();
+            // if(EquipingWeapons()) _instructionRender.HowToEquipItems();
             else if(UnequipingWeapons()) _instructionRender.HowToUnequipItems();
         }
     }

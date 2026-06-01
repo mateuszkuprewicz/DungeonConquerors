@@ -32,8 +32,10 @@ public class MapDeltaHandler : IMessageHandler
             int id = hero.Id;
             if (id == _state.Map.PlayerId)
             {
+                int prevEquipPointer = _state.Hero != null ? _state.Hero.Equipment.EquipmentPointer : 0;
                 var prevHeroPos = _state.Hero?.Pos;
                 _state.Hero = hero;
+                _state.Hero.Equipment.EquipmentPointer = prevEquipPointer;
                 
                 if (prevHeroPos != null && (prevHeroPos.X != hero.Pos.X || prevHeroPos.Y != hero.Pos.Y))
                 {
@@ -61,5 +63,7 @@ public class MapDeltaHandler : IMessageHandler
                 }
             }
         }
+        
+        _render.RenderMenu();
     }
 }

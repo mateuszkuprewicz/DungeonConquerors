@@ -9,7 +9,7 @@ public class GameContext
     public HashSet<Enemy> Enemies;
     public DungeonSoundManager SoundManager;
     
-    public GameContext(GameMap map)
+    public GameContext(GameMap map, DungeonSoundManager soundManager)
     {
         Map = map;
         Heroes = new HashSet<Hero>();
@@ -18,6 +18,6 @@ public class GameContext
         Enemies = new HashSet<Enemy>();
         foreach (var enemy in map.enemies)
             if (enemy != null) Enemies.Add(enemy);
-        SoundManager = new DungeonSoundManager(map);
+        SoundManager = soundManager;
     }
 }

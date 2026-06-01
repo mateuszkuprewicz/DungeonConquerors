@@ -18,12 +18,12 @@ public class ClientPickUp{}
 
 public class ClientDrop
 {
-    public int EquipmentPointer{get; set;}
+    public int ItemNumber{get; set;}
 }
 
 public class ClientEquip
 {
-    public int EquipmentPointer{get; set;}
+    public int ItemNumber{get; set;}
 }
 
 public class ClientUnequip {}

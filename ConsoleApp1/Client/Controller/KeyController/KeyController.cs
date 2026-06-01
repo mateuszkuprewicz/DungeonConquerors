@@ -1,5 +1,6 @@
 ﻿using System.Net.Sockets;
 using ConsoleApp1.ChainOfKeyOperations;
+using ConsoleApp1.View;
 
 namespace ConsoleApp1.KeyController;
 
@@ -10,17 +11,23 @@ public class KeyController
     private Render _render;
     private Shared.ShallowModel.GameState _state;
 
-    public KeyController(TcpClient client, Render render, Shared.ShallowModel.GameState state)
+    public KeyController(TcpClient client, Render render, LogRenderer logRenderer, Shared.ShallowModel.GameState state)
     {
         _client = client;
         _render = render;
         _state = state;
 
-        _root = new EquipmentScrollNode(render);
+        _root = new EquipmentScrollNode(render, _state);
         var _moveNode = new MoveNode(client, state);
+        var pickUpNode = new PickDropNode(client, state);
+        var equipNode = new WeaponEquipmentNode(client, state);
+        var logChangeNode = new LogChangeViewNode(logRenderer, render);
         var sentinel = new Sentinel();
         _root.SetNextHandler(_moveNode);
-        _moveNode.SetNextHandler(sentinel);
+        _moveNode.SetNextHandler(pickUpNode);
+        pickUpNode.SetNextHandler(equipNode);
+        equipNode.SetNextHandler(logChangeNode);
+        logChangeNode.SetNextHandler(sentinel);
     }
 
     public async Task Run()

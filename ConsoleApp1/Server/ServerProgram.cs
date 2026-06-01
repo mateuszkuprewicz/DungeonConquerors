@@ -33,7 +33,7 @@ public class ServerProgram
         MapDirector mapDirector = new MapDirector(builder, dungeonTheme);
         mapDirector.CreateDungeon();
 
-        GameContext gameContext = new GameContext(map);
+        GameContext gameContext = new GameContext(map, soundManager);
 
         var cts = new CancellationTokenSource();
         var modelCommands = new BlockingCollection<IModelCommand>();

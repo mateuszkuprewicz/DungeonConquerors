@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Linq; // WAŻNE: Dodane do wyszukiwania bohatera
+using System.Linq;
+using System.Threading.Tasks;
 using ConsoleApp1.Shared;
 using ConsoleApp1.Shared.ShallowModel;
 
@@ -30,7 +31,6 @@ public class Render
     public void RenderAll()
     {
         if (_state?.Map == null) return; 
-        
 
         lock (ConsoleLock)
         {
@@ -131,86 +131,28 @@ public class Render
         RenderHeroHands();
         RenderInfo();
     }
-
-    public void ActualiseAfterHeroMove((int X, int Y) previousPosition)
-    {
-        var _gameMap = _state?.Map;
-        var _hero = _state?.Hero;
-        if (_gameMap?.Map == null || _gameMap.Enemies == null || _hero == null) return;
-
-        lock (ConsoleLock)
-        {
-            (int X, int Y) = previousPosition;
-            Console.SetCursorPosition(X, Y);
-            if (_gameMap.Enemies[Y]?[X] != null)
-                Console.Write("E");
-            else if (_gameMap.Map[Y]?[X] == null)
-                Console.Write(" ");
-            else Console.Write(_gameMap.Map[Y][X]!.Symbol);
-            
-            Console.SetCursorPosition(_hero.Pos.X, _hero.Pos.Y);
-            Console.Write("H");
-            Console.SetCursorPosition(DefaultCursorPosition.Item1, DefaultCursorPosition.Item2);
-        }
-    }
     
-    public void ActualiseAfterEnemyMove((int X, int Y) previousPosition, ShallowEnemy enemy)
+    public void UpdateEquipmentScroll(int oldPointer, int newPointer)
     {
-        var _gameMap = _state?.Map;
-        if (_gameMap?.Map == null || enemy == null) return;
-
         lock (ConsoleLock)
         {
-            (int X, int Y) = previousPosition;
-            Console.SetCursorPosition(X, Y);
-            if (_gameMap.Map[Y]?[X] == null)
-                Console.Write(" ");
-            else Console.Write(_gameMap.Map[Y][X]!.Symbol);
-            
-            Console.SetCursorPosition(enemy.Pos.X, enemy.Pos.Y);
-            Console.Write("E");
-            Console.SetCursorPosition(DefaultCursorPosition.Item1, DefaultCursorPosition.Item2);
+            PrintNthEquipmentLine(oldPointer, newPointer);
+            PrintNthEquipmentLine(newPointer, newPointer);
         }
     }
 
-    private int _equipmentPointer = 0;
-
-    public void EquipmentScroll(ConsoleKey k)
-    {
-        var _hero = _state?.Hero;
-        if (_hero?.Equipment?.EquipmentList == null || _hero.Equipment.EquipmentList.Count == 0) return;
-
-        int maxIndex = _hero.Equipment.EquipmentList.Count - 1;
-
-        lock (ConsoleLock)
-        {
-            if (k == ConsoleKey.UpArrow && _equipmentPointer > 0)
-            {
-                _equipmentPointer--;
-                PrintNthEquipmentLine(_equipmentPointer);
-                PrintNthEquipmentLine(_equipmentPointer + 1);
-            }
-            else if (k == ConsoleKey.DownArrow && _equipmentPointer < maxIndex)
-            {
-                _equipmentPointer++;
-                PrintNthEquipmentLine(_equipmentPointer);
-                PrintNthEquipmentLine(_equipmentPointer - 1);
-            }
-        }
-    }
-
-    public void PrintNthEquipmentLine(int i)
+    public void PrintNthEquipmentLine(int i, int activePointer)
     {
         var _hero = _state?.Hero;
         if (i < 0 || _hero?.Equipment?.EquipmentList == null) return;
-        
+    
         lock (ConsoleLock)
         {
             Console.SetCursorPosition(EquipmentTableStart.Item1, EquipmentTableStart.Item2 + 4 + i);
             Console.Write(new string(' ', Console.WindowWidth - EquipmentTableStart.Item1));
             Console.SetCursorPosition(EquipmentTableStart.Item1, EquipmentTableStart.Item2 + 4 + i);
 
-            if (i == _equipmentPointer && _hero.Equipment.EquipmentList.Count != 0)
+            if (i == activePointer && _hero.Equipment.EquipmentList.Count != 0)
             {
                 Console.SetCursorPosition(EquipmentTableStart.Item1 - 1, EquipmentTableStart.Item2 + 4 + i);
                 Console.Write(">");
@@ -220,7 +162,7 @@ public class Render
                 Console.SetCursorPosition(EquipmentTableStart.Item1 - 1, EquipmentTableStart.Item2 + 4 + i);
                 Console.Write(" ");
             }
-            
+        
             if (i < _hero.Equipment.EquipmentList.Count)
             {
                 Console.Write($"{_hero.Equipment.EquipmentList[i].Name}");
@@ -252,7 +194,7 @@ public class Render
 
             for (int i = 0; i < _hero.Equipment.EquipmentList.Count; i++)
             {
-                PrintNthEquipmentLine(i);
+                PrintNthEquipmentLine(i, _hero.Equipment.EquipmentPointer);
             }
             
             for(int i = _hero.Equipment.EquipmentList.Count; i < 10; i++) 
@@ -382,7 +324,6 @@ public class Render
         var _gameMap = _state?.Map;
         if (_gameMap?.Enemies == null) return;
 
-        // Bierzemy ID ze stanu upewniając się, że nie przetestujemy nulla
         int myId = _state.Hero != null ? _state.Hero.Id : -1; 
         
         lock (ConsoleLock)
@@ -414,7 +355,6 @@ public class Render
             {
                 foreach (var enemy_hero in _gameMap.Heroes)
                 {
-                    // Zapobiega rysowaniu samego siebie po raz drugi (jako wróg)
                     if (myId != -1 && enemy_hero.Id == myId) continue;
 
                     Console.SetCursorPosition(enemy_hero.Pos.X, enemy_hero.Pos.Y);
@@ -427,7 +367,7 @@ public class Render
     
     private static readonly (int, int) EnemyStatsStart = (43, 16);
 
-    public static void RenderEnemyStats(Enemy enemy) 
+    public static void RenderEnemyStats(ShallowEnemy enemy) 
     {
         if (enemy == null) return;
         lock (ConsoleLock)
@@ -443,8 +383,6 @@ public class Render
 
             Console.SetCursorPosition(EnemyStatsStart.Item1, EnemyStatsStart.Item2 + 1);
             Console.Write($"Health: {enemy.Hp}");
-            Console.SetCursorPosition(EnemyStatsStart.Item1 + Tab, EnemyStatsStart.Item2 + 1);
-            Console.Write($"Damage: {enemy.Damage}");
 
             Console.SetCursorPosition(DefaultCursorPosition.Item1, DefaultCursorPosition.Item2);
         }
