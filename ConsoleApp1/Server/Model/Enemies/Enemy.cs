@@ -29,7 +29,7 @@ public class Enemy : IMovingEnemy, ISoundHearer
         sub.Subscribe(this);
     }
     
-    public void Move()
+    public (int X, int Y) Move()
     {
         (int,int) curPos = this.Position;
         (int, int) nextPos = MovingState.GetNextMove();
@@ -37,17 +37,18 @@ public class Enemy : IMovingEnemy, ISoundHearer
         Enemies[curPos.Item2, curPos.Item1] = null; 
         Position = (nextPos.Item1, nextPos.Item2); 
         Enemies[nextPos.Item2, nextPos.Item1] = this;
-        
+
+        return Position;
     }
 
-    public void Hear(NoiseEvent sound)
+    public string Hear(NoiseEvent sound)
     {
-        if (!sound.HasReached(this.Position)) return;
+        if (!sound.HasReached(this.Position)) return null;
+        
         Queue<(int, int)> path = sound.GetPathToSource(this.Position);
         MovingState = new TargetedMoving(this, Map, path);
-        EventLog logger = EventLog.GetEventLog();
-        string log = "Enemy hearing sound coming from " + sound.Source + " at " + this.Position + ". Path length: " + path.Count;
-        logger.Log(log);
+        
+        return $"Enemy {Name} heard a sound coming from {sound.Source}!";
     }
     
     public void ReceiveDamage(int damage)

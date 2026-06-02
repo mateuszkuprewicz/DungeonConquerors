@@ -1,4 +1,6 @@
-﻿using System.Text.Json;
+﻿using System;
+using System.Threading;
+using System.Text.Json;
 using ConsoleApp1.Shared;
 using ConsoleApp1.Shared.DTO.ServerAnswers.GameChangedBroadcast;
 using ConsoleApp1.Shared.ShallowModel;
@@ -18,63 +20,81 @@ public class MapDeltaHandler : IMessageHandler
         if (serialisedObject == null) throw new Exception("serialisedObject is null");
         _deltaUpdateMessage = JsonSerializer.Deserialize<DeltaUpdateMessage>(serialisedObject);
     }
+    
     public void Handle()
     {
-        foreach (var delta in _deltaUpdateMessage.Deltas)
+        bool menuNeedsUpdate = false;
+
+        if (_deltaUpdateMessage.Deltas != null)
         {
-            _state.Map.Map[delta.Y][delta.X] = delta.Item;
-            _state.Map.Enemies[delta.Y][delta.X] = delta.Enemy;
-            
-            _render.UpdateSingleTile(delta.X, delta.Y);
+            foreach (var delta in _deltaUpdateMessage.Deltas)
+            {
+                _state.Map.Map[delta.Y][delta.X] = delta.Item;
+                _state.Map.Enemies[delta.Y][delta.X] = delta.Enemy;
+                
+                _render.UpdateSingleTile(delta.X, delta.Y);
+
+                if (_state.Hero != null && _state.Hero.Pos.X == delta.X && _state.Hero.Pos.Y == delta.Y)
+                {
+                    menuNeedsUpdate = true;
+                }
+            }
         }
 
-        foreach (var hero in _deltaUpdateMessage.UpdatedHeroes)
+        if (_deltaUpdateMessage.UpdatedHeroes != null)
         {
-            int id = hero.Id;
-            if (id == _state.Map.PlayerId)
+            foreach (var hero in _deltaUpdateMessage.UpdatedHeroes)
             {
-                if (hero.Pos == new Position(-1, -1))
+                int id = hero.Id;
+                if (id == _state.Map.PlayerId)
                 {
-                    Render.RenderGameOver();
-                    Thread.Sleep(500);
-                    Environment.Exit(0);
-                    return;
-                }
-                
-                int prevEquipPointer = _state.Hero != null ? _state.Hero.Equipment.EquipmentPointer : 0;
-                var prevHeroPos = _state.Hero?.Pos;
-                _state.Hero = hero;
-                
-                _state.Hero.Equipment.EquipmentPointer = prevEquipPointer;
-                
-                if (prevHeroPos != null && (prevHeroPos.X != hero.Pos.X || prevHeroPos.Y != hero.Pos.Y))
-                {
-                    _render.UpdateSingleTile(prevHeroPos.X, prevHeroPos.Y);
-                }
-                
-                _render.UpdateSingleTile(hero.Pos.X, hero.Pos.Y);
-                _render.RenderMenu();
-            }
-            else
-            {
-                for (int i = 0; i < _state.Map.Heroes.Count; i++)
-                {
-                    var enemyHero = _state.Map.Heroes[i];
-                    if (enemyHero.Id == id)
+                    if (hero.Pos == new Position(-1, -1))
                     {
-                        var prevPos = enemyHero.Pos;
-                        _state.Map.Heroes[i] = hero;
-                        if (prevPos.X != hero.Pos.X || prevPos.Y != hero.Pos.Y)
+                        Render.RenderGameOver();
+                        Thread.Sleep(500);
+                        Environment.Exit(0);
+                        return;
+                    }
+                    
+                    int prevEquipPointer = _state.Hero != null ? _state.Hero.Equipment.EquipmentPointer : 0;
+                    var prevHeroPos = _state.Hero?.Pos;
+                    _state.Hero = hero;
+                    
+                    _state.Hero.Equipment.EquipmentPointer = prevEquipPointer;
+                    
+                    if (prevHeroPos != null && (prevHeroPos.X != hero.Pos.X || prevHeroPos.Y != hero.Pos.Y))
+                    {
+                        _render.UpdateSingleTile(prevHeroPos.X, prevHeroPos.Y);
+                        menuNeedsUpdate = true;
+                    }
+                    
+                    _render.UpdateSingleTile(hero.Pos.X, hero.Pos.Y);
+                    menuNeedsUpdate = true;
+                }
+                else
+                {
+                    for (int i = 0; i < _state.Map.Heroes.Count; i++)
+                    {
+                        var enemyHero = _state.Map.Heroes[i];
+                        if (enemyHero.Id == id)
                         {
-                            _render.UpdateSingleTile(prevPos.X, prevPos.Y);
+                            var prevPos = enemyHero.Pos;
+                            _state.Map.Heroes[i] = hero;
+                            if (prevPos.X != hero.Pos.X || prevPos.Y != hero.Pos.Y)
+                            {
+                                _render.UpdateSingleTile(prevPos.X, prevPos.Y);
+                            }
+                            _render.UpdateSingleTile(hero.Pos.X, hero.Pos.Y);
+                            break;
                         }
-                        _render.UpdateSingleTile(hero.Pos.X, hero.Pos.Y);
-                        break;
                     }
                 }
             }
         }
-        
-        _render.RenderMenu();
+
+        if (menuNeedsUpdate)
+        {
+            _render.RenderMenu();
+        }
     }
 }

@@ -125,9 +125,9 @@ public class MapBuilder
                 existingFieldsCount++;
             }
         }
-
     }
-    
+
+    private int _id = 0;
     public void AddEnemy(params string[] Enemies)
     {
         int enemy_name_index = _rnd.Next(Enemies.Length);
@@ -142,6 +142,7 @@ public class MapBuilder
                 {
                     if(Map.enemies[h,w] != null) continue;
                     var enemy = new Enemy(75, 5, 2, Enemies[enemy_name_index], Map.enemies, (w, h), Map, _soundSubscription);
+                    enemy.Id = _id++;
                     Map.enemies[h, w] = enemy;
                     ExistingFieldsCount++;
                 }

@@ -2,5 +2,5 @@
 
 public interface ISoundHearer
 {
-    public void Hear(NoiseEvent sound);
+    public string? Hear(NoiseEvent sound);
 }

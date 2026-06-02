@@ -1,7 +1,10 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using ConsoleApp1.Server.Model;
 using ConsoleApp1.Server.View.ViewCommand;
 using ConsoleApp1.Shared;
+using ConsoleApp1.Shared.ClientServerCommunication.ServerRequests;
 using ConsoleApp1.Shared.DTO.ServerAnswers.GameChangedBroadcast;
 using ConsoleApp1.Shared.ShallowModel;
 
@@ -17,57 +20,66 @@ public class PickUpCommand : AbstractExplorationCommand, IModelCommand
 
     public void Execute(BlockingCollection<IViewCommand> viewCommands)
     {
-        if (_gameContext.Map == null)
+        Action<string> soundLogHandler = (logMsg) => 
         {
-            Console.WriteLine("[KRYTYCZNY BŁĄD] Obiekt _map w MovePlayerCommand jest NULLEM! Sprawdź konstruktor i fabrykę.");
-            return;
-        }
-        
-        var map = _gameContext.Map;
+            LogMessege temp = new LogMessege();
+            temp.Text = logMsg;
+            viewCommands.Add(new SendLogCommand(ServerConsts.BroadcastId, temp));
+        };
 
-        for (int i = 0; i < ModelConsts.MapHeight; i++)
+        _gameContext.SoundManager.OnSoundLogGenerated += soundLogHandler;
+
+        try
         {
-            for (int j = 0; j < ModelConsts.MapWidth; j++)
+            if (_gameContext.Map == null) return;
+            
+            var map = _gameContext.Map;
+
+            for (int i = 0; i < ModelConsts.MapHeight; i++)
             {
-                if (map.heroes[i, j] != null && map.heroes[i, j].Id == Id)
+                for (int j = 0; j < ModelConsts.MapWidth; j++)
                 {
-                    var hero = map.heroes[i, j];
-                    if (map.map.Length == 0) return;
-                    (int compl, Item? item) = hero.Equipment.PickItem((j, i), map);
-                    if (compl == 1)
+                    if (map.heroes[i, j] != null && map.heroes[i, j].Id == Id)
                     {
-                        Console.Error.WriteLine($"Player {hero.Id} picked up {item.Name}");
+                        var hero = map.heroes[i, j];
                         
-                        DeltaUpdateMessage deltaUpdateMessage = new DeltaUpdateMessage();
-                        deltaUpdateMessage.Deltas = new List<MapDelta>();
-                        deltaUpdateMessage.UpdatedHeroes = new List<ShallowHero>();
-                        
-                        MapDelta tyleDelta = new MapDelta();
-                        tyleDelta.X = j;
-                        tyleDelta.Y = i;
-                        
-                        var newItem = map.map[i,j] == null || map.map[i,j]!.Count == 0 ? null : map.map[i,j]!.Peek();
-                        ShallowItem? shallowItem = null;
-                        if(newItem == null) shallowItem = null;
-                        else
+                        (int compl, Item? item) = hero.Equipment.PickItem((j, i), map);
+                        if (compl == 1)
                         {
-                            shallowItem = new ShallowItem();
-                            shallowItem.Name = newItem.Name;
-                            shallowItem.Symbol = newItem.Symbol;
+                            Console.Error.WriteLine($"Player {hero.Id} picked up {item.Name}");
+                            
+                            DeltaUpdateMessage deltaUpdateMessage = new DeltaUpdateMessage();
+                            deltaUpdateMessage.Deltas = new List<MapDelta>();
+                            deltaUpdateMessage.UpdatedHeroes = new List<ShallowHero>();
+                            
+                            MapDelta tyleDelta = new MapDelta();
+                            tyleDelta.X = j;
+                            tyleDelta.Y = i;
+                            
+                            var newItem = map.map[i,j] == null || map.map[i,j]!.Count == 0 ? null : map.map[i,j]!.Peek();
+                            ShallowItem? shallowItem = null;
+                            if(newItem != null)
+                            {
+                                shallowItem = new ShallowItem();
+                                shallowItem.Name = newItem.Name;
+                                shallowItem.Symbol = newItem.Symbol;
+                            }
+                            tyleDelta.Item = shallowItem;
+                            
+                            deltaUpdateMessage.Deltas.Add(tyleDelta);
+                            deltaUpdateMessage.UpdatedHeroes.Add(hero.ToShallowHero());
+                            
+                            viewCommands.Add(new MapDeltaCommand(deltaUpdateMessage));
+                            viewCommands.Add(new SendLogCommand(Id, new LogMessege() { Text = $"Player picked up an item {item.Name}" }));
+                            return;
                         }
-                        tyleDelta.Item = shallowItem;
-                        
-                        deltaUpdateMessage.Deltas.Add(tyleDelta);
-                        deltaUpdateMessage.UpdatedHeroes.Add(hero.ToShallowHero());
-                        
-                        viewCommands.Add(new MapDeltaCommand(deltaUpdateMessage));
-                        viewCommands.Add(new SendLogCommand(Id, new LogMessege() { Text = $"Player picked up an item {item.Name}" }));
-                        return;
                     }
                 }
             }
         }
-        
-    }
-    
+        finally
+        {
+            _gameContext.SoundManager.OnSoundLogGenerated -= soundLogHandler;
+        }
+    }  
 }

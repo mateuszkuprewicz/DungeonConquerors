@@ -27,13 +27,23 @@ public class HitNode : AbstractKeyNode
             string type = ClientRequestsTypes.ClientHit;
             ClientHit clientHit = new ClientHit();
 
-            InstructionRender instructionRender = new InstructionRender();
-            instructionRender.PrintAttackInstruction();
-            
+            lock (Render.ConsoleLock)
+            {
+                for (int i = Render.Instruction.Item2; i < Render.DefaultCursorPosition.Item2; i++)
+                {
+                    Console.SetCursorPosition(Render.Instruction.Item1, i);
+                    Console.Write(new string(' ', Console.WindowWidth));
+                }
+                Console.SetCursorPosition(Render.Instruction.Item1, Render.Instruction.Item2);
+                Console.Write($"{KeyConsts.NormalAttack.letter} - normal, {KeyConsts.StealthAttack.letter} - stealth, {KeyConsts.MagicAttack.letter} - magic.");
+                Console.SetCursorPosition(Render.DefaultCursorPosition.Item1, Render.DefaultCursorPosition.Item2);
+            }
+
             while (true)
             {
-                var attackType = Console.ReadKey(true);
                 
+                var attackType = Console.ReadKey(true);
+
                 HitType? temp_type = attackType.Key switch
                 {
                     ConsoleKey.D1 => HitType.HeavyAttack,
@@ -45,7 +55,6 @@ public class HitNode : AbstractKeyNode
                 if (temp_type != null)
                 {
                     clientHit.Type = temp_type.Value;
-                    instructionRender.Clear();
                     break;
                 }
             }
@@ -60,6 +69,10 @@ public class HitNode : AbstractKeyNode
             await writer.WriteAsync(data);
             await writer.FlushAsync();
         }
+        else
+        {
+            if (NextKeyNode != null)
+                await NextKeyNode.HandleKey(keyInfo);
+        }
     }
-    
 }

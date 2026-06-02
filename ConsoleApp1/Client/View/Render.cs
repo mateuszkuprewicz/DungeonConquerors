@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ConsoleApp1.Shared;
 using ConsoleApp1.Shared.ShallowModel;
+using ConsoleApp1.View;
 
 namespace ConsoleApp1;
 
@@ -20,6 +21,7 @@ public class Render
     private static readonly (int, int) Info = (43, 20);
     public static readonly (int, int) DefaultCursorPosition = (0, 26);
     public static readonly (int, int) Instruction = (0, 21);
+    private static readonly (int, int) EnemyStatsStart = (43, 16);
 
     private Shared.ShallowModel.GameState _state;
 
@@ -30,11 +32,11 @@ public class Render
 
     public void RenderAll()
     {
+        Console.Clear();
         if (_state?.Map == null) return; 
 
         lock (ConsoleLock)
         {
-            Console.Clear();
             RenderMap();
             
             if (_state?.Hero != null)
@@ -130,6 +132,71 @@ public class Render
         RenderEquipment();
         RenderHeroHands();
         RenderInfo();
+
+        if (_state.Map?.Enemies != null && 
+            _state.Hero.Pos.Y >= 0 && _state.Hero.Pos.Y < MapHeight &&
+            _state.Hero.Pos.X >= 0 && _state.Hero.Pos.X < MapWidth)
+        {
+            var enemy = _state.Map.Enemies[_state.Hero.Pos.Y][_state.Hero.Pos.X];
+            if (enemy != null)
+            {
+                RenderEnemyStats(enemy);
+                RenderCombatInstructions();
+            }
+            else
+            {
+                ClearEnemyStats();
+                RenderExplorationInstructions();
+            }
+        }
+        else
+        {
+            ClearEnemyStats();
+            RenderExplorationInstructions();
+        }
+    }
+
+    private void RenderCombatInstructions()
+    {
+        lock (ConsoleLock)
+        {
+            for (int i = Instruction.Item2; i < DefaultCursorPosition.Item2; i++)
+            {
+                Console.SetCursorPosition(Instruction.Item1, i);
+                Console.Write(new string(' ', Console.WindowWidth));
+            }
+            
+            Console.SetCursorPosition(Instruction.Item1, Instruction.Item2);
+            Console.Write($"{KeyConsts.Hit.letter} - hit enemy.");
+            
+            Console.SetCursorPosition(Instruction.Item1, Instruction.Item2 + 1);
+            Console.Write($"{KeyConsts.Leave.letter} - run away.");
+            
+            Console.SetCursorPosition(DefaultCursorPosition.Item1, DefaultCursorPosition.Item2);
+        }
+    }
+
+    private void RenderExplorationInstructions()
+    {
+        lock (ConsoleLock)
+        {
+            for (int i = Instruction.Item2; i < DefaultCursorPosition.Item2; i++)
+            {
+                Console.SetCursorPosition(Instruction.Item1, i);
+                Console.Write(new string(' ', Console.WindowWidth));
+            }
+            
+            Console.SetCursorPosition(Instruction.Item1, Instruction.Item2);
+            Console.Write($"Use {KeyConsts.MoveLeft.letter} {KeyConsts.MoveUp.letter} {KeyConsts.MoveRight.letter} {KeyConsts.MoveDown.letter} to move.");
+            
+            Console.SetCursorPosition(Instruction.Item1, Instruction.Item2 + 1);
+            Console.Write($"{KeyConsts.PickItem.letter} - pick item, {KeyConsts.DropItem.letter} - drop item.");
+            
+            Console.SetCursorPosition(Instruction.Item1, Instruction.Item2 + 2);
+            Console.Write($"{KeyConsts.EquipWeapon.letter} - equip weapon, {KeyConsts.UnequipWeapon.letter} - unequip weapon.");
+
+            Console.SetCursorPosition(DefaultCursorPosition.Item1, DefaultCursorPosition.Item2);
+        }
     }
     
     public void UpdateEquipmentScroll(int oldPointer, int newPointer)
@@ -149,7 +216,7 @@ public class Render
         lock (ConsoleLock)
         {
             Console.SetCursorPosition(EquipmentTableStart.Item1, EquipmentTableStart.Item2 + 4 + i);
-            Console.Write(new string(' ', Console.WindowWidth - EquipmentTableStart.Item1));
+            Console.Write(new string(' ', 34));
             Console.SetCursorPosition(EquipmentTableStart.Item1, EquipmentTableStart.Item2 + 4 + i);
 
             if (i == activePointer && _hero.Equipment.EquipmentList.Count != 0)
@@ -200,7 +267,7 @@ public class Render
             for(int i = _hero.Equipment.EquipmentList.Count; i < 10; i++) 
             {
                 Console.SetCursorPosition(EquipmentTableStart.Item1 - 1, EquipmentTableStart.Item2 + 4 + i);
-                Console.Write(new string(' ', Console.WindowWidth - EquipmentTableStart.Item1 + 1));
+                Console.Write(new string(' ', 35));
             }
 
             Console.SetCursorPosition(DefaultCursorPosition.Item1, DefaultCursorPosition.Item2);
@@ -215,26 +282,26 @@ public class Render
         lock (ConsoleLock)
         {
             Console.SetCursorPosition(StatsTableStart.Item1, StatsTableStart.Item2);
-            Console.Write(new string(' ', Console.WindowWidth - StatsTableStart.Item1));
+            Console.Write(new string(' ', 34));
             Console.SetCursorPosition(StatsTableStart.Item1, StatsTableStart.Item2);
             Console.Write($"Stats");
 
             Console.SetCursorPosition(StatsTableStart.Item1, StatsTableStart.Item2 + 1);
-            Console.Write(new string(' ', Console.WindowWidth - StatsTableStart.Item1));
+            Console.Write(new string(' ', 34));
             Console.SetCursorPosition(StatsTableStart.Item1, StatsTableStart.Item2 + 1);
             Console.Write($"Health: {_hero.Stats.Health}");
             Console.SetCursorPosition(StatsTableStart.Item1 + Tab, StatsTableStart.Item2 + 1);
             Console.Write($"Luck: {_hero.Stats.Luck}");
 
             Console.SetCursorPosition(StatsTableStart.Item1, StatsTableStart.Item2 + 2);
-            Console.Write(new string(' ', Console.WindowWidth - StatsTableStart.Item1));
+            Console.Write(new string(' ', 34));
             Console.SetCursorPosition(StatsTableStart.Item1, StatsTableStart.Item2 + 2);
             Console.Write($"Strength: {_hero.Stats.Strength}");
             Console.SetCursorPosition(StatsTableStart.Item1 + Tab, StatsTableStart.Item2 + 2);
             Console.Write($"Agility: {_hero.Stats.Agility}");
 
             Console.SetCursorPosition(StatsTableStart.Item1, StatsTableStart.Item2 + 3);
-            Console.Write(new string(' ', Console.WindowWidth - StatsTableStart.Item1));
+            Console.Write(new string(' ', 34));
             Console.SetCursorPosition(StatsTableStart.Item1, StatsTableStart.Item2 + 3);
             Console.Write($"Wisdom: {_hero.Stats.Wisdom}");
             Console.SetCursorPosition(StatsTableStart.Item1 + Tab, StatsTableStart.Item2 + 3);
@@ -252,14 +319,14 @@ public class Render
         lock(ConsoleLock)
         {
             Console.SetCursorPosition(HandsTableStart.Item1, HandsTableStart.Item2);
-            Console.Write(new string(' ', Console.WindowWidth - HandsTableStart.Item1));
+            Console.Write(new string(' ', 19));
             Console.SetCursorPosition(HandsTableStart.Item1, HandsTableStart.Item2);
             Console.Write("LH: ");
             if (_hero.Hands.LeftHand == null) Console.Write("...");
             else Console.Write($"{_hero.Hands.LeftHand.Name}");
 
             Console.SetCursorPosition(HandsTableStart.Item1, HandsTableStart.Item2 + 1);
-            Console.Write(new string(' ', Console.WindowWidth - HandsTableStart.Item1));
+            Console.Write(new string(' ', 19));
             Console.SetCursorPosition(HandsTableStart.Item1, HandsTableStart.Item2 + 1);
             Console.Write("RH: ");
             if (_hero.Hands.RightHand == null) Console.Write("...");
@@ -278,7 +345,7 @@ public class Render
         lock(ConsoleLock)
         {
             Console.SetCursorPosition(Info.Item1, Info.Item2);
-            Console.Write(new string(' ', Console.WindowWidth - Info.Item1));
+            Console.Write(new string(' ', 34));
 
             Console.SetCursorPosition(Info.Item1, Info.Item2);
             Console.Write("You are standing on: ");
@@ -365,8 +432,6 @@ public class Render
         }
     }
     
-    private static readonly (int, int) EnemyStatsStart = (43, 16);
-
     public static void RenderEnemyStats(ShallowEnemy enemy) 
     {
         if (enemy == null) return;
@@ -375,7 +440,7 @@ public class Render
             for (int i = 0; i < 3; i++)
             {
                 Console.SetCursorPosition(EnemyStatsStart.Item1, EnemyStatsStart.Item2 + i);
-                Console.Write(new string(' ', Console.WindowWidth - EnemyStatsStart.Item1));
+                Console.Write(new string(' ', 34));
             }
 
             Console.SetCursorPosition(EnemyStatsStart.Item1, EnemyStatsStart.Item2);
@@ -395,7 +460,7 @@ public class Render
             for (int i = 0; i < 3; i++)
             {
                 Console.SetCursorPosition(EnemyStatsStart.Item1, EnemyStatsStart.Item2 + i);
-                Console.Write(new string(' ', Console.WindowWidth - EnemyStatsStart.Item1));
+                Console.Write(new string(' ', 34));
             }
             Console.SetCursorPosition(DefaultCursorPosition.Item1, DefaultCursorPosition.Item2);
         }

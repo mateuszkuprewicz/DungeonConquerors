@@ -19,7 +19,7 @@ namespace ConsoleApp1.Client
         {
             Shared.ShallowModel.GameState gameState = new Shared.ShallowModel.GameState();
             Render render = new Render(gameState);
-            LogRenderer logRenderer = new LogRenderer();
+            LogRenderer logRenderer = new LogRenderer(Render.ConsoleLock);
             DeserialisingDtoFactory deserialisingDtoFactory = new DeserialisingDtoFactory(gameState, render, logRenderer);
             
             ServerIp = ip;

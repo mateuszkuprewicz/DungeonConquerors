@@ -4,6 +4,7 @@ using ConsoleApp1.Server.ClientStates;
 using ConsoleApp1.Server.Model;
 using ConsoleApp1.Server.View;
 using ConsoleApp1.Server.View.ViewCommand;
+using ConsoleApp1.Server.WorldAIController;
 
 
 namespace ConsoleApp1.Server;
@@ -44,6 +45,7 @@ public class ServerProgram
         ModelCommandFactory modelCommandFactory = new ModelCommandFactory(gameContext);
         ClientRequestsQueue cgi = new ClientRequestsQueue(gameContext, modelCommandFactory, modelCommands);
         var gameLoop = new GameLoop(modelCommands, viewCommands, cts);
+        var worldAILoop = new EnemyLoop(map, cts.Token, modelCommands);
         var renderDispatcher = new RenderDispatcher(viewCommands, clientStates, cts);
         var serverListener = new ClientLifeManager(port, cgi, clientStates, renderDispatcher, cts);
         
@@ -52,6 +54,7 @@ public class ServerProgram
         
         
         tasks.Add(Task.Run(()=>gameLoop.Run()));
+        tasks.Add(Task.Run(() => worldAILoop.Run()));
         tasks.Add(Task.Run(()=>renderDispatcher.Dispatch()));
         tasks.Add(Task.Run(()=>serverListener.Run()));
         
