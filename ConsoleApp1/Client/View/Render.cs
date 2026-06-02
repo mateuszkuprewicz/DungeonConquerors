@@ -12,7 +12,7 @@ public class Render
     const int MapHeight = 20;
     const int MapWidth = 40;
     const int Tab = 15;
-    private static Lock ConsoleLock = new Lock();
+    public static Lock ConsoleLock = new Lock();
 
     private static readonly (int, int) StatsTableStart = (43, 0);
     private static readonly (int, int) EquipmentTableStart = (43, 5);

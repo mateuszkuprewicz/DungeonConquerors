@@ -92,7 +92,7 @@ internal class InstructionBuilder
             if(PickingItems()) _instructionRender.HowToPickItems();
             else if(ThrowItems()) _instructionRender.HowToDropItems();
             // if(EquipingWeapons()) _instructionRender.HowToEquipItems();
-            else if(UnequipingWeapons()) _instructionRender.HowToUnequipItems();
+            // else if(UnequipingWeapons()) _instructionRender.HowToUnequipItems();
         }
     }
 }

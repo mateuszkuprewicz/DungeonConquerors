@@ -1,107 +1,65 @@
-﻿// using ConsoleApp1.FightLoop.Visitor.AttackTypesVisitor;
-// using ConsoleApp1.View;
-//
-// namespace ConsoleApp1.ChainOfKeyOperations;
-// using ConsoleApp1.Logger;
-//
-// public class HitNode : AbstractKeyNode
-// {
-//     private Render _render;
-//     private Enemy _enemy;
-//
-//     public HitNode(Hero hero, Enemy enemy, Render render) :
-//         base(hero) => (_render, _enemy) = (render, enemy);
-//
-//     public override void HandleKey(ConsoleKey keyInfo)
-//     {
-//         if (keyInfo == KeyConsts.Hit.key)
-//         {
-//             while (true)
-//             {
-//                 InstructionRender instructionRender = new InstructionRender();
-//                 instructionRender.PrintAttackInstruction();
-//                 var attackType = Console.ReadKey(true);
-//
-//                 IAttackVisitor? visitor = attackType.Key switch
-//                 {
-//                     ConsoleKey.D1 => new NormalAttack(),
-//                     ConsoleKey.D2 => new StealthAttack(),
-//                     ConsoleKey.D3 => new MagicAttack(),
-//                     _ => null
-//                 };
-//
-//                 if (visitor == null)
-//                 {
-//                     Render.RenderAnnouncement("Key not recognised");
-//                     continue;
-//                 }
-//
-//                 int damage = CalculateTotal(visitor, true);
-//                 int defence = CalculateTotal(visitor, false);
-//
-//                 _enemy.ReceiveDamage(damage);
-//                 EventLog el = EventLog.GetEventLog();
-//                 el.Log(LogType.HeroHits, [_enemy.Name, damage.ToString()]);
-//                 
-//                 int damageNetto = _enemy.Damage - defence;
-//                 damageNetto = damageNetto > 0 ? damageNetto : 0;
-//                 Hero.Stats.Health -= damageNetto;
-//                 el.Log(LogType.EnemyHits, [_enemy.Name, damageNetto.ToString()]);
-//                 break;
-//             }
-//
-//             Render.RenderEnemyStats(_enemy);
-//             _render.RenderStats();
-//             if (Hero.Stats.Health <= 0)
-//             {
-//                 Render.RenderGameOver();
-//                 
-//                 EventLog el =  EventLog.GetEventLog();
-//                 el.Log(LogType.DefeatedHero, [_enemy.Name]);
-//                 Thread.Sleep(1000);
-//                 Environment.Exit(0);
-//                 //return;
-//             }
-//             else if(_enemy.Hp <= 0)
-//             {
-//                 _enemy.Die();
-//                 Render.RenderAnnouncement("Enemy defeated");
-//                 
-//                 EventLog el =  EventLog.GetEventLog();
-//                 el.Log(LogType.DefeatedEnemy, [_enemy.Name]);
-//             }
-//             return;
-//         }
-//         NextKeyNode.HandleKey(keyInfo);
-//     }
-//
-//     private int CalculateTotal(IAttackVisitor visitor, bool isDamage)
-//     {
-//         var left = Hero.Hands.LeftHand;
-//         var right = Hero.Hands.RightHand;
-//
-//         if (left == null && right == null)
-//         {
-//             return isDamage
-//                 ? visitor.CalculateDefaultDamage(Hero.Stats)
-//                 : visitor.CalculateDefaultDefence(Hero.Stats);
-//         }
-//
-//         if (left == right)
-//             return isDamage
-//                 ? left.AcceptDamage(visitor, Hero.Stats)
-//                 : left.AcceptDefense(visitor, Hero.Stats);
-//
-//         int total = 0;
-//         if (left != null)
-//             total += isDamage
-//                 ? left.AcceptDamage(visitor, Hero.Stats)
-//                 : left.AcceptDefense(visitor, Hero.Stats);
-//         if (right != null)
-//             total += isDamage
-//                 ? right.AcceptDamage(visitor, Hero.Stats)
-//                 : right.AcceptDefense(visitor, Hero.Stats);
-//         
-//         return total;
-//     }
-// }
+﻿using System.Net.Sockets;
+using System.Text;
+using System.Text.Json;
+using ConsoleApp1.ChainOfKeyOperations;
+using ConsoleApp1.DTO.ClientRequests;
+using ConsoleApp1.View;
+
+namespace ConsoleApp1.Client.Controller.KeyController.KeyNodes.ChainOfFight.ChainOfKeyOperations;
+
+public class HitNode : AbstractKeyNode
+{
+    private TcpClient _client;
+    private Shared.ShallowModel.GameState _state;
+    private Render _render;
+
+    public HitNode(TcpClient client, Shared.ShallowModel.GameState state, Render render)
+    {
+        _client = client;
+        _state = state;
+        _render = render;
+    }
+
+    public override async Task HandleKey(ConsoleKey keyInfo)
+    {
+        if (keyInfo == KeyConsts.Hit.key)
+        {
+            string type = ClientRequestsTypes.ClientHit;
+            ClientHit clientHit = new ClientHit();
+
+            InstructionRender instructionRender = new InstructionRender();
+            instructionRender.PrintAttackInstruction();
+            
+            while (true)
+            {
+                var attackType = Console.ReadKey(true);
+                
+                HitType? temp_type = attackType.Key switch
+                {
+                    ConsoleKey.D1 => HitType.HeavyAttack,
+                    ConsoleKey.D2 => HitType.SneakyAttack,
+                    ConsoleKey.D3 => HitType.MagicAttack,
+                    _ => null
+                };
+
+                if (temp_type != null)
+                {
+                    clientHit.Type = temp_type.Value;
+                    instructionRender.Clear();
+                    break;
+                }
+            }
+            
+            JsonSerializerOptions options = new JsonSerializerOptions();
+            options.WriteIndented = false;
+            string serialized = JsonSerializer.Serialize(clientHit, options);
+            string payload = $"{type}|{serialized}\n";
+            byte[] data = Encoding.UTF8.GetBytes(payload);
+            
+            var writer = _client.GetStream();
+            await writer.WriteAsync(data);
+            await writer.FlushAsync();
+        }
+    }
+    
+}

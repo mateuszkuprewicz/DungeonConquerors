@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using ConsoleApp1.Shared;
 using ConsoleApp1.Shared.DTO.ServerAnswers.GameChangedBroadcast;
+using ConsoleApp1.Shared.ShallowModel;
 
 namespace ConsoleApp1.NetworkController;
 
@@ -32,15 +33,25 @@ public class MapDeltaHandler : IMessageHandler
             int id = hero.Id;
             if (id == _state.Map.PlayerId)
             {
+                if (hero.Pos == new Position(-1, -1))
+                {
+                    Render.RenderGameOver();
+                    Thread.Sleep(500);
+                    Environment.Exit(0);
+                    return;
+                }
+                
                 int prevEquipPointer = _state.Hero != null ? _state.Hero.Equipment.EquipmentPointer : 0;
                 var prevHeroPos = _state.Hero?.Pos;
                 _state.Hero = hero;
+                
                 _state.Hero.Equipment.EquipmentPointer = prevEquipPointer;
                 
                 if (prevHeroPos != null && (prevHeroPos.X != hero.Pos.X || prevHeroPos.Y != hero.Pos.Y))
                 {
                     _render.UpdateSingleTile(prevHeroPos.X, prevHeroPos.Y);
                 }
+                
                 _render.UpdateSingleTile(hero.Pos.X, hero.Pos.Y);
                 _render.RenderMenu();
             }

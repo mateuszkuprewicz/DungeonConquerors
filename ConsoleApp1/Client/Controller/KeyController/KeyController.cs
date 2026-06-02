@@ -1,5 +1,6 @@
 ﻿using System.Net.Sockets;
 using ConsoleApp1.ChainOfKeyOperations;
+using ConsoleApp1.Client.Controller.KeyController.KeyNodes.ChainOfFight.ChainOfKeyOperations;
 using ConsoleApp1.View;
 
 namespace ConsoleApp1.KeyController;
@@ -22,12 +23,14 @@ public class KeyController
         var pickUpNode = new PickDropNode(client, state);
         var equipNode = new WeaponEquipmentNode(client, state);
         var logChangeNode = new LogChangeViewNode(logRenderer, render);
+        var hitNode = new HitNode(client, state, render);
         var sentinel = new Sentinel();
         _root.SetNextHandler(_moveNode);
         _moveNode.SetNextHandler(pickUpNode);
         pickUpNode.SetNextHandler(equipNode);
         equipNode.SetNextHandler(logChangeNode);
-        logChangeNode.SetNextHandler(sentinel);
+        logChangeNode.SetNextHandler(hitNode);
+        hitNode.SetNextHandler(sentinel);
     }
 
     public async Task Run()

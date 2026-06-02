@@ -51,6 +51,13 @@ public class ModelCommandFactory
             {
                 return new UnequipCommand(id, _gameContext);
             }
+            case ClientRequestsTypes.ClientHit:
+            {
+                HitType? hitType = JsonSerializer.Deserialize<ClientHit>(text) != null
+                    ? JsonSerializer.Deserialize<ClientHit>(text).Type
+                    : null;
+                return new HitCommand(id, _gameContext, hitType);
+            }
             default:
                 return null;
         }
