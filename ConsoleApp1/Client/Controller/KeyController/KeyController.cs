@@ -8,14 +8,10 @@ namespace ConsoleApp1.KeyController;
 public class KeyController
 {
     private AbstractKeyNode _root;
-    private TcpClient _client;
-    private Render _render;
     private Shared.ShallowModel.GameState _state;
 
     public KeyController(TcpClient client, Render render, LogRenderer logRenderer, Shared.ShallowModel.GameState state)
     {
-        _client = client;
-        _render = render;
         _state = state;
 
         _root = new EquipmentScrollNode(render, _state);

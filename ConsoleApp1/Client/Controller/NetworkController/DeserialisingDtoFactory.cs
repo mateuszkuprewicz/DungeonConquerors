@@ -9,8 +9,7 @@ public class DeserialisingDtoFactory
     private GameState _state;
     private Render _view;
     private LogRenderer _logRenderer;
-
-    // Fabryka trzyma mapę i renderer w polach prywatnych
+    
     public DeserialisingDtoFactory(GameState state, Render view, LogRenderer logRenderer)
     {
         _state = state;

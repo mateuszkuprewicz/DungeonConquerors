@@ -1,7 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using ConsoleApp1.Server.Controller.Command;
 using System;
-using ConsoleApp1.Server.Controller.Command.WorldAiCommands;
+using ConsoleApp1.Server.Controller.ModelCommand.WorldAiCommands;
 
 namespace ConsoleApp1.Server.WorldAIController;
 

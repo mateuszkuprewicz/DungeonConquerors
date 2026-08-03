@@ -12,11 +12,11 @@ public class PlayerCreationCommand : IViewCommand
     public int TargetId { get; set; }
     public string Text { get; }
 
-    public PlayerCreationCommand(NewClient newClient)
+    public PlayerCreationCommand(NewPlayer newPlayer)
     {
         TargetId = ServerConsts.BroadcastId;
         var options = new JsonSerializerOptions { WriteIndented = false };
-        Text = JsonSerializer.Serialize(newClient, options);
+        Text = JsonSerializer.Serialize(newPlayer, options);
     }
 
     public bool CanSend(ISocketClientStates clientStates, int id)

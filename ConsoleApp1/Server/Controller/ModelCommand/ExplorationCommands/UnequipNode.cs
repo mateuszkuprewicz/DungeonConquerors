@@ -39,7 +39,7 @@ public class UnequipCommand : AbstractExplorationCommand, IModelCommand
                     {
                         DeltaUpdateMessage deltaUpdateMessage = new DeltaUpdateMessage();
                         deltaUpdateMessage.Deltas = new List<MapDelta>();
-                        deltaUpdateMessage.UpdatedHeroes = new List<ShallowHero>();
+                        deltaUpdateMessage.UpdatedHeroes = new List<(int, ShallowHero?)>();
                         
                         MapDelta tyleDelta = new MapDelta();
                         tyleDelta.X = j;
@@ -56,7 +56,7 @@ public class UnequipCommand : AbstractExplorationCommand, IModelCommand
                         tyleDelta.Item = shallowItem;
                         
                         deltaUpdateMessage.Deltas.Add(tyleDelta);
-                        deltaUpdateMessage.UpdatedHeroes.Add(hero.ToShallowHero());
+                        deltaUpdateMessage.UpdatedHeroes.Add((hero.Id, hero.ToShallowHero()));
                         
                         viewCommands.Add(new MapDeltaCommand(deltaUpdateMessage));
                         return;

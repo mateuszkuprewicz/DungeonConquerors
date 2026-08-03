@@ -1,7 +1,7 @@
 ﻿namespace ConsoleApp1.ChainOfKeyOperations;
 
 public abstract class AbstractKeyNode
-{
+{   
     protected AbstractKeyNode NextKeyNode;
     
 

@@ -1,10 +1,10 @@
 ﻿using System.Collections.Concurrent;
-using System.Collections.Generic;
+using ConsoleApp1.Server.Controller.Command;
 using ConsoleApp1.Server.View.ViewCommand;
 using ConsoleApp1.Shared.DTO.ServerAnswers.GameChangedBroadcast;
 using ConsoleApp1.Shared.ShallowModel;
 
-namespace ConsoleApp1.Server.Controller.Command.WorldAiCommands;
+namespace ConsoleApp1.Server.Controller.ModelCommand.WorldAiCommands;
 
 public class EnemyMoveCommand : IModelCommand
 {
@@ -34,18 +34,18 @@ public class EnemyMoveCommand : IModelCommand
                 
                 var deltaMessage = new DeltaUpdateMessage();
                 deltaMessage.Deltas = new List<MapDelta>();
-                deltaMessage.UpdatedHeroes = new List<ShallowHero>();
+                deltaMessage.UpdatedHeroes = new List<(int, ShallowHero?)>();
                 
                 var deltaPrevPos = new MapDelta();
                 deltaPrevPos.X = prevPos.X;
                 deltaPrevPos.Y = prevPos.Y;
                 deltaPrevPos.Enemy = null;
-                deltaPrevPos.Item = _map.map[deltaPrevPos.Y, deltaPrevPos.X] == null || _map.map[deltaPrevPos.Y, deltaPrevPos.X].Count == 0
+                deltaPrevPos.Item = _map.map[deltaPrevPos.Y, deltaPrevPos.X] == null || _map.map[deltaPrevPos.Y, deltaPrevPos.X]!.Count == 0
                     ? null
                     : new ShallowItem()
                     {
-                        Name = _map.map[deltaPrevPos.Y, deltaPrevPos.X].Peek().Name,
-                        Symbol = _map.map[deltaPrevPos.Y, deltaPrevPos.X].Peek().Symbol,
+                        Name = _map.map[deltaPrevPos.Y, deltaPrevPos.X]!.Peek().Name,
+                        Symbol = _map.map[deltaPrevPos.Y, deltaPrevPos.X]!.Peek().Symbol,
                     };
                 
                 var deltaNextPos = new MapDelta();
@@ -59,12 +59,12 @@ public class EnemyMoveCommand : IModelCommand
                     Symbol = enemy.Symbol,
                     Pos = new Position(enemy.Position.X, enemy.Position.Y),
                 };
-                deltaNextPos.Item = _map.map[deltaNextPos.Y, deltaNextPos.X] == null || _map.map[deltaNextPos.Y, deltaNextPos.X].Count == 0
+                deltaNextPos.Item = _map.map[deltaNextPos.Y, deltaNextPos.X] == null || _map.map[deltaNextPos.Y, deltaNextPos.X]!.Count == 0
                     ? null
                     : new ShallowItem()
                     {
-                        Name = _map.map[deltaNextPos.Y, deltaNextPos.X].Peek().Name,
-                        Symbol = _map.map[deltaNextPos.Y, deltaNextPos.X].Peek().Symbol,
+                        Name = _map.map[deltaNextPos.Y, deltaNextPos.X]!.Peek().Name,
+                        Symbol = _map.map[deltaNextPos.Y, deltaNextPos.X]!.Peek().Symbol,
                     };
                 
                 if (prevPos.X != nextPos.X || prevPos.Y != nextPos.Y)

@@ -18,14 +18,15 @@ public class MapDeltaHandler : IMessageHandler
         _state = state;
         _render = render;
         if (serialisedObject == null) throw new Exception("serialisedObject is null");
-        _deltaUpdateMessage = JsonSerializer.Deserialize<DeltaUpdateMessage>(serialisedObject);
+        var options = new JsonSerializerOptions { IncludeFields = true };
+        _deltaUpdateMessage = JsonSerializer.Deserialize<DeltaUpdateMessage>(serialisedObject, options);
     }
     
     public void Handle()
     {
         bool menuNeedsUpdate = false;
 
-        if (_deltaUpdateMessage.Deltas != null)
+        if (_deltaUpdateMessage.Deltas.Count > 0)
         {
             foreach (var delta in _deltaUpdateMessage.Deltas)
             {
@@ -36,19 +37,20 @@ public class MapDeltaHandler : IMessageHandler
 
                 if (_state.Hero != null && _state.Hero.Pos.X == delta.X && _state.Hero.Pos.Y == delta.Y)
                 {
-                    menuNeedsUpdate = true;
+                    _render.RenderMenu();
                 }
             }
         }
 
-        if (_deltaUpdateMessage.UpdatedHeroes != null)
+        if (_deltaUpdateMessage.UpdatedHeroes.Count > 0)
         {
-            foreach (var hero in _deltaUpdateMessage.UpdatedHeroes)
+            foreach (var tuple in _deltaUpdateMessage.UpdatedHeroes)
             {
-                int id = hero.Id;
-                if (id == _state.Map.PlayerId)
+                int id = tuple.Id;
+                var hero =  tuple.Hero;
+                if (id == _state.Map!.PlayerId)
                 {
-                    if (hero.Pos == new Position(-1, -1))
+                    if (hero == null)
                     {
                         Render.RenderGameOver();
                         Thread.Sleep(500);
@@ -65,11 +67,9 @@ public class MapDeltaHandler : IMessageHandler
                     if (prevHeroPos != null && (prevHeroPos.X != hero.Pos.X || prevHeroPos.Y != hero.Pos.Y))
                     {
                         _render.UpdateSingleTile(prevHeroPos.X, prevHeroPos.Y);
-                        menuNeedsUpdate = true;
                     }
-                    
                     _render.UpdateSingleTile(hero.Pos.X, hero.Pos.Y);
-                    menuNeedsUpdate = true;
+                    _render.RenderMenu();
                 }
                 else
                 {
@@ -78,9 +78,13 @@ public class MapDeltaHandler : IMessageHandler
                         var enemyHero = _state.Map.Heroes[i];
                         if (enemyHero.Id == id)
                         {
+                            if (hero == null)
+                            {
+                                _state.Map.Heroes.RemoveAt(i);
+                            }
                             var prevPos = enemyHero.Pos;
-                            _state.Map.Heroes[i] = hero;
-                            if (prevPos.X != hero.Pos.X || prevPos.Y != hero.Pos.Y)
+                            _state.Map.Heroes[i] = hero!;
+                            if (prevPos.X != hero!.Pos.X || prevPos.Y != hero.Pos.Y)
                             {
                                 _render.UpdateSingleTile(prevPos.X, prevPos.Y);
                             }
@@ -90,11 +94,6 @@ public class MapDeltaHandler : IMessageHandler
                     }
                 }
             }
-        }
-
-        if (menuNeedsUpdate)
-        {
-            _render.RenderMenu();
         }
     }
 }

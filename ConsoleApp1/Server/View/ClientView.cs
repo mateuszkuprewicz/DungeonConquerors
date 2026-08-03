@@ -7,7 +7,7 @@ public class ClientView : IDisposable
 {
     public int Id { get; }
     
-    private readonly BlockingCollection<IViewCommand> _outbox = new();
+    private readonly BlockingCollection<IViewCommand> _innerViewQueue = new();
     private readonly CancellationTokenSource _cts = new();
     private readonly TcpClient _client;
 
@@ -18,14 +18,14 @@ public class ClientView : IDisposable
         Task.Run(() => SendLoop(_cts.Token));
     }
 
-    public void Enqueue(IViewCommand cmd) => _outbox.Add(cmd);
+    public void Enqueue(IViewCommand cmd) => _innerViewQueue.Add(cmd);
 
     private async Task SendLoop(CancellationToken token)
     {
         try
         {
             using var stream = _client.GetStream();
-            foreach (var cmd in _outbox.GetConsumingEnumerable(token))
+            foreach (var cmd in _innerViewQueue.GetConsumingEnumerable(token))
             {
                 if (!_client.Connected) break;
                 await SendToClient(cmd);
@@ -37,7 +37,7 @@ public class ClientView : IDisposable
     public void Dispose()
     {
         _cts.Cancel();
-        _outbox.CompleteAdding();
+        _innerViewQueue.CompleteAdding();
     }
     
     private async Task SendToClient(IViewCommand command)

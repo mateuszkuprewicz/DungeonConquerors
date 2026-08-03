@@ -9,4 +9,6 @@ public static class ClientRequestsTypes
     public const string ClientUnequip = "CLIENTUNEQUIP";
     public const string ClientHit = "CLIENTHIT";
     public const string ClientRunAway = "CLIENTRUNAWAY";
+    public const string ClientDeath =  "CLIENTDEATH";
+    public const string ClientBirth = "CLIENTBIRTH";
 }

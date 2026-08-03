@@ -1,5 +1,4 @@
-﻿
-using ConsoleApp1.ConfigurationFile;
+﻿using ConsoleApp1.Shared.Logger;
 
 namespace ConsoleApp1.Logger;
 

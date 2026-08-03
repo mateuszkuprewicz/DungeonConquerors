@@ -1,5 +1,6 @@
 ﻿using System.Net.Sockets;
 using System.Text;
+using ConsoleApp1.Server.Controller.NetworkController;
 
 namespace ConsoleApp1.Server;
 
@@ -48,7 +49,5 @@ public class ClientReader
         {
             Console.WriteLine($"[ClientService] Zamykanie wątku obsługi gracza {_id}");
         }
-        
     }
-    
 }

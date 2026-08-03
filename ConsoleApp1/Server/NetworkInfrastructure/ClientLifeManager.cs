@@ -1,4 +1,5 @@
 ﻿using ConsoleApp1.Server.ClientStates;
+using ConsoleApp1.Server.Controller.NetworkController;
 using ConsoleApp1.Server.View;
 
 namespace ConsoleApp1.Server;
@@ -76,9 +77,11 @@ public class ClientLifeManager
         }
         finally
         {
+            //obsluga śmierci w świecie gry
             _renderDispatcher.UnSubscribe(id);
             _states.Disconnect(id);
             _connectionsSem.Release();
+            _clientsQueuer.DeInitialise(id, token);
             client.Dispose();
             Console.Error.WriteLine($"Client {id} disconnected");
         }

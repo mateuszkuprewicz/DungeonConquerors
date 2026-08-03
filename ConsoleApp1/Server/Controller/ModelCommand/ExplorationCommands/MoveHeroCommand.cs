@@ -37,7 +37,6 @@ public class MoveHeroCommand : AbstractExplorationCommand, IModelCommand
                 if (map.heroes[i, j] != null && map.heroes[i, j].Id == Id)
                 {
                     var hero = map.heroes[i, j];
-
                     if (hero.Move(_direction, map))
                     {
                         map.heroes[i, j] = null; 
@@ -64,18 +63,18 @@ public class MoveHeroCommand : AbstractExplorationCommand, IModelCommand
                         map.heroes[newI, newJ] = hero;
                         hero.Position = (newJ, newI);
                         
-                        Console.Error.WriteLine($"Player {hero.Id} moved to {hero.Position}");
+                        Console.Error.WriteLine($"[MoveHeroCommand] Player {hero.Id} moved to {hero.Position}");
                         DeltaUpdateMessage deltaUpdateMessage = new DeltaUpdateMessage();
                         deltaUpdateMessage.Deltas = new List<MapDelta>();
-                        List<ShallowHero> deltaHeroes = new List<ShallowHero>();
-                        deltaHeroes.Add(hero.ToShallowHero());
+                        List<(int,ShallowHero?)> deltaHeroes = new List<(int,ShallowHero?)>();
+                        deltaHeroes.Add((hero.Id, hero.ToShallowHero()));
                         deltaUpdateMessage.UpdatedHeroes = deltaHeroes;
                         
                         viewCommands.Add(new MapDeltaCommand(deltaUpdateMessage));
                         viewCommands.Add(new SendLogCommand(Id, new LogMessege() { Text = $"Player moved to {hero.Position}"}));
                         return;
                     }
-                    else viewCommands.Add(new SendLogCommand(Id, new LogMessege() { Text = $"You cant move into a wall or enemy!"}));
+                    viewCommands.Add(new SendLogCommand(Id, new LogMessege() { Text = $"You cant move into a wall or enemy!"}));
                     
                 }
             }

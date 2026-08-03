@@ -6,7 +6,7 @@ public class DeltaUpdateMessage
 {
     public List<MapDelta> Deltas { get; set; } = new(); 
     
-    public List<ShallowHero?> UpdatedHeroes { get; set; } = new(); 
+    public List<(int Id, ShallowHero? Hero)> UpdatedHeroes { get; set; } = new(); 
 }
 
 public class MapDelta
@@ -17,7 +17,7 @@ public class MapDelta
     public ShallowEnemy? Enemy { get; set; }
 }
 
-public class NewClient
+public class NewPlayer
 {
     public int Id{get;set;}
     public int X{get;set;}

@@ -99,8 +99,8 @@ public class HitCommand : AbstractCombatCommand, IModelCommand
         
         DeltaUpdateMessage deltaUpdateMessage = new DeltaUpdateMessage();
         deltaUpdateMessage.Deltas = new List<MapDelta>();
-        deltaUpdateMessage.UpdatedHeroes = new List<ShallowHero>();
-        deltaUpdateMessage.UpdatedHeroes.Add(hero != null ? hero.ToShallowHero() : null);
+        deltaUpdateMessage.UpdatedHeroes = new List<(int, ShallowHero?)>();
+        deltaUpdateMessage.UpdatedHeroes.Add(hero.Stats.Health > 0 ? (hero.Id, hero.ToShallowHero()) : (hero.Id,null));
         deltaUpdateMessage.Deltas.Add(new MapDelta()
         {
             X = position.X,
@@ -151,6 +151,5 @@ public class HitCommand : AbstractCombatCommand, IModelCommand
         
         return total;
     }
-    
 }
 

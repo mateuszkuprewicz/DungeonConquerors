@@ -50,7 +50,7 @@ public class PickUpCommand : AbstractExplorationCommand, IModelCommand
                             
                             DeltaUpdateMessage deltaUpdateMessage = new DeltaUpdateMessage();
                             deltaUpdateMessage.Deltas = new List<MapDelta>();
-                            deltaUpdateMessage.UpdatedHeroes = new List<ShallowHero>();
+                            deltaUpdateMessage.UpdatedHeroes = new List<(int, ShallowHero?)>();
                             
                             MapDelta tyleDelta = new MapDelta();
                             tyleDelta.X = j;
@@ -67,7 +67,7 @@ public class PickUpCommand : AbstractExplorationCommand, IModelCommand
                             tyleDelta.Item = shallowItem;
                             
                             deltaUpdateMessage.Deltas.Add(tyleDelta);
-                            deltaUpdateMessage.UpdatedHeroes.Add(hero.ToShallowHero());
+                            deltaUpdateMessage.UpdatedHeroes.Add((hero.Id, hero.ToShallowHero()));
                             
                             viewCommands.Add(new MapDeltaCommand(deltaUpdateMessage));
                             viewCommands.Add(new SendLogCommand(Id, new LogMessege() { Text = $"Player picked up an item {item.Name}" }));

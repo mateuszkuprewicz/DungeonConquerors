@@ -3,12 +3,12 @@ using System.Text;
 
 namespace ConsoleApp1.Client.NetworkInfrastructure;
 using ConsoleApp1.NetworkController;
-public class Reader
+public class NetworkReader
 {
     private TcpClient _client;
     private DeserialisingDtoFactory _deserialisingDtoFactory;
 
-    public Reader(TcpClient client, DeserialisingDtoFactory deserialisingDtoFactory)
+    public NetworkReader(TcpClient client, DeserialisingDtoFactory deserialisingDtoFactory)
     {
         _client = client;
         _deserialisingDtoFactory = deserialisingDtoFactory;

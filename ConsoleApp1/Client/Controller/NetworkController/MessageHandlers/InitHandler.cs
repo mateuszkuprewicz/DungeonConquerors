@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using ConsoleApp1.Logger;
+using ConsoleApp1.Shared.Logger;
 
 namespace ConsoleApp1.NetworkController;
 using ConsoleApp1.Shared.ShallowModel;

@@ -33,9 +33,9 @@ namespace ConsoleApp1.Client
                 using var client = new TcpClient();
                 await client.ConnectAsync(ServerIp, ServerPort);
                 KeyController.KeyController keyController = new KeyController.KeyController(client, render, logRenderer, gameState);
-                Reader reader = new Reader(client, deserialisingDtoFactory);
+                NetworkReader networkReader = new NetworkReader(client, deserialisingDtoFactory);
                 List<Task> tasks = new List<Task>();
-                tasks.Add(reader.ReadLoop());
+                tasks.Add(networkReader.ReadLoop());
                 tasks.Add(keyController.Run());
                 await Task.WhenAll(tasks);
             }

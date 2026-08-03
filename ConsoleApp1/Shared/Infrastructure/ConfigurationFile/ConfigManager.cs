@@ -1,7 +1,6 @@
 ﻿using System.Text.Json.Nodes;
-using System.IO;
 
-namespace ConsoleApp1.ConfigurationFile;
+namespace ConsoleApp1.Shared.Infrastructure.ConfigurationFile;
 
 public class ConfigManager
 {

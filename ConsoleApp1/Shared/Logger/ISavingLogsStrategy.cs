@@ -1,5 +1,4 @@
-﻿using System.IO;
-namespace ConsoleApp1.Logger;
+﻿namespace ConsoleApp1.Shared.Logger;
 
 public interface ISavingLogsStrategy
 {

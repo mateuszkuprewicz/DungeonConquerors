@@ -14,16 +14,20 @@ public class ModelCommandFactory
     {
         _gameContext = gameContext;
     }
-
-    public IModelCommand GetInit(int id)
-    {
-        return new InitHeroCommand(id, _gameContext);
-    }
     
-    public IModelCommand GetModelCommend(int id, string type, string text)
+    
+    public IModelCommand GetModelCommend(int id, string type, string text = "")
     {
         switch (type)
         {
+            case ClientRequestsTypes.ClientBirth:
+            {
+                return new HeroBirthCommand(id, _gameContext);
+            }
+            case ClientRequestsTypes.ClientDeath:
+            {
+                return new HeroDeathCommand(id,  _gameContext);
+            }
             case ClientRequestsTypes.ClientMove:
             {
                 var move = JsonSerializer.Deserialize<ClientMove>(text);

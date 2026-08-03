@@ -1,14 +1,17 @@
 ﻿using System.Collections.Concurrent;
 using ConsoleApp1.Server.Controller.Command;
 using ConsoleApp1.Server.ClientStates;
+using ConsoleApp1.Server.Controller.NetworkController;
 using ConsoleApp1.Server.Model;
 using ConsoleApp1.Server.View;
 using ConsoleApp1.Server.View.ViewCommand;
 using ConsoleApp1.Server.WorldAIController;
+using ConsoleApp1.Shared.Infrastructure.ConfigurationFile;
+using ConsoleApp1.Shared.Logger;
 
 
 namespace ConsoleApp1.Server;
-using ConsoleApp1.ConfigurationFile;
+
 using ConsoleApp1.Logger;
 using ConsoleApp1.Dungeon_Themes;
 using ConsoleApp1.SoundPropagation.SoundMediation;
@@ -45,16 +48,15 @@ public class ServerProgram
         ModelCommandFactory modelCommandFactory = new ModelCommandFactory(gameContext);
         ClientRequestsQueue cgi = new ClientRequestsQueue(gameContext, modelCommandFactory, modelCommands);
         var gameLoop = new GameLoop(modelCommands, viewCommands, cts);
-        var worldAILoop = new EnemyLoop(map, cts.Token, modelCommands);
+        var worldAiLoop = new EnemyLoop(map, cts.Token, modelCommands);
         var renderDispatcher = new RenderDispatcher(viewCommands, clientStates, cts);
         var serverListener = new ClientLifeManager(port, cgi, clientStates, renderDispatcher, cts);
         
         //starting server tasks
         List<Task> tasks = new List<Task>();
         
-        
         tasks.Add(Task.Run(()=>gameLoop.Run()));
-        tasks.Add(Task.Run(() => worldAILoop.Run()));
+        //tasks.Add(Task.Run(() => worldAiLoop.Run()));
         tasks.Add(Task.Run(()=>renderDispatcher.Dispatch()));
         tasks.Add(Task.Run(()=>serverListener.Run()));
         

@@ -15,7 +15,11 @@ public class MapDeltaCommand : IViewCommand
     public MapDeltaCommand(DeltaUpdateMessage mapDelta)
     {
         TargetId = ServerConsts.BroadcastId;
-        var options = new JsonSerializerOptions { WriteIndented = false };
+        var options = new JsonSerializerOptions
+        {
+            WriteIndented = false,
+            IncludeFields = true,
+        };
         Text = JsonSerializer.Serialize(mapDelta, options);
     }
     
