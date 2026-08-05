@@ -57,7 +57,7 @@ public class RenderDispatcher
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[ViewWriter] Błąd wysyłania do klienta {command.TargetId}: {ex.Message}");
+                Console.WriteLine($"[ViewWriter] Błąd wysyłania do klienta komendy {command.Type}; {command.TargetId}: {ex.Message}");
             }
         }
     }

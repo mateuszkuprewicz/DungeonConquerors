@@ -20,6 +20,6 @@ public class SendLogCommand : IViewCommand
 
     public bool CanSend(ISocketClientStates clientStates, int id)
     {
-        return true;
+        return clientStates.IsClientInitialised(id);
     }
 }

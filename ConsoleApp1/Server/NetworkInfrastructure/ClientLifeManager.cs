@@ -71,6 +71,10 @@ public class ClientLifeManager
             ClientReader cr = new ClientReader(id, client, _clientsQueuer);
             await cr.HandleCLient(token);
         }
+        catch (IOException e)
+        {
+            Console.Error.WriteLine($"The client {id} suddenly exited.");
+        }
         catch (Exception e)
         {
             Console.Error.WriteLine(e);

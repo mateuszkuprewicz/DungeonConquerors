@@ -51,7 +51,7 @@ public class ClientView : IDisposable
             await stream.WriteAsync(data, 0, data.Length, _cts.Token);
             await stream.FlushAsync(_cts.Token); 
             
-            Console.WriteLine($"[ViewWriter] Wysłano {command.Type} do gracza {Id}.");
+            Console.WriteLine($"[CLientView] Wysłano {command.Type} do gracza {Id}.");
         }
     }
 }
