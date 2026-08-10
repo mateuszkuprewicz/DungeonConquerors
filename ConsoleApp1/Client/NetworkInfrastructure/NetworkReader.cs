@@ -18,13 +18,26 @@ public class NetworkReader
     {
         using var stream = _client.GetStream();
         using var reader = new StreamReader(stream, Encoding.UTF8);
-        while (_client.Connected)
+        try
         {
-            string? line = await reader.ReadLineAsync();
-            if (line == null) break; 
-            
-            HandleServerMessage(line);
+            while (_client.Connected)
+            {
+                string? line = await reader.ReadLineAsync();
+                if (line == null) break;
+
+                HandleServerMessage(line);
+            }
         }
+        catch (IOException e)
+        {
+            Console.Clear();
+            Console.WriteLine("Unfortunetely somehow the whole world just exploded...");
+            Task temp = Task.Run(() => Thread.Sleep(500));
+            temp.Wait();
+            Environment.Exit(67);
+            return;
+        }
+        
     }
     
     private void HandleServerMessage(string rawMessage)

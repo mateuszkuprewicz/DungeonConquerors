@@ -16,7 +16,7 @@ namespace ConsoleApp1
         public HerosEquipment Equipment { get; private set; }
         public (int X, int Y) Position { get; set; }
         
-        public HeroStateContext HeroStateContext { get; private set; }
+        public ActionStateContext HeroStateContext { get; private set; }
 
         private ISoundPublisher _soundPublisher;
         
@@ -62,7 +62,7 @@ namespace ConsoleApp1
             _soundPublisher = soundPublisher;
             Equipment = new HerosEquipment(this, _soundPublisher);
             Hands = new HeroHands();
-            HeroStateContext = new HeroStateContext();
+            HeroStateContext = new ActionStateContext();
         }
         
         public ShallowHero ToShallowHero()

@@ -5,11 +5,11 @@ using ConsoleApp1.GameState;
 
 namespace ConsoleApp1.LoopState;
 
-public class ExplorationState : IHeroState
+public class ExplorationState : IActionState
 {
-    private HeroStateContext _stateContext;
+    private ActionStateContext _stateContext;
 
-    public ExplorationState(HeroStateContext stateContext)
+    public ExplorationState(ActionStateContext stateContext)
     {
         _stateContext = stateContext;
     }
@@ -18,7 +18,7 @@ public class ExplorationState : IHeroState
     {
         if (map.enemies[position.Y, position.X] != null)
         {
-            _stateContext.HeroState = new CombatState(_stateContext);
+            _stateContext.ActionState = new CombatState(_stateContext);
         }
     }
 }

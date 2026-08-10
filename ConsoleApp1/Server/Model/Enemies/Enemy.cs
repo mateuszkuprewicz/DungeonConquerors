@@ -8,6 +8,7 @@ namespace ConsoleApp1;
 public class Enemy : IMovingEnemy, ISoundHearer
 {
     public AbstractMovingState MovingState { private get; set; }
+    
     public int Id;
     public string Name { get; }
     public char Symbol { get; private set; }
@@ -17,7 +18,6 @@ public class Enemy : IMovingEnemy, ISoundHearer
     public (int X, int Y) Position { get; set; }
     private Enemy?[,] Enemies { get; set; }
     private GameMap Map { get; set; }
-
     private ISoundSubscribtion sub;
 
     public Enemy(int hp, int dmg, int defence, string name, Enemy?[,] enemies, (int x, int y) position, GameMap map, ISoundSubscribtion subscribtion, char symbol = 'E')

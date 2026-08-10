@@ -23,7 +23,7 @@ public class AbstractExplorationCommand
         if (hero == null) return false;
         hero.HeroStateContext.Update(hero.Position, _gameContext.Map);
 
-        if (hero.HeroStateContext.HeroState is ExplorationState) return true;
+        if (hero.HeroStateContext.ActionState is ExplorationState) return true;
         return false;
     }
 }

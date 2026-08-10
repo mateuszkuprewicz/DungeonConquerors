@@ -19,7 +19,15 @@ public class EnemyMoveCommand : IModelCommand
 
     public bool CanExecute()
     {
-        return true;
+        foreach (var enemy in _map.enemies)
+        {
+            if (enemy != null && enemy.Id == Id)
+            {
+                if (_map.heroes[enemy.Position.Y, enemy.Position.X] == null)
+                    return true;
+            }
+        }
+        return false;
     }
 
     public void Execute(BlockingCollection<IViewCommand> viewCommands)

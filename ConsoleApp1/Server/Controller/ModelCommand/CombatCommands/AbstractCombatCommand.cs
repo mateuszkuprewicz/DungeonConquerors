@@ -23,7 +23,7 @@ public class AbstractCombatCommand
         if (hero == null) return false;
         hero.HeroStateContext.Update(hero.Position, _gameContext.Map);
 
-        if (hero.HeroStateContext.HeroState is CombatState) return true;
+        if (hero.HeroStateContext.ActionState is CombatState) return true;
         return false;
     }
 }

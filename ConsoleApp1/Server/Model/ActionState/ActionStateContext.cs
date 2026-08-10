@@ -5,18 +5,18 @@ using ConsoleApp1.GameState;
 using ConsoleApp1.LoopState;
 namespace ConsoleApp1.GameState;
 
-public class HeroStateContext
+public class ActionStateContext
 {
-    public IHeroState HeroState { get; set; }
+    public IActionState ActionState { get; set; }
 
-    public HeroStateContext()
+    public ActionStateContext()
     {
-        HeroState = new ExplorationState(this);
+        ActionState = new ExplorationState(this);
     }
     
     public void Update((int X, int Y) position, GameMap map)
     {
-        HeroState.Update(position, map);
+        ActionState.Update(position, map);
     }
     
 }
