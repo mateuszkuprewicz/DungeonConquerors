@@ -2,6 +2,7 @@
 using System.Text;
 using System.Text.Json;
 using ConsoleApp1.ChainOfKeyOperations;
+using ConsoleApp1.Client.View;
 using ConsoleApp1.DTO.ClientRequests;
 using ConsoleApp1.View;
 
@@ -25,14 +26,14 @@ public class HitNode : AbstractKeyNode
 
             lock (Render.ConsoleLock)
             {
-                for (int i = Render.Instruction.Item2; i < Render.DefaultCursorPosition.Item2; i++)
+                for (int i = RenderConsts.Instruction.Item2; i < RenderConsts.DefaultCursorPosition.Item2; i++)
                 {
-                    Console.SetCursorPosition(Render.Instruction.Item1, i);
+                    Console.SetCursorPosition(RenderConsts.Instruction.Item1, i);
                     Console.Write(new string(' ', Console.WindowWidth));
                 }
-                Console.SetCursorPosition(Render.Instruction.Item1, Render.Instruction.Item2);
+                Console.SetCursorPosition(RenderConsts.Instruction.Item1, RenderConsts.Instruction.Item2);
                 Console.Write($"{KeyConsts.NormalAttack.letter} - normal, {KeyConsts.StealthAttack.letter} - stealth, {KeyConsts.MagicAttack.letter} - magic.");
-                Console.SetCursorPosition(Render.DefaultCursorPosition.Item1, Render.DefaultCursorPosition.Item2);
+                Console.SetCursorPosition(RenderConsts.DefaultCursorPosition.Item1, RenderConsts.DefaultCursorPosition.Item2);
             }
 
             while (true)

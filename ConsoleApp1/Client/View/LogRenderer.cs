@@ -1,4 +1,5 @@
-﻿using ConsoleApp1.Logger;
+﻿using ConsoleApp1.Client.View;
+using ConsoleApp1.Logger;
 
 namespace ConsoleApp1.View;
 
@@ -22,9 +23,11 @@ public class LogRenderer
     {
         var logger = EventLog.GetEventLog();
         List<string> logFileContent = logger.GetAllLogs().ToList();
+        logFileContent.Reverse();
         
         int skipCount = Math.Max(0, logFileContent.Count - LastLogsNum);
         List<string> recentLogs = logFileContent.Skip(skipCount).ToList();
+        recentLogs.Reverse();
         
         lock (_renderLock)
         {

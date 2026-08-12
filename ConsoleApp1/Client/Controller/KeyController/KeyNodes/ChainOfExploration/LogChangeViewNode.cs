@@ -19,10 +19,14 @@ public class LogChangeViewNode : AbstractKeyNode
         {
             if(!_logRenderer.IsRenderingAllLogs)
             {
+                Render.IsRenderingFullScreenMode = true;
+                
                 _logRenderer.RenderAll();
             }
             else
             {
+                Render.IsRenderingFullScreenMode = false;
+                
                 _render.RenderAll();
                 _logRenderer.RenderLast();
                 _logRenderer.IsRenderingAllLogs = false;
