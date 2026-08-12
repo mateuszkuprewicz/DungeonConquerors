@@ -22,13 +22,6 @@ public class HitCommand : AbstractCombatCommand, IModelCommand
 
     public void Execute(BlockingCollection<IViewCommand> viewCommands)
     {
-        if (_gameContext.Map == null)
-        {
-            Console.WriteLine(
-                "[KRYTYCZNY BŁĄD] Obiekt _map w MovePlayerCommand jest NULLEM! Sprawdź konstruktor i fabrykę.");
-            return;
-        }
-
         var map = _gameContext.Map;
 
         Hero? hero = null;
@@ -37,7 +30,7 @@ public class HitCommand : AbstractCombatCommand, IModelCommand
         {
             for (int j = 0; j < ModelConsts.MapWidth; j++)
             {
-                if (map.heroes[i, j] != null && map.heroes[i, j].Id == Id)
+                if (map.heroes[i, j] != null && map.heroes[i, j]!.Id == Id)
                 {
                     hero = map.heroes[i, j];
                     enemy = map.enemies[i, j];
@@ -83,7 +76,6 @@ public class HitCommand : AbstractCombatCommand, IModelCommand
         viewCommands.Add(new SendLogCommand(Id, new LogMessege() {Text = $"You received {damageNetto} damage from {enemy.Name}"}));
 
         var position = hero.Position;
-        ;
         if (hero.Stats.Health <= 0)
         {
             map.heroes[hero.Position.Y, hero.Position.X] = null;

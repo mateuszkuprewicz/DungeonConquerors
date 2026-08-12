@@ -10,14 +10,10 @@ namespace ConsoleApp1.Client.Controller.KeyController.KeyNodes.ChainOfFight.Chai
 public class HitNode : AbstractKeyNode
 {
     private TcpClient _client;
-    private Shared.ShallowModel.GameState _state;
-    private Render _render;
 
-    public HitNode(TcpClient client, Shared.ShallowModel.GameState state, Render render)
+    public HitNode(TcpClient client)
     {
         _client = client;
-        _state = state;
-        _render = render;
     }
 
     public override async Task HandleKey(ConsoleKey keyInfo)

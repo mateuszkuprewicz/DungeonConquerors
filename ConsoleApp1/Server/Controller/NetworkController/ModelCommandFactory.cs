@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using ConsoleApp1.DTO.ClientRequests;
 using ConsoleApp1.Server.Controller.Command;
+using ConsoleApp1.Server.Controller.ModelCommand.CombatCommands;
 using ConsoleApp1.Server.Model;
 using ConsoleApp1.SoundPropagation.SoundMediation;
 
@@ -16,7 +17,7 @@ public class ModelCommandFactory
     }
     
     
-    public IModelCommand GetModelCommend(int id, string type, string text = "")
+    public IModelCommand? GetModelCommend(int id, string type, string text = "")
     {
         switch (type)
         {
@@ -61,6 +62,10 @@ public class ModelCommandFactory
                     ? JsonSerializer.Deserialize<ClientHit>(text).Type
                     : null;
                 return new HitCommand(id, _gameContext, hitType);
+            }
+            case ClientRequestsTypes.ClientRunAway:
+            {
+                return new LeaveCommand(id,  _gameContext);
             }
             default:
                 return null;

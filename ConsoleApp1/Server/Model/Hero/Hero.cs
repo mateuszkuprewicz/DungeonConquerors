@@ -47,7 +47,7 @@ namespace ConsoleApp1
             
             return false;
         }
-        private static bool IsPositionValid((int X, int Y) position, GameMap gameMap)
+        public static bool IsPositionValid((int X, int Y) position, GameMap gameMap)
         {
             if (position.X < 0 || position.X >= ModelConsts.MapWidth) return false;
             if (position.Y < 0 || position.Y >= ModelConsts.MapHeight) return false;

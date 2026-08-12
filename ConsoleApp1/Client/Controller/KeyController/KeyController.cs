@@ -15,18 +15,20 @@ public class KeyController
         _state = state;
 
         _root = new EquipmentScrollNode(render, _state);
-        var _moveNode = new MoveNode(client, state);
+        var moveNode = new MoveNode(client, state);
         var pickUpNode = new PickDropNode(client, state);
         var equipNode = new WeaponEquipmentNode(client, state);
         var logChangeNode = new LogChangeViewNode(logRenderer, render);
-        var hitNode = new HitNode(client, state, render);
+        var hitNode = new HitNode(client);
+        var leaveNode = new LeaveNode(client);
         var sentinel = new Sentinel();
-        _root.SetNextHandler(_moveNode);
-        _moveNode.SetNextHandler(pickUpNode);
+        _root.SetNextHandler(moveNode);
+        moveNode.SetNextHandler(pickUpNode);
         pickUpNode.SetNextHandler(equipNode);
         equipNode.SetNextHandler(logChangeNode);
         logChangeNode.SetNextHandler(hitNode);
-        hitNode.SetNextHandler(sentinel);
+        hitNode.SetNextHandler(leaveNode);
+        leaveNode.SetNextHandler(sentinel);
     }
 
     public async Task Run()

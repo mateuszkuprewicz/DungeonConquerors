@@ -56,7 +56,7 @@ public class ServerProgram
         List<Task> tasks = new List<Task>();
         
         tasks.Add(Task.Run(()=>gameLoop.Run()));
-        tasks.Add(Task.Run(() => worldAiLoop.Run()));
+        //tasks.Add(Task.Run(() => worldAiLoop.Run()));
         tasks.Add(Task.Run(()=>renderDispatcher.Dispatch()));
         tasks.Add(Task.Run(()=>serverListener.Run()));
         
