@@ -40,13 +40,7 @@ public class MoveNode : AbstractKeyNode
             JsonSerializerOptions options = new JsonSerializerOptions();
             options.WriteIndented = false;
             
-            string serialized = JsonSerializer.Serialize(move);
-            string payload = $"{type}|{serialized}\n";
-            byte[] data = Encoding.UTF8.GetBytes(payload);
-            
-            var writer = _client.GetStream();
-            await writer.WriteAsync(data);
-            await writer.FlushAsync();
+            await SendMessageAsync(_client, ClientRequestsTypes.ClientMove, move);
             
         }
         else

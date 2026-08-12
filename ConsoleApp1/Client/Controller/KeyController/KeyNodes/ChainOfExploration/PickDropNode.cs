@@ -21,37 +21,18 @@ public class PickDropNode : AbstractKeyNode
     {
         if (keyInfo == KeyConsts.PickItem.key)
         {
-            string type = ClientRequestsTypes.ClientPickUp;
-            ClientPickUp pickUp = new ClientPickUp();
-
-            string serialized = JsonSerializer.Serialize(pickUp);
-            string payload = $"{type}|{serialized}\n";
-            byte[] data = Encoding.UTF8.GetBytes(payload);
-            
-            var writer = _client.GetStream();
-            await writer.WriteAsync(data);
-            await writer.FlushAsync();
+            await SendMessageAsync(_client, ClientRequestsTypes.ClientPickUp, new ClientPickUp());
         }
         
         else if (keyInfo == KeyConsts.DropItem.key)
         {
-            string type = ClientRequestsTypes.ClientDrop;
             ClientDrop drop = new ClientDrop();
-            
             drop.ItemNumber = _state.Hero.Equipment.EquipmentPointer; 
-
-            string serialized = JsonSerializer.Serialize(drop);
-            string payload = $"{type}|{serialized}\n";
-            byte[] data = Encoding.UTF8.GetBytes(payload);
-            
-            var writer = _client.GetStream();
-            await writer.WriteAsync(data);
-            await writer.FlushAsync();
+            await SendMessageAsync(_client, ClientRequestsTypes.ClientDrop, drop);
         }
         else
         {
-            if (NextKeyNode != null)
-                await NextKeyNode.HandleKey(keyInfo);
+            NextKeyNode.HandleKey(keyInfo);
         }
     }
 }

@@ -20,17 +20,7 @@ public class LeaveNode : AbstractKeyNode
     {
         if (keyInfo == KeyConsts.Leave.key)
         {
-            string type = ClientRequestsTypes.ClientRunAway;
-            ClientRunAway clientRunAway = new ClientRunAway();
-            JsonSerializerOptions options = new JsonSerializerOptions();
-            options.WriteIndented = false;
-            string serialized = JsonSerializer.Serialize(clientRunAway, options);
-            string payload = $"{type}|{serialized}\n";
-            byte[] data = Encoding.UTF8.GetBytes(payload);
-            
-            var writer = _client.GetStream();
-            await writer.WriteAsync(data);
-            await writer.FlushAsync();
+            await SendMessageAsync(_client, ClientRequestsTypes.ClientRunAway, new ClientRunAway());
         }
         else
         {

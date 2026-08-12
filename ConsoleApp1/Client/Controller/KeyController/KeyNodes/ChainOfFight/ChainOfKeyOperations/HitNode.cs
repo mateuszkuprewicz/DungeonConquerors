@@ -55,20 +55,11 @@ public class HitNode : AbstractKeyNode
                 }
             }
             
-            JsonSerializerOptions options = new JsonSerializerOptions();
-            options.WriteIndented = false;
-            string serialized = JsonSerializer.Serialize(clientHit, options);
-            string payload = $"{type}|{serialized}\n";
-            byte[] data = Encoding.UTF8.GetBytes(payload);
-            
-            var writer = _client.GetStream();
-            await writer.WriteAsync(data);
-            await writer.FlushAsync();
+            await SendMessageAsync(_client, ClientRequestsTypes.ClientHit, clientHit);
         }
         else
         {
-            if (NextKeyNode != null)
-                await NextKeyNode.HandleKey(keyInfo);
+            await NextKeyNode.HandleKey(keyInfo);
         }
     }
 }

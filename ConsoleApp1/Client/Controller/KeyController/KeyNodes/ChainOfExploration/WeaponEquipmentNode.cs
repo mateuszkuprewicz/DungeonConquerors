@@ -29,32 +29,16 @@ public class WeaponEquipmentNode : AbstractKeyNode
             {
                 equip.ItemNumber = _state.Hero.Equipment.EquipmentPointer;
             }
-
-            string serialized = JsonSerializer.Serialize(equip);
-            string payload = $"{type}|{serialized}\n";
-            byte[] data = Encoding.UTF8.GetBytes(payload);
             
-            var writer = _client.GetStream();
-            await writer.WriteAsync(data);
-            await writer.FlushAsync();
+            await SendMessageAsync(_client, type, equip);
         }
         else if (keyInfo == KeyConsts.UnequipWeapon.key)
         {
-            string type = ClientRequestsTypes.ClientUnequip;
-            ClientUnequip unequip = new ClientUnequip();
-
-            string serialized = JsonSerializer.Serialize(unequip);
-            string payload = $"{type}|{serialized}\n";
-            byte[] data = Encoding.UTF8.GetBytes(payload);
-            
-            var writer = _client.GetStream();
-            await writer.WriteAsync(data);
-            await writer.FlushAsync();
+            await SendMessageAsync(_client, ClientRequestsTypes.ClientUnequip, new ClientUnequip());
         }
         else
         {
-            if (NextKeyNode != null)
-                await NextKeyNode.HandleKey(keyInfo);
+            await NextKeyNode.HandleKey(keyInfo);
         }
     }
 }
