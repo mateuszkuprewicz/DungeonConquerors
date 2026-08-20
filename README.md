@@ -1,13 +1,20 @@
-﻿
-This document provides a comprehensive overview of the system architecture, design patterns, and network communication flow for the multiplayer console game project I made during OOP and Design Patterns college course.
+﻿This document provides a comprehensive overview of the system architecture, design patterns, and network communication flow for the multiplayer console game project I made during OOP and Design Patterns college course.
 
-The architecture is strictly separated into Client, Server, and Shared components.
 
-A. Model 
+The project requires .NET 10 SDK installed. To start the program:  
+git clone https://github.com/mateuszkuprewicz/DungeonConquerors  
+cd DungeonConquerors  
+dotnet run  
+The console interface will guide you through the remaining steps and configuration options.  
 
+
+The architecture is strictly separated into Client, Server, and Shared components.  
+
+A. Model  
 The core game logic and state reside entirely on the Server within the Server/Model/ directory making the Server the single source of truth. The model leverages multiple GoF design patterns to handle the complexity of RPG mechanics without tightly coupling the components.
 
 1. Hero and ActionState (State Pattern)
+   
    The Hero's [Server/Model/Hero/Hero.cs] behavior changes dynamically based on whether they are exploring the dungeon or engaged in a fight. This is managed via the State pattern located in Server/Model/ActionState/.
    - Context: Server/Model/ActionState/ActionStateContext.cs holds the current state.
    - States: Server/Model/ActionState/States/ExplorationState.cs and Server/Model/ActionState/States/CombatState.cs implement IActionState.cs.
