@@ -1,8 +1,0 @@
-03.08.2026 11:55:52 : Game initialised
-03.08.2026 11:55:52 : My hero initialised
-03.08.2026 11:55:59 : Someone else hero initialised
-03.08.2026 11:56:06 : Player moved to (17, 11)
-03.08.2026 11:56:07 : Player moved to (17, 12)
-03.08.2026 11:56:08 : Player moved to (18, 12)
-03.08.2026 11:56:08 : Player moved to (18, 11)
-03.08.2026 11:56:09 : Player moved to (17, 11)

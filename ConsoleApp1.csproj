@@ -7,17 +7,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
-  <!-- <ItemGroup>
-    <None Remove="mapa.txt" />
-  </ItemGroup> -->
-
-  <ItemGroup>
-    <Content Include="mapa.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
+  
   <ItemGroup>
     <None Update="Shared\Infrastructure\ConfigurationFile\config.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

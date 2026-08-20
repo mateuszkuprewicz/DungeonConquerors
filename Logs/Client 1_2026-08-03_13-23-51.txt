@@ -1,5 +1,0 @@
-03.08.2026 13:23:51 : Game initialised
-03.08.2026 13:23:51 : My hero initialised
-03.08.2026 13:23:52 : Player moved to (12, 12)
-03.08.2026 13:23:53 : Player moved to (12, 11)
-03.08.2026 13:23:53 : Player moved to (12, 10)

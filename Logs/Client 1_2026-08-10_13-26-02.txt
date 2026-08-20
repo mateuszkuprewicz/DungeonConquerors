@@ -1,6 +1,0 @@
-10.08.2026 13:26:02 : Game initialised
-10.08.2026 13:26:02 : My hero initialised
-10.08.2026 13:26:05 : Player moved to (37, 10)
-10.08.2026 13:26:05 : Player moved to (37, 11)
-10.08.2026 13:26:06 : Player moved to (38, 11)
-10.08.2026 13:26:08 : You received 5 damage from Bloodfly
