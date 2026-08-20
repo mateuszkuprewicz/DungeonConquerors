@@ -1,0 +1,66 @@
+02.06.2026 11:02:05 : Game initialised
+02.06.2026 11:02:05 : My hero initialised
+02.06.2026 11:02:06 : Player moved to (13, 8)
+02.06.2026 11:02:07 : Player moved to (14, 8)
+02.06.2026 11:02:07 : Player moved to (15, 8)
+02.06.2026 11:02:07 : Player moved to (16, 8)
+02.06.2026 11:02:07 : Player moved to (17, 8)
+02.06.2026 11:02:07 : Player moved to (18, 8)
+02.06.2026 11:02:08 : Player moved to (19, 8)
+02.06.2026 11:02:08 : Player moved to (20, 8)
+02.06.2026 11:02:08 : Player moved to (21, 8)
+02.06.2026 11:02:08 : Player moved to (22, 8)
+02.06.2026 11:02:08 : Player moved to (23, 8)
+02.06.2026 11:02:09 : Player moved to (24, 8)
+02.06.2026 11:02:09 : Player moved to (25, 8)
+02.06.2026 11:02:09 : Player moved to (26, 8)
+02.06.2026 11:02:09 : Player moved to (27, 8)
+02.06.2026 11:02:09 : Player moved to (28, 8)
+02.06.2026 11:02:10 : Player moved to (29, 8)
+02.06.2026 11:02:10 : Player moved to (30, 8)
+02.06.2026 11:02:10 : Player moved to (31, 8)
+02.06.2026 11:02:10 : Player moved to (32, 8)
+02.06.2026 11:02:11 : Player moved to (33, 8)
+02.06.2026 11:02:11 : Player moved to (34, 8)
+02.06.2026 11:02:11 : Player moved to (35, 8)
+02.06.2026 11:02:11 : You cant move into a wall or enemy!
+02.06.2026 11:02:12 : You cant move into a wall or enemy!
+02.06.2026 11:02:12 : Player moved to (35, 7)
+02.06.2026 11:02:12 : Player moved to (36, 7)
+02.06.2026 11:02:12 : You cant move into a wall or enemy!
+02.06.2026 11:02:13 : You cant move into a wall or enemy!
+02.06.2026 11:02:13 : Player moved to (37, 7)
+02.06.2026 11:02:13 : Player moved to (37, 8)
+02.06.2026 11:02:13 : You cant move into a wall or enemy!
+02.06.2026 11:02:14 : You cant move into a wall or enemy!
+02.06.2026 11:02:14 : You cant move into a wall or enemy!
+02.06.2026 11:02:14 : Player moved to (38, 8)
+02.06.2026 11:02:15 : Player moved to (38, 9)
+02.06.2026 11:02:15 : Player moved to (38, 10)
+02.06.2026 11:02:15 : Player moved to (38, 11)
+02.06.2026 11:02:15 : Player picked up an item Inonos' Staff of Brightness (Mądry)
+02.06.2026 11:02:16 : Player moved to (38, 10)
+02.06.2026 11:02:16 : Player moved to (38, 9)
+02.06.2026 11:02:16 : Player moved to (38, 8)
+02.06.2026 11:02:16 : Player moved to (37, 8)
+02.06.2026 11:02:17 : You cant move into a wall or enemy!
+02.06.2026 11:02:17 : You cant move into a wall or enemy!
+02.06.2026 11:02:17 : Player moved to (37, 7)
+02.06.2026 11:02:17 : Player moved to (36, 7)
+02.06.2026 11:02:17 : Player moved to (35, 7)
+02.06.2026 11:02:18 : Player moved to (34, 7)
+02.06.2026 11:02:18 : Player moved to (34, 8)
+02.06.2026 11:02:18 : Player moved to (35, 8)
+02.06.2026 11:02:18 : You cant move into a wall or enemy!
+02.06.2026 11:02:19 : You cant move into a wall or enemy!
+02.06.2026 11:02:19 : Player moved to (35, 7)
+02.06.2026 11:02:19 : Player moved to (36, 7)
+02.06.2026 11:02:19 : You cant move into a wall or enemy!
+02.06.2026 11:02:19 : You cant move into a wall or enemy!
+02.06.2026 11:02:20 : Player moved to (35, 7)
+02.06.2026 11:02:20 : Player moved to (34, 7)
+02.06.2026 11:02:20 : Player moved to (33, 7)
+02.06.2026 11:02:21 : Player moved to (33, 6)
+02.06.2026 11:02:21 : Player picked up an item Beliar's Staff of Wrath (Agresywny)
+02.06.2026 11:02:21 : Player moved to (34, 6)
+02.06.2026 11:02:21 : Player moved to (34, 5)

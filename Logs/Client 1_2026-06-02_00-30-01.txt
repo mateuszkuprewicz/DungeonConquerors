@@ -1,0 +1,53 @@
+02.06.2026 00:30:01 : Game initialised
+02.06.2026 00:30:01 : My hero initialised
+02.06.2026 00:30:03 : You cant move into a wall or enemy!
+02.06.2026 00:30:05 : Player moved to (30, 1)
+02.06.2026 00:30:05 : Player moved to (29, 1)
+02.06.2026 00:30:05 : Player moved to (28, 1)
+02.06.2026 00:30:06 : Player moved to (27, 1)
+02.06.2026 00:30:06 : Player moved to (26, 1)
+02.06.2026 00:30:06 : Player moved to (25, 1)
+02.06.2026 00:30:06 : Player moved to (24, 1)
+02.06.2026 00:30:07 : Player moved to (24, 2)
+02.06.2026 00:30:07 : Player moved to (24, 3)
+02.06.2026 00:30:07 : Player moved to (23, 3)
+02.06.2026 00:30:09 : Scavenger received 0 damage
+02.06.2026 00:30:09 : You received 5 damage from Scavenger
+02.06.2026 00:30:09 : Scavenger received 0 damage
+02.06.2026 00:30:09 : You received 5 damage from Scavenger
+02.06.2026 00:30:09 : Scavenger received 0 damage
+02.06.2026 00:30:09 : You received 5 damage from Scavenger
+02.06.2026 00:30:09 : Scavenger received 0 damage
+02.06.2026 00:30:09 : You received 5 damage from Scavenger
+02.06.2026 00:30:10 : Scavenger received 0 damage
+02.06.2026 00:30:10 : You received 5 damage from Scavenger
+02.06.2026 00:30:10 : Scavenger received 0 damage
+02.06.2026 00:30:10 : You received 5 damage from Scavenger
+02.06.2026 00:30:10 : Scavenger received 0 damage
+02.06.2026 00:30:10 : You received 5 damage from Scavenger
+02.06.2026 00:30:10 : Scavenger received 0 damage
+02.06.2026 00:30:10 : You received 5 damage from Scavenger
+02.06.2026 00:30:11 : Scavenger received 0 damage
+02.06.2026 00:30:11 : You received 5 damage from Scavenger
+02.06.2026 00:30:11 : Scavenger received 0 damage
+02.06.2026 00:30:11 : You received 5 damage from Scavenger
+02.06.2026 00:30:11 : Scavenger received 0 damage
+02.06.2026 00:30:11 : You received 5 damage from Scavenger
+02.06.2026 00:30:11 : Scavenger received 0 damage
+02.06.2026 00:30:11 : You received 5 damage from Scavenger
+02.06.2026 00:30:11 : Scavenger received 0 damage
+02.06.2026 00:30:11 : You received 5 damage from Scavenger
+02.06.2026 00:30:12 : Scavenger received 0 damage
+02.06.2026 00:30:12 : You received 5 damage from Scavenger
+02.06.2026 00:30:12 : Scavenger received 0 damage
+02.06.2026 00:30:12 : You received 5 damage from Scavenger
+02.06.2026 00:30:12 : Scavenger received 0 damage
+02.06.2026 00:30:12 : You received 5 damage from Scavenger
+02.06.2026 00:30:12 : Scavenger received 0 damage
+02.06.2026 00:30:12 : You received 5 damage from Scavenger
+02.06.2026 00:30:12 : Scavenger received 0 damage
+02.06.2026 00:30:12 : You received 5 damage from Scavenger
+02.06.2026 00:30:14 : Scavenger received 0 damage
+02.06.2026 00:30:14 : You received 5 damage from Scavenger
+02.06.2026 00:30:17 : Scavenger received 0 damage
+02.06.2026 00:30:17 : You received 5 damage from Scavenger

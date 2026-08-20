@@ -1,0 +1,55 @@
+02.06.2026 14:16:57 : Game initialised
+02.06.2026 14:16:57 : My hero initialised
+02.06.2026 14:17:01 : You cant move into a wall or enemy!
+02.06.2026 14:17:01 : Player moved to (9, 11)
+02.06.2026 14:17:02 : You cant move into a wall or enemy!
+02.06.2026 14:17:02 : Player moved to (10, 11)
+02.06.2026 14:17:02 : You cant move into a wall or enemy!
+02.06.2026 14:17:02 : Player moved to (9, 11)
+02.06.2026 14:17:02 : You cant move into a wall or enemy!
+02.06.2026 14:17:02 : Player moved to (8, 11)
+02.06.2026 14:17:02 : You cant move into a wall or enemy!
+02.06.2026 14:17:02 : Player moved to (7, 11)
+02.06.2026 14:17:03 : Player moved to (36, 6)
+02.06.2026 14:17:03 : Player moved to (36, 7)
+02.06.2026 14:17:04 : You cant move into a wall or enemy!
+02.06.2026 14:17:04 : Player moved to (6, 11)
+02.06.2026 14:17:05 : You cant move into a wall or enemy!
+02.06.2026 14:17:05 : Player moved to (7, 11)
+02.06.2026 14:17:05 : Player moved to (36, 8)
+02.06.2026 14:17:08 : Player moved to (35, 8)
+02.06.2026 14:17:08 : You cant move into a wall or enemy!
+02.06.2026 14:17:09 : Player moved to (7, 10)
+02.06.2026 14:17:09 : You cant move into a wall or enemy!
+02.06.2026 14:17:09 : Player moved to (7, 9)
+02.06.2026 14:17:10 : You cant move into a wall or enemy!
+02.06.2026 14:17:10 : Player moved to (7, 8)
+02.06.2026 14:17:10 : Player moved to (6, 8)
+02.06.2026 14:17:10 : Player moved to (5, 8)
+02.06.2026 14:17:11 : Player moved to (6, 8)
+02.06.2026 14:17:11 : Player moved to (7, 8)
+02.06.2026 14:17:11 : Player moved to (8, 8)
+02.06.2026 14:17:11 : Player moved to (9, 8)
+02.06.2026 14:17:11 : You cant move into a wall or enemy!
+02.06.2026 14:17:12 : You cant move into a wall or enemy!
+02.06.2026 14:17:12 : Player moved to (13, 12)
+02.06.2026 14:17:12 : Player moved to (10, 8)
+02.06.2026 14:17:12 : Player moved to (10, 7)
+02.06.2026 14:17:13 : Player moved to (11, 7)
+02.06.2026 14:17:13 : Player moved to (12, 7)
+02.06.2026 14:17:14 : Player moved to (12, 8)
+02.06.2026 14:17:14 : Player moved to (11, 8)
+02.06.2026 14:17:15 : Player moved to (10, 8)
+02.06.2026 14:17:15 : Player moved to (10, 9)
+02.06.2026 14:17:16 : You cant move into a wall or enemy!
+02.06.2026 14:17:16 : Player moved to (10, 8)
+02.06.2026 14:17:17 : Player moved to (9, 8)
+02.06.2026 14:17:17 : Player moved to (8, 8)
+02.06.2026 14:17:17 : Player moved to (7, 8)
+02.06.2026 14:17:17 : Player moved to (7, 9)
+02.06.2026 14:17:17 : You cant move into a wall or enemy!
+02.06.2026 14:17:17 : Player moved to (7, 10)
+02.06.2026 14:17:18 : You cant move into a wall or enemy!
+02.06.2026 14:17:18 : Player moved to (7, 11)
+02.06.2026 14:17:18 : Player moved to (34, 8)
+02.06.2026 14:17:20 : Player moved to (33, 8)

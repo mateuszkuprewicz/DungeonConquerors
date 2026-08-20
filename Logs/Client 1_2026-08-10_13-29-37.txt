@@ -1,0 +1,9 @@
+10.08.2026 13:29:37 : Game initialised
+10.08.2026 13:29:37 : My hero initialised
+10.08.2026 13:29:40 : Player moved to (4, 6)
+10.08.2026 13:29:40 : Player moved to (5, 6)
+10.08.2026 13:29:40 : Player moved to (6, 6)
+10.08.2026 13:29:40 : Player moved to (7, 6)
+10.08.2026 13:29:40 : Player moved to (8, 6)
+10.08.2026 13:29:40 : Player moved to (9, 6)
+10.08.2026 13:29:41 : You received 5 damage from Orc

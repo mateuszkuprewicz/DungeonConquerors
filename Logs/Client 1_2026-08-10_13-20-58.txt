@@ -1,0 +1,15 @@
+10.08.2026 13:20:58 : Game initialised
+10.08.2026 13:20:58 : My hero initialised
+10.08.2026 13:21:01 : Player moved to (21, 11)
+10.08.2026 13:21:02 : Player moved to (22, 11)
+10.08.2026 13:21:02 : Player moved to (22, 12)
+10.08.2026 13:21:03 : Player moved to (22, 13)
+10.08.2026 13:21:03 : Player moved to (22, 14)
+10.08.2026 13:21:03 : Player moved to (21, 14)
+10.08.2026 13:21:04 : You received 5 damage from Scavenger
+10.08.2026 13:21:07 : You received 5 damage from Scavenger
+10.08.2026 13:21:08 : You received 5 damage from Scavenger
+10.08.2026 13:21:08 : You received 5 damage from Scavenger
+10.08.2026 13:21:09 : You received 5 damage from Scavenger
+10.08.2026 13:21:09 : You received 5 damage from Scavenger
+10.08.2026 13:21:09 : You received 5 damage from Scavenger

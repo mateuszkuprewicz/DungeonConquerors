@@ -1,0 +1,56 @@
+02.06.2026 14:30:44 : Game initialised
+02.06.2026 14:30:44 : My hero initialised
+02.06.2026 14:30:48 : Player moved to (10, 2)
+02.06.2026 14:30:49 : Someone else hero initialised
+02.06.2026 14:30:56 : Player moved to (10, 3)
+02.06.2026 14:30:57 : Player moved to (11, 3)
+02.06.2026 14:30:57 : Player moved to (12, 3)
+02.06.2026 14:30:57 : Player moved to (13, 3)
+02.06.2026 14:30:57 : Player moved to (14, 3)
+02.06.2026 14:30:58 : Player moved to (15, 3)
+02.06.2026 14:30:58 : Player moved to (15, 4)
+02.06.2026 14:30:58 : Player moved to (14, 4)
+02.06.2026 14:30:58 : Player moved to (14, 5)
+02.06.2026 14:30:59 : Player moved to (13, 5)
+02.06.2026 14:30:59 : Player moved to (12, 5)
+02.06.2026 14:30:59 : Player moved to (11, 5)
+02.06.2026 14:30:59 : Player moved to (10, 5)
+02.06.2026 14:30:59 : Player moved to (9, 5)
+02.06.2026 14:31:00 : Player moved to (8, 5)
+02.06.2026 14:31:00 : Player moved to (7, 5)
+02.06.2026 14:31:00 : Player moved to (6, 5)
+02.06.2026 14:31:00 : Player moved to (5, 5)
+02.06.2026 14:31:01 : Player moved to (5, 4)
+02.06.2026 14:31:01 : Player moved to (4, 4)
+02.06.2026 14:31:01 : Player moved to (3, 4)
+02.06.2026 14:31:01 : Enemy Scavenger heard a sound coming from (3, 4)!
+02.06.2026 14:31:01 : Enemy Bloodfly heard a sound coming from (3, 4)!
+02.06.2026 14:31:01 : Player picked up an item Xardas' Sword (Zręczny) (Silny) (Szczęśliwy)
+02.06.2026 14:31:01 : Player moved to (3, 3)
+02.06.2026 14:31:02 : Player moved to (3, 2)
+02.06.2026 14:31:02 : Player moved to (3, 1)
+02.06.2026 14:31:02 : Player moved to (4, 1)
+02.06.2026 14:31:02 : Player moved to (5, 1)
+02.06.2026 14:31:03 : Player moved to (6, 1)
+02.06.2026 14:31:03 : Player moved to (7, 1)
+02.06.2026 14:31:13 : Player moved to (6, 1)
+02.06.2026 14:31:14 : Player moved to (5, 1)
+02.06.2026 14:31:17 : Player moved to (5, 2)
+02.06.2026 14:31:17 : Player moved to (5, 3)
+02.06.2026 14:31:17 : Player moved to (5, 4)
+02.06.2026 14:31:17 : Player moved to (5, 5)
+02.06.2026 14:31:18 : Player moved to (4, 5)
+02.06.2026 14:31:21 : Player moved to (4, 4)
+02.06.2026 14:31:21 : Player moved to (3, 4)
+02.06.2026 14:31:21 : Scavenger received 35 damage
+02.06.2026 14:31:21 : You received 0 damage from Scavenger
+02.06.2026 14:31:22 : Scavenger received 35 damage
+02.06.2026 14:31:22 : You received 0 damage from Scavenger
+02.06.2026 14:31:22 : Scavenger received 35 damage
+02.06.2026 14:31:22 : You received 0 damage from Scavenger
+02.06.2026 14:31:24 : Player moved to (3, 5)
+02.06.2026 14:31:25 : Player moved to (4, 5)
+02.06.2026 14:31:25 : Player moved to (5, 5)
+02.06.2026 14:31:26 : Player moved to (6, 5)
+02.06.2026 14:31:40 : Player dropped an item
+02.06.2026 14:31:40 : Player moved to (5, 5)

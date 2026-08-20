@@ -1,0 +1,19 @@
+01.06.2026 23:20:12 : Game initialised
+01.06.2026 23:20:12 : My hero initialised
+01.06.2026 23:20:14 : Player moved to (8, 6)
+01.06.2026 23:20:15 : Player moved to (9, 6)
+01.06.2026 23:20:15 : Player moved to (9, 5)
+01.06.2026 23:20:15 : Player moved to (9, 6)
+01.06.2026 23:20:16 : Player moved to (8, 6)
+01.06.2026 23:20:16 : Player moved to (7, 6)
+01.06.2026 23:20:20 : Player moved to (8, 6)
+01.06.2026 23:20:20 : Player moved to (9, 6)
+01.06.2026 23:20:21 : Player moved to (10, 6)
+01.06.2026 23:20:21 : Player moved to (11, 6)
+01.06.2026 23:20:21 : Player moved to (12, 6)
+01.06.2026 23:20:21 : Player moved to (12, 7)
+01.06.2026 23:20:22 : Player moved to (12, 8)
+01.06.2026 23:20:22 : Player moved to (13, 8)
+01.06.2026 23:20:22 : Player moved to (14, 8)
+01.06.2026 23:20:23 : Player moved to (15, 8)
+01.06.2026 23:20:23 : Player picked up an item Mushroom

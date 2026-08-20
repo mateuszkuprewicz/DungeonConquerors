@@ -1,0 +1,11 @@
+05.08.2026 16:10:14 : Game initialised
+05.08.2026 16:10:14 : My hero initialised
+05.08.2026 16:10:15 : Player moved to (10, 4)
+05.08.2026 16:10:15 : Player moved to (11, 4)
+05.08.2026 16:10:15 : Player moved to (12, 4)
+05.08.2026 16:10:15 : Player moved to (13, 4)
+05.08.2026 16:10:15 : Player moved to (12, 4)
+05.08.2026 16:10:15 : Player moved to (13, 4)
+05.08.2026 16:10:16 : Player moved to (13, 5)
+05.08.2026 16:10:16 : You cant move into a wall or enemy!
+05.08.2026 16:10:16 : Player moved to (13, 4)

@@ -1,0 +1,35 @@
+02.06.2026 00:36:45 : Game initialised
+02.06.2026 00:36:45 : My hero initialised
+02.06.2026 00:36:47 : Player moved to (5, 5)
+02.06.2026 00:36:48 : Player moved to (6, 5)
+02.06.2026 00:36:48 : Player moved to (7, 5)
+02.06.2026 00:36:49 : Player moved to (8, 5)
+02.06.2026 00:36:49 : Player moved to (9, 5)
+02.06.2026 00:36:49 : Player moved to (10, 5)
+02.06.2026 00:36:49 : Player moved to (11, 5)
+02.06.2026 00:36:50 : Player moved to (12, 5)
+02.06.2026 00:36:50 : Player moved to (13, 5)
+02.06.2026 00:36:50 : Player moved to (14, 5)
+02.06.2026 00:36:50 : Player moved to (15, 5)
+02.06.2026 00:36:51 : Player moved to (16, 5)
+02.06.2026 00:36:51 : Player moved to (17, 5)
+02.06.2026 00:36:51 : Player moved to (18, 5)
+02.06.2026 00:36:51 : Player moved to (19, 5)
+02.06.2026 00:36:52 : Player moved to (20, 5)
+02.06.2026 00:36:52 : Player moved to (21, 5)
+02.06.2026 00:36:52 : Player moved to (22, 5)
+02.06.2026 00:36:53 : Player moved to (23, 5)
+02.06.2026 00:36:53 : Player moved to (23, 4)
+02.06.2026 00:36:54 : Player moved to (22, 4)
+02.06.2026 00:36:54 : Player moved to (21, 4)
+02.06.2026 00:36:54 : Player moved to (20, 4)
+02.06.2026 00:36:58 : Scavenger received 0 damage
+02.06.2026 00:36:58 : You received 0 damage from Scavenger
+02.06.2026 00:37:02 : Scavenger received 0 damage
+02.06.2026 00:37:02 : You received 0 damage from Scavenger
+02.06.2026 00:37:04 : Scavenger received 0 damage
+02.06.2026 00:37:04 : You received 5 damage from Scavenger
+02.06.2026 00:37:05 : Scavenger received 0 damage
+02.06.2026 00:37:05 : You received 0 damage from Scavenger
+02.06.2026 00:37:06 : Scavenger received 0 damage
+02.06.2026 00:37:06 : You received 5 damage from Scavenger

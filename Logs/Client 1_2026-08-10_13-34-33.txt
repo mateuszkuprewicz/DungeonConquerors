@@ -1,0 +1,13 @@
+10.08.2026 13:34:33 : Game initialised
+10.08.2026 13:34:33 : My hero initialised
+10.08.2026 13:34:35 : Player moved to (12, 5)
+10.08.2026 13:34:35 : Player moved to (12, 4)
+10.08.2026 13:34:35 : Player moved to (13, 4)
+10.08.2026 13:34:36 : You received 5 damage from Bloodfly
+10.08.2026 13:34:36 : Player run from enemy to (13, 5)
+10.08.2026 13:34:36 : Player moved to (13, 4)
+10.08.2026 13:34:39 : You received 5 damage from Bloodfly
+10.08.2026 13:34:39 : Player run from enemy to (13, 5)
+10.08.2026 13:34:40 : Player moved to (13, 4)
+10.08.2026 13:34:40 : You received 5 damage from Bloodfly
+10.08.2026 13:34:40 : Player run from enemy to (13, 5)

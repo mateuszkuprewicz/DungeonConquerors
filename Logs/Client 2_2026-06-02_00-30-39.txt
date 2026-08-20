@@ -1,0 +1,45 @@
+02.06.2026 00:30:39 : Game initialised
+02.06.2026 00:30:39 : My hero initialised
+02.06.2026 00:30:41 : Player moved to (14, 13)
+02.06.2026 00:30:43 : Player moved to (14, 14)
+02.06.2026 00:30:43 : Player moved to (13, 14)
+02.06.2026 00:30:46 : Bloodfly received 0 damage
+02.06.2026 00:30:46 : You received 5 damage from Bloodfly
+02.06.2026 00:30:47 : Bloodfly received 0 damage
+02.06.2026 00:30:47 : You received 5 damage from Bloodfly
+02.06.2026 00:30:47 : Bloodfly received 0 damage
+02.06.2026 00:30:47 : You received 5 damage from Bloodfly
+02.06.2026 00:30:47 : Bloodfly received 0 damage
+02.06.2026 00:30:47 : You received 5 damage from Bloodfly
+02.06.2026 00:30:47 : Bloodfly received 0 damage
+02.06.2026 00:30:47 : You received 5 damage from Bloodfly
+02.06.2026 00:30:48 : Bloodfly received 0 damage
+02.06.2026 00:30:48 : You received 5 damage from Bloodfly
+02.06.2026 00:30:48 : Bloodfly received 0 damage
+02.06.2026 00:30:48 : You received 5 damage from Bloodfly
+02.06.2026 00:30:48 : Bloodfly received 0 damage
+02.06.2026 00:30:48 : You received 5 damage from Bloodfly
+02.06.2026 00:30:48 : Bloodfly received 0 damage
+02.06.2026 00:30:48 : You received 5 damage from Bloodfly
+02.06.2026 00:30:48 : Bloodfly received 0 damage
+02.06.2026 00:30:48 : You received 5 damage from Bloodfly
+02.06.2026 00:30:49 : Bloodfly received 0 damage
+02.06.2026 00:30:49 : You received 5 damage from Bloodfly
+02.06.2026 00:30:49 : Bloodfly received 0 damage
+02.06.2026 00:30:49 : You received 5 damage from Bloodfly
+02.06.2026 00:30:49 : Bloodfly received 0 damage
+02.06.2026 00:30:49 : You received 5 damage from Bloodfly
+02.06.2026 00:30:49 : Bloodfly received 0 damage
+02.06.2026 00:30:49 : You received 5 damage from Bloodfly
+02.06.2026 00:30:50 : Bloodfly received 0 damage
+02.06.2026 00:30:50 : You received 5 damage from Bloodfly
+02.06.2026 00:30:50 : Bloodfly received 0 damage
+02.06.2026 00:30:50 : You received 5 damage from Bloodfly
+02.06.2026 00:30:50 : Bloodfly received 0 damage
+02.06.2026 00:30:50 : You received 5 damage from Bloodfly
+02.06.2026 00:30:51 : Bloodfly received 0 damage
+02.06.2026 00:30:51 : You received 5 damage from Bloodfly
+02.06.2026 00:30:58 : Bloodfly received 0 damage
+02.06.2026 00:30:58 : You received 5 damage from Bloodfly
+02.06.2026 00:30:59 : Bloodfly received 0 damage
+02.06.2026 00:30:59 : You received 5 damage from Bloodfly

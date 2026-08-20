@@ -1,0 +1,75 @@
+02.06.2026 00:10:46 : Game initialised
+02.06.2026 00:10:46 : My hero initialised
+02.06.2026 00:10:50 : Player moved to (15, 17)
+02.06.2026 00:10:50 : Player moved to (16, 17)
+02.06.2026 00:10:50 : Player moved to (17, 17)
+02.06.2026 00:10:51 : Player moved to (18, 17)
+02.06.2026 00:10:51 : Player picked up an item Inonos' Staff of Brightness (Mądry)
+02.06.2026 00:10:53 : Player moved to (19, 17)
+02.06.2026 00:10:54 : Player moved to (20, 17)
+02.06.2026 00:10:54 : Player moved to (21, 17)
+02.06.2026 00:10:54 : Player moved to (22, 17)
+02.06.2026 00:10:54 : Player moved to (23, 17)
+02.06.2026 00:10:55 : Player moved to (24, 17)
+02.06.2026 00:10:55 : Player moved to (25, 17)
+02.06.2026 00:10:55 : Player moved to (26, 17)
+02.06.2026 00:10:55 : Player moved to (27, 17)
+02.06.2026 00:10:55 : Player moved to (27, 18)
+02.06.2026 00:10:55 : Player moved to (27, 19)
+02.06.2026 00:10:56 : Player picked up an item Inonos' Staff of Brightness (Mądry)
+02.06.2026 00:10:57 : Player moved to (27, 18)
+02.06.2026 00:10:57 : Player moved to (27, 17)
+02.06.2026 00:10:57 : Player moved to (26, 17)
+02.06.2026 00:10:57 : Player moved to (25, 17)
+02.06.2026 00:10:58 : Player moved to (25, 18)
+02.06.2026 00:11:01 : Orc received 17 damage
+02.06.2026 00:11:01 : You received 0 damage from Orc
+02.06.2026 00:11:04 : Orc received 17 damage
+02.06.2026 00:11:04 : You received 0 damage from Orc
+02.06.2026 00:11:06 : Orc received 3 damage
+02.06.2026 00:11:06 : You received 5 damage from Orc
+02.06.2026 00:11:08 : Orc received 17 damage
+02.06.2026 00:11:08 : You received 0 damage from Orc
+02.06.2026 00:11:09 : Orc received 17 damage
+02.06.2026 00:11:09 : You received 0 damage from Orc
+02.06.2026 00:11:20 : Orc received 17 damage
+02.06.2026 00:11:20 : You received 0 damage from Orc
+02.06.2026 00:11:24 : Player moved to (25, 17)
+02.06.2026 00:11:26 : Player moved to (24, 17)
+02.06.2026 00:11:26 : Player moved to (25, 17)
+02.06.2026 00:11:27 : Player moved to (25, 18)
+02.06.2026 00:11:27 : Player moved to (25, 19)
+02.06.2026 00:11:28 : Player moved to (25, 18)
+02.06.2026 00:11:28 : Player moved to (25, 17)
+02.06.2026 00:11:28 : Player moved to (26, 17)
+02.06.2026 00:11:28 : Player moved to (27, 17)
+02.06.2026 00:11:29 : Player moved to (27, 18)
+02.06.2026 00:11:29 : Player moved to (27, 19)
+02.06.2026 00:11:29 : Player moved to (27, 18)
+02.06.2026 00:11:30 : Player moved to (27, 17)
+02.06.2026 00:11:30 : Player moved to (26, 17)
+02.06.2026 00:11:30 : Player moved to (25, 17)
+02.06.2026 00:11:31 : Player moved to (24, 17)
+02.06.2026 00:11:31 : Player moved to (23, 17)
+02.06.2026 00:11:31 : You cant move into a wall or enemy!
+02.06.2026 00:11:32 : Player moved to (22, 17)
+02.06.2026 00:11:32 : Player moved to (22, 18)
+02.06.2026 00:11:32 : Player moved to (22, 19)
+02.06.2026 00:11:32 : Player moved to (22, 18)
+02.06.2026 00:11:33 : Player moved to (22, 17)
+02.06.2026 00:11:33 : Player moved to (22, 16)
+02.06.2026 00:11:33 : Player moved to (23, 16)
+02.06.2026 00:11:34 : Player moved to (23, 17)
+02.06.2026 00:11:34 : Player moved to (24, 17)
+02.06.2026 00:11:34 : Player moved to (25, 17)
+02.06.2026 00:11:34 : Player moved to (26, 17)
+02.06.2026 00:11:34 : Player moved to (27, 17)
+02.06.2026 00:11:35 : Player moved to (28, 17)
+02.06.2026 00:11:35 : Player moved to (29, 17)
+02.06.2026 00:11:35 : Player moved to (30, 17)
+02.06.2026 00:11:35 : Player moved to (31, 17)
+02.06.2026 00:11:36 : Player moved to (32, 17)
+02.06.2026 00:11:36 : Player moved to (33, 17)
+02.06.2026 00:11:36 : Player moved to (33, 16)
+02.06.2026 00:11:36 : Player moved to (33, 15)
+02.06.2026 00:11:42 : Someone else hero initialised

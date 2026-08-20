@@ -1,0 +1,152 @@
+02.06.2026 00:19:25 : Game initialised
+02.06.2026 00:19:25 : My hero initialised
+02.06.2026 00:19:28 : Player moved to (4, 12)
+02.06.2026 00:19:28 : Player moved to (5, 12)
+02.06.2026 00:19:28 : Player moved to (6, 12)
+02.06.2026 00:19:28 : Player moved to (7, 12)
+02.06.2026 00:19:29 : Player moved to (8, 12)
+02.06.2026 00:19:29 : Player moved to (9, 12)
+02.06.2026 00:19:29 : Player moved to (10, 12)
+02.06.2026 00:19:29 : Player moved to (11, 12)
+02.06.2026 00:19:29 : Player moved to (12, 12)
+02.06.2026 00:19:30 : Player moved to (13, 12)
+02.06.2026 00:19:30 : Player moved to (14, 12)
+02.06.2026 00:19:30 : Player moved to (15, 12)
+02.06.2026 00:19:31 : Player picked up an item Xardas' Sword (Zręczny) (Silny) (Szczęśliwy)
+02.06.2026 00:19:32 : Player moved to (16, 12)
+02.06.2026 00:19:33 : Player moved to (17, 12)
+02.06.2026 00:19:33 : Player moved to (18, 12)
+02.06.2026 00:19:33 : Player picked up an item Mushroom
+02.06.2026 00:19:35 : Player moved to (19, 12)
+02.06.2026 00:19:39 : Orc received 35 damage
+02.06.2026 00:19:39 : You received 0 damage from Orc
+02.06.2026 00:19:42 : Orc received 35 damage
+02.06.2026 00:19:42 : You received 0 damage from Orc
+02.06.2026 00:19:48 : Orc received 35 damage
+02.06.2026 00:19:48 : You received 0 damage from Orc
+02.06.2026 00:20:01 : Player moved to (19, 11)
+02.06.2026 00:20:01 : Player moved to (20, 11)
+02.06.2026 00:20:02 : Player moved to (21, 11)
+02.06.2026 00:20:02 : Player moved to (22, 11)
+02.06.2026 00:20:03 : Player moved to (23, 11)
+02.06.2026 00:20:04 : Player moved to (22, 11)
+02.06.2026 00:20:04 : Player moved to (22, 10)
+02.06.2026 00:20:04 : Player moved to (22, 9)
+02.06.2026 00:20:05 : Player moved to (21, 9)
+02.06.2026 00:20:05 : Player moved to (20, 9)
+02.06.2026 00:20:05 : Player moved to (19, 9)
+02.06.2026 00:20:06 : Player moved to (18, 9)
+02.06.2026 00:20:06 : Player moved to (18, 8)
+02.06.2026 00:20:07 : Player moved to (18, 7)
+02.06.2026 00:20:11 : Scavenger received 21 damage
+02.06.2026 00:20:11 : You received 0 damage from Scavenger
+02.06.2026 00:20:13 : Scavenger received 21 damage
+02.06.2026 00:20:13 : You received 0 damage from Scavenger
+02.06.2026 00:20:24 : Scavenger received 27 damage
+02.06.2026 00:20:24 : You received 0 damage from Scavenger
+02.06.2026 00:20:32 : Scavenger received 27 damage
+02.06.2026 00:20:32 : You received 0 damage from Scavenger
+02.06.2026 00:20:38 : Player dropped an item
+02.06.2026 00:20:41 : Player moved to (17, 7)
+02.06.2026 00:20:42 : Player moved to (17, 8)
+02.06.2026 00:20:43 : Player moved to (18, 8)
+02.06.2026 00:20:43 : Player moved to (18, 7)
+02.06.2026 00:20:43 : Player picked up an item Mushroom
+02.06.2026 00:20:44 : Player moved to (19, 7)
+02.06.2026 00:20:44 : Player moved to (20, 7)
+02.06.2026 00:20:44 : Player moved to (20, 8)
+02.06.2026 00:20:46 : Player dropped an item
+02.06.2026 00:20:47 : Player moved to (20, 9)
+02.06.2026 00:20:47 : Player moved to (20, 10)
+02.06.2026 00:20:48 : Player moved to (20, 11)
+02.06.2026 00:20:49 : Player moved to (19, 11)
+02.06.2026 00:20:49 : Player moved to (18, 11)
+02.06.2026 00:20:49 : Player moved to (17, 11)
+02.06.2026 00:20:49 : Player moved to (16, 11)
+02.06.2026 00:20:49 : Player moved to (16, 12)
+02.06.2026 00:20:50 : Player moved to (16, 13)
+02.06.2026 00:20:50 : Player moved to (16, 14)
+02.06.2026 00:20:50 : Player moved to (16, 15)
+02.06.2026 00:20:50 : Player moved to (16, 16)
+02.06.2026 00:20:51 : Player moved to (17, 16)
+02.06.2026 00:20:51 : Player moved to (18, 16)
+02.06.2026 00:20:51 : Player moved to (19, 16)
+02.06.2026 00:20:51 : Player moved to (19, 17)
+02.06.2026 00:20:53 : Bloodfly received 27 damage
+02.06.2026 00:20:53 : You received 0 damage from Bloodfly
+02.06.2026 00:21:12 : Bloodfly received 27 damage
+02.06.2026 00:21:12 : You received 0 damage from Bloodfly
+02.06.2026 00:21:13 : Bloodfly received 27 damage
+02.06.2026 00:21:13 : You received 0 damage from Bloodfly
+02.06.2026 00:21:17 : Player moved to (18, 17)
+02.06.2026 00:21:18 : Player moved to (17, 17)
+02.06.2026 00:21:18 : Player moved to (18, 17)
+02.06.2026 00:21:20 : Player moved to (18, 16)
+02.06.2026 00:21:23 : Player moved to (17, 16)
+02.06.2026 00:21:24 : Player moved to (18, 16)
+02.06.2026 00:21:26 : Player moved to (19, 16)
+02.06.2026 00:21:28 : Player moved to (20, 16)
+02.06.2026 00:21:28 : Player moved to (21, 16)
+02.06.2026 00:21:29 : Player moved to (22, 16)
+02.06.2026 00:21:33 : Orc received 0 damage
+02.06.2026 00:21:33 : You received 5 damage from Orc
+02.06.2026 00:22:19 : Orc received 0 damage
+02.06.2026 00:22:19 : You received 0 damage from Orc
+02.06.2026 00:22:21 : Orc received 0 damage
+02.06.2026 00:22:21 : You received 0 damage from Orc
+02.06.2026 00:22:21 : Orc received 0 damage
+02.06.2026 00:22:21 : You received 0 damage from Orc
+02.06.2026 00:22:22 : Orc received 0 damage
+02.06.2026 00:22:22 : You received 0 damage from Orc
+02.06.2026 00:22:22 : Orc received 0 damage
+02.06.2026 00:22:22 : You received 0 damage from Orc
+02.06.2026 00:22:23 : Orc received 0 damage
+02.06.2026 00:22:23 : You received 0 damage from Orc
+02.06.2026 00:22:23 : Orc received 0 damage
+02.06.2026 00:22:23 : You received 0 damage from Orc
+02.06.2026 00:22:24 : Orc received 0 damage
+02.06.2026 00:22:24 : You received 0 damage from Orc
+02.06.2026 00:22:25 : Orc received 0 damage
+02.06.2026 00:22:25 : You received 0 damage from Orc
+02.06.2026 00:22:25 : Orc received 0 damage
+02.06.2026 00:22:25 : You received 0 damage from Orc
+02.06.2026 00:22:26 : Orc received 0 damage
+02.06.2026 00:22:26 : You received 0 damage from Orc
+02.06.2026 00:22:27 : Orc received 0 damage
+02.06.2026 00:22:27 : You received 5 damage from Orc
+02.06.2026 00:22:27 : Orc received 0 damage
+02.06.2026 00:22:27 : You received 5 damage from Orc
+02.06.2026 00:22:28 : Orc received 0 damage
+02.06.2026 00:22:28 : You received 5 damage from Orc
+02.06.2026 00:22:28 : Orc received 0 damage
+02.06.2026 00:22:28 : You received 5 damage from Orc
+02.06.2026 00:22:28 : Orc received 0 damage
+02.06.2026 00:22:28 : You received 5 damage from Orc
+02.06.2026 00:22:29 : Orc received 0 damage
+02.06.2026 00:22:29 : You received 5 damage from Orc
+02.06.2026 00:22:29 : Orc received 0 damage
+02.06.2026 00:22:29 : You received 5 damage from Orc
+02.06.2026 00:22:29 : Orc received 0 damage
+02.06.2026 00:22:29 : You received 5 damage from Orc
+02.06.2026 00:22:29 : Orc received 0 damage
+02.06.2026 00:22:29 : You received 5 damage from Orc
+02.06.2026 00:22:30 : Orc received 0 damage
+02.06.2026 00:22:30 : You received 5 damage from Orc
+02.06.2026 00:22:30 : Orc received 0 damage
+02.06.2026 00:22:30 : You received 5 damage from Orc
+02.06.2026 00:22:30 : Orc received 0 damage
+02.06.2026 00:22:30 : You received 5 damage from Orc
+02.06.2026 00:22:31 : Orc received 0 damage
+02.06.2026 00:22:31 : You received 5 damage from Orc
+02.06.2026 00:22:31 : Orc received 0 damage
+02.06.2026 00:22:31 : You received 5 damage from Orc
+02.06.2026 00:22:32 : Orc received 0 damage
+02.06.2026 00:22:32 : You received 5 damage from Orc
+02.06.2026 00:22:32 : Orc received 0 damage
+02.06.2026 00:22:32 : You received 5 damage from Orc
+02.06.2026 00:22:33 : Orc received 0 damage
+02.06.2026 00:22:33 : You received 5 damage from Orc
+02.06.2026 00:22:34 : Orc received 0 damage
+02.06.2026 00:22:34 : You received 5 damage from Orc
+02.06.2026 00:22:36 : Orc received 0 damage
+02.06.2026 00:22:36 : You received 5 damage from Orc

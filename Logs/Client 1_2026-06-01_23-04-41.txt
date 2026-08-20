@@ -1,0 +1,20 @@
+01.06.2026 23:04:41 : Game initialised
+01.06.2026 23:04:41 : My hero initialised
+01.06.2026 23:04:42 : Player moved to (36, 2)
+01.06.2026 23:04:42 : Player moved to (37, 2)
+01.06.2026 23:04:43 : Player moved to (37, 3)
+01.06.2026 23:04:43 : Player moved to (37, 4)
+01.06.2026 23:04:43 : Player moved to (36, 4)
+01.06.2026 23:04:44 : Player moved to (35, 4)
+01.06.2026 23:04:44 : Player moved to (34, 4)
+01.06.2026 23:04:44 : Player moved to (33, 4)
+01.06.2026 23:04:44 : Player moved to (33, 3)
+01.06.2026 23:04:45 : Player picked up an item Torch (Szczęśliwy)
+01.06.2026 23:04:47 : Player moved to (33, 4)
+01.06.2026 23:04:48 : Player moved to (33, 5)
+01.06.2026 23:04:48 : Player moved to (33, 6)
+01.06.2026 23:04:49 : Player moved to (32, 6)
+01.06.2026 23:04:49 : Player moved to (32, 5)
+01.06.2026 23:04:49 : Player picked up an item Xardas' Sword (Zręczny) (Silny) (Szczęśliwy)
+01.06.2026 23:04:49 : Player moved to (32, 6)
+01.06.2026 23:04:51 : Player dropped an item

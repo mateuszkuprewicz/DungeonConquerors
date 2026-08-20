@@ -1,0 +1,55 @@
+02.06.2026 00:27:26 : Game initialised
+02.06.2026 00:27:26 : My hero initialised
+02.06.2026 00:27:35 : Player moved to (18, 15)
+02.06.2026 00:27:35 : Player moved to (19, 15)
+02.06.2026 00:27:35 : Player moved to (20, 15)
+02.06.2026 00:27:35 : Player moved to (21, 15)
+02.06.2026 00:27:36 : Player moved to (22, 15)
+02.06.2026 00:27:36 : Player moved to (23, 15)
+02.06.2026 00:27:36 : Player moved to (24, 15)
+02.06.2026 00:27:36 : Player moved to (25, 15)
+02.06.2026 00:27:36 : Player moved to (26, 15)
+02.06.2026 00:27:37 : Player moved to (27, 15)
+02.06.2026 00:27:37 : Player moved to (28, 15)
+02.06.2026 00:27:37 : Player moved to (29, 15)
+02.06.2026 00:27:37 : Player moved to (30, 15)
+02.06.2026 00:27:39 : Orc received 0 damage
+02.06.2026 00:27:39 : You received 5 damage from Orc
+02.06.2026 00:27:40 : Orc received 0 damage
+02.06.2026 00:27:40 : You received 5 damage from Orc
+02.06.2026 00:27:40 : Orc received 0 damage
+02.06.2026 00:27:40 : You received 5 damage from Orc
+02.06.2026 00:27:40 : Orc received 0 damage
+02.06.2026 00:27:40 : You received 5 damage from Orc
+02.06.2026 00:27:40 : Orc received 0 damage
+02.06.2026 00:27:40 : You received 5 damage from Orc
+02.06.2026 00:27:41 : Orc received 0 damage
+02.06.2026 00:27:41 : You received 5 damage from Orc
+02.06.2026 00:27:41 : Orc received 0 damage
+02.06.2026 00:27:41 : You received 5 damage from Orc
+02.06.2026 00:27:41 : Orc received 0 damage
+02.06.2026 00:27:41 : You received 5 damage from Orc
+02.06.2026 00:27:42 : Orc received 0 damage
+02.06.2026 00:27:42 : You received 5 damage from Orc
+02.06.2026 00:27:42 : Orc received 0 damage
+02.06.2026 00:27:42 : You received 5 damage from Orc
+02.06.2026 00:27:43 : Orc received 0 damage
+02.06.2026 00:27:43 : You received 5 damage from Orc
+02.06.2026 00:27:43 : Orc received 0 damage
+02.06.2026 00:27:43 : You received 5 damage from Orc
+02.06.2026 00:27:44 : Orc received 0 damage
+02.06.2026 00:27:44 : You received 5 damage from Orc
+02.06.2026 00:27:44 : Orc received 0 damage
+02.06.2026 00:27:44 : You received 5 damage from Orc
+02.06.2026 00:27:44 : Orc received 0 damage
+02.06.2026 00:27:44 : You received 5 damage from Orc
+02.06.2026 00:27:45 : Orc received 0 damage
+02.06.2026 00:27:45 : You received 5 damage from Orc
+02.06.2026 00:27:45 : Orc received 0 damage
+02.06.2026 00:27:45 : You received 5 damage from Orc
+02.06.2026 00:27:46 : Orc received 0 damage
+02.06.2026 00:27:46 : You received 5 damage from Orc
+02.06.2026 00:27:47 : Orc received 0 damage
+02.06.2026 00:27:47 : You received 5 damage from Orc
+02.06.2026 00:27:49 : Orc received 0 damage
+02.06.2026 00:27:49 : You received 5 damage from Orc

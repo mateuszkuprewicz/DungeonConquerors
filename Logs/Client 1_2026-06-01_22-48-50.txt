@@ -1,0 +1,2 @@
+01.06.2026 22:48:50 : Game initialised
+01.06.2026 22:48:50 : My hero initialised

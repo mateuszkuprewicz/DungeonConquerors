@@ -1,0 +1,15 @@
+02.06.2026 00:07:30 : Game initialised
+02.06.2026 00:07:30 : My hero initialised
+02.06.2026 00:07:34 : Player moved to (6, 2)
+02.06.2026 00:07:35 : Player moved to (5, 2)
+02.06.2026 00:07:35 : Player moved to (5, 1)
+02.06.2026 00:07:35 : Player moved to (6, 1)
+02.06.2026 00:07:36 : Player picked up an item Beliar's Staff of Wrath (Agresywny)
+02.06.2026 00:07:37 : Player moved to (6, 2)
+02.06.2026 00:07:38 : Player moved to (6, 3)
+02.06.2026 00:07:38 : Player moved to (6, 4)
+02.06.2026 00:07:45 : Player moved to (5, 4)
+02.06.2026 00:07:45 : Player moved to (4, 4)
+02.06.2026 00:07:45 : Player moved to (3, 4)
+02.06.2026 00:07:46 : Player moved to (2, 4)
+02.06.2026 00:07:47 : Player moved to (1, 4)

@@ -1,0 +1,10 @@
+05.08.2026 15:49:01 : Game initialised
+05.08.2026 15:49:01 : My hero initialised
+05.08.2026 15:49:03 : Player moved to (22, 8)
+05.08.2026 15:49:04 : Player moved to (22, 9)
+05.08.2026 15:49:04 : Player moved to (21, 9)
+05.08.2026 15:49:04 : Player moved to (21, 8)
+05.08.2026 15:49:04 : Player moved to (22, 8)
+05.08.2026 15:49:05 : Player moved to (22, 9)
+05.08.2026 15:49:05 : Player moved to (21, 9)
+05.08.2026 15:49:05 : Player moved to (22, 9)

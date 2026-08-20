@@ -1,0 +1,33 @@
+02.06.2026 10:52:53 : Game initialised
+02.06.2026 10:52:53 : My hero initialised
+02.06.2026 10:53:02 : Player moved to (7, 8)
+02.06.2026 10:53:02 : Player moved to (7, 7)
+02.06.2026 10:53:03 : Player moved to (8, 7)
+02.06.2026 10:53:03 : Player moved to (9, 7)
+02.06.2026 10:53:03 : Player moved to (9, 6)
+02.06.2026 10:53:04 : Player moved to (9, 7)
+02.06.2026 10:53:04 : Player moved to (9, 6)
+02.06.2026 10:53:05 : Player picked up an item Inonos' Staff of Brightness (Mądry)
+02.06.2026 10:53:05 : Player moved to (9, 7)
+02.06.2026 10:53:05 : Player moved to (10, 7)
+02.06.2026 10:53:06 : Player moved to (10, 6)
+02.06.2026 10:53:12 : Orc received 0 damage
+02.06.2026 10:53:12 : You received 5 damage from Orc
+02.06.2026 10:53:14 : Orc received 0 damage
+02.06.2026 10:53:14 : You received 5 damage from Orc
+02.06.2026 10:53:16 : Orc received 0 damage
+02.06.2026 10:53:16 : You received 5 damage from Orc
+02.06.2026 10:53:18 : Orc received 0 damage
+02.06.2026 10:53:18 : You received 5 damage from Orc
+02.06.2026 10:53:21 : Orc received 0 damage
+02.06.2026 10:53:21 : You received 0 damage from Orc
+02.06.2026 10:53:23 : Orc received 0 damage
+02.06.2026 10:53:23 : You received 0 damage from Orc
+02.06.2026 10:53:25 : Orc received 0 damage
+02.06.2026 10:53:25 : You received 0 damage from Orc
+02.06.2026 10:53:27 : Orc received 0 damage
+02.06.2026 10:53:27 : You received 5 damage from Orc
+02.06.2026 10:53:28 : Orc received 0 damage
+02.06.2026 10:53:28 : You received 0 damage from Orc
+02.06.2026 10:53:31 : Orc received 0 damage
+02.06.2026 10:53:31 : You received 0 damage from Orc
